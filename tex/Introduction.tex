@@ -1,0 +1,25 @@
+\chapter{Introduction} \label{sec:intro}
+Future Cropping er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab skal hjælpe landmænd i automatiseringen af detektion af ukrudt. Projektet skal nedsætte landbrugets brug af pesticider, ved hjælp af en drone \footnote{UAV (eng. unmanned aerial vehicle} udstyret med kamera og GPS. Dronen tager et prædetermineret antal overlappende luft billeder over landmandens mark, disse billeder bliver analyseret ift. hvordan de enkelte billeder hænger sammen. De individuelle billeder bliver omdannet til et ukrudtskort, tilknyttet GPS koordinater.
+Dette ukrudtskort behandles af en algoritme, der identificere præcis, hvor ukrudtet befinder sig, og derved, hvor der er behov for pesticider.
+\cite{drone}
+\section{Opgavens problemfelt} \label{subsec:felt}
+Vores afsæt i dette projekt vil være at bestemme, hvordan de individuelle billeder passer sammen. Vores del af opgaven vil derved være det første skridt i etableringen af et ukrudtskort.  \\
+Dette udføres ved at etablere korrespondancer imellem billederne taget af dronen, hvilket er muligt da billederne overlapper hinanden. Denne teknik vil vi referere til som "korrespondance analyse". Korrespondance analyse er en billedebehandlings teknik, indenfor "computer vision" og består af følgende trin. (\textit{1}) Distinktive punkter detekteres i billederne som resultat af at anvende af en række matematiske modeller på billederne. Formålet ved dette stadie er udvælge de samme punkter/objekter i de overlappende billeder. (\textit{2}) Området omkring disse fundne punkter beskrives af en deskriptor. (\textit{3}) Hver deskriptor sammenlignes med andre fundne interessepunkter i andre billeder for at "matche" punkterne
+
+\section{Problemformulering} \label{subsec:form}
+Med udgangspunkt i litteraturen inden for
+korrespondanceanalyse samt implementering af
+flere eksisterende metoder, hvilke metoder, teoretisk
+og praktisk, anvendes bedst til korrespondanceanalyse af markbilleder? \\ \\
+\textbf{Udvidelse af problemformuleringen} \\
+Der opstilles en beskrivelse af et udsnit af forskellige udvalgte metoder, der bliver brugt i feature detektion, feature deskription og matching. Der vil foretages korrespondanceanalyse af markbilleder, ved implementering af udvalgte eksisterende metoder. \\
+Det eksperimentelle fokus i opgaven vil ligge på afprøvning af de forskellige metoder på markbilleder. Markbillederne har få distinktive træk, hvilket er egenskaber, der er vigtigt for korrespondance analyse. Udvælgelsen af metoder er baseret på hypoteser  ift. hvordan metoderne forventes at reagere på markbilleder. 
+<not done, empririsk>
+\\ \\
+Markbilledernes manglende diversitet, samt inkonsistente forhold under fotograferingen præsenterer nogle potentielle udfordringer ved korrespondanceanalysen. Udfordringerne gør det derfor interessant at undersøge, hvorvidt det er muligt at finde tilpas nok distinktive punkter, der kan anvendes. Hovedproblemet ved opgaven fokusere derfor på, hvordan der bedst kan detekteres features i markbillederne.
+\subsection{Afgrænsning} \label{subsec:afg}
+Projektet sigter på at afprøve allerede eksisterende
+metoder i et specifikt domæne og ikke
+skabe nye metoder. Programmellet konstrueres mht. afklaring af de nævnte problemstillinger
+og ikke mhp. efterfølgende at blive anvendt i praksis.
+De udvalgte metoder implementeres med henblik på funktionaliteten, visse implementerings detaljer vil derfor undlades, hvis det enelige formål er at simplificere kompleksiteten.

@@ -1,0 +1,52 @@
+\documentclass[11pt,a4paper,oldfontcommands,twosided,article]{memoir}
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[danish]{babel}
+\usepackage [T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{color,colortbl}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{appendix}
+\usepackage{listings}
+\usepackage[font=it, labelfont=bf]{caption}
+%\usepackage[protrusion=true,expansion=true]{microtype}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{color}
+\newcommand*\mystrut[1]{\vrule width0pt height0pt depth#1\relax}
+\renewcommand*{\appendixname}{Appendix}
+\title{Korrespondance analyse af markbilleder}
+\author{Christoffer Thrysøe, Andreas Borgstad}
+\date{} % set date
+\begin{document}
+\maketitle % Insert title etc.
+\pagenumbering{roman}
+\newpage
+\renewcommand{\contentsname}{Indholdsfortegnelse}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+\tableofcontents*
+\newpage
+\pagenumbering{arabic}
+\input{tex/Abstract.tex}
+\newpage
+% Input secions here
+\input{tex/Introduction.tex}
+\newpage
+\input{tex/korrespondance.tex}
+\newpage
+\input{tex/mark.tex}
+\newpage
+% Litteraturliste
+\bibliographystyle{abbrv}
+\nocite{}
+\bibliography{litterature}
+\newpage
+% Appendix
+\appendix
+\def\@chapapp{Appendix}
+\input{app/CostEff.tex}
+\end{document}
