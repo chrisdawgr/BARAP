@@ -1,5 +1,13 @@
 \chapter{Analyse af markbilleder} \label{sec:mark}
-\section{Udfordringer}
-\section{Krav til detektor}
-Deskriptor
+\section{Deskriptor}
+Generelt er der mange måder, hvormed features kan repræsenteres: Et eksempel kunne være en hjørnedetektor, der som output giver en binær værdi, afhængigt af, om et punkt repræsentere et hjørne eller ej - dette ville kunne repræsenteres, med et binært billede, hvor punkterne er enten 0 eller 1, afhængigt af, om de er et hjørne eller ej. 
+\\ \\
+En robust repræsentation af en features kan ikke altid ske ved binære værdier. Der kan være brug for mere information:  At tilføje en orientering af hjørnepunktet, samt intensiteten i punktet, ville øge informationen om hvert enkelt hjørne i billedet, hvilke kan være brugbart, relativt til anvendelsesområdet. Men generelt kommer forøgelsen af kompleksiteten af repræsentationen af en feature pris - der er mere data der skal bearbejdes. 
+\\ \\
+Når der i denne opgave refereres til en feature deskriptor, menes her er en repræsentation af en feature -  mere specifikt menes: En algoritme, der tager keypoints og et billede som input, og som ouput giver en repræsentation af featuren. 
+\\ \\
+Af ofte brugte deskriptorer, kan her nævnes SIFT(fodnote) og SURF(fodnote). Førstnævnte skaber for hver feature, en vektor med 128 indgange, og sidstnævnte en vektor med 64 indgange. SURF, og specielt U-SURF har en klar fordel i forhold til beregningstid, specielt ved brug af integralbilleder, hvor køretidskompleksiteten på SIFT er højere, men tilgengæld er SIFT mere robust(fodnote). En god deskriptor afhænger af anvendelsesområdet, og her skal der laves kompromis mellem køretid og robusthed. Dette bliver beskrevet senere.
+
+
+
 \section{Krav til deskriptor}
