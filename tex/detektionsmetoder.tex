@@ -1,0 +1,8 @@
+\chapter{Gennemgang af detektionsmetoder} \label{sec:detmet}
+En matematisk formulering af hjørner kan opnås ved at bygge videre på notationen om et kvadratisk vindue omliggende det undersøgte punkt. De interessante punkter findes når forskydningen af vinduet resultere i nye objekter. Sammenlignes to vinduer, hvor begge portrættere det samme objekt, vil intensitetsforskellen mellem disse vinduer være 0. Forskydningsvinduet kan derved bruges til at detektere hjørner, ved at tage et pixel område omkring et punkt, forskyde dette vindue i alle retninger og udregne forskellen. Dette kan beskrives med en vægted funktion over vinduet \emph{(weighted summed square difference), der udregner forskellen på vinduerne}:
+\begin{equation}
+E(u,v)= \sum\limits_{i}(w_i,y_i)[I_0(x,y)-I_1(x+u,y+v)]^2     
+\end{equation}
+hvor $(u,v)$ er forskydningsvektoren, der bevæger sig mellem intervallet [-1,1]. $I_0 \& I_1 $ er henholdsvis det originale vindue og det forskudte vindue. Forskellen, der resultere i den mindste forskel definere om punktet er interessant. Den mindste forskel tages da et punkt der f.eks er lokaliseret langs en kant resultere i et stort intensitetsskifte, når kanten krydses men ingen skift langs kanten. <moravec finder kanter hvis de er andet end horizontale eller vertikale wiki>
+
+<moravec> <harris> <correclation> <laplace> <DOG> <DOH>

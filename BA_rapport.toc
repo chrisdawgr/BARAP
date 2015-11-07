@@ -1,0 +1,23 @@
+\select@language {danish}
+\contentsline {chapter}{\chapternumberline {1}Abstract}{1}
+\contentsline {chapter}{\chapternumberline {2}Introduction}{2}
+\contentsline {section}{\numberline {2.1}Opgavens problemfelt}{2}
+\contentsline {section}{\numberline {2.2}Problemformulering}{2}
+\contentsline {subsection}{\numberline {2.2.1}Afgr\IeC {\ae }nsning}{2}
+\contentsline {chapter}{\chapternumberline {3}Korrespondance Analyse}{4}
+\contentsline {section}{\numberline {3.1}Detektor}{4}
+\contentsline {subsection}{\numberline {3.1.1}Hj\IeC {\o }rner}{5}
+\contentsline {subsection}{\numberline {3.1.2}Kanter}{5}
+\contentsline {subsection}{\numberline {3.1.3}Blobs}{7}
+\contentsline {section}{\numberline {3.2}Deskriptor}{9}
+\contentsline {chapter}{\chapternumberline {4}Analyse af markbilleder}{9}
+\contentsline {section}{\numberline {4.1}Deskriptor}{9}
+\contentsline {section}{\numberline {4.2}Krav til deskriptor}{9}
+\contentsline {section}{\numberline {4.3}Matching}{9}
+\contentsline {chapter}{\chapternumberline {5}Analyse af markbilleder}{10}
+\contentsline {section}{\numberline {5.1}Udfordringer}{10}
+\contentsline {section}{\numberline {5.2}Krav til detektor}{10}
+\contentsline {section}{\numberline {5.3}Krav til deskriptor}{10}
+\contentsline {chapter}{\chapternumberline {6}Gennemgang af detektionsmetoder}{11}
+\contentsline {chapter}{Litteratur}{12}
+\contentsline {appendix}{\chapternumberline {A}Cost effectiveness Calculations}{13}

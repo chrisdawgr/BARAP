@@ -5,4 +5,19 @@ Droner kan mindske brug af pesticider, 2013.
 \newblock Københavns Universitet \\
   $http://www.science.ku.dk/presse/nyhedsarkiv/2013/droner\_diku/$.
 
+\bibitem{blob}
+T.~Lindeberg.
+\newblock {\em Detecting Salient Blob-Like Image Structures and Their Scales
+  with a Scale-Space Primal Sketch - A Method for Focus-of-Attention}.
+\newblock Computational Vision and Active Perception Laboratory (CVAP),
+  Department of Numerical Analysis and Computing Science, KTH (Royal Institute
+  of Technology), 1993.
+
+\bibitem{lindenscale}
+T.~Lindeberg.
+\newblock {\em Feature Detection with Automatic Scale Selection}.
+\newblock Computational Vision and Active Perception Laboratory (CVAP),
+  Department of Numerical Analysis and Computing Science, KTH (Royal Institute
+  of Technology), 1998.
+
 \end{thebibliography}

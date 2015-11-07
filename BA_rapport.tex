@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage{appendix}
 \usepackage{listings}
 \usepackage[font=it, labelfont=bf]{caption}
@@ -16,6 +17,8 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{color}
+\usepackage[font=small,skip=0pt]{caption}
+\captionsetup[figure]{font=small,skip=0pt}
 \newcommand*\mystrut[1]{\vrule width0pt height0pt depth#1\relax}
 \renewcommand*{\appendixname}{Appendix}
 \title{Korrespondance analyse af markbilleder}
@@ -39,6 +42,8 @@
 \input{tex/korrespondance.tex}
 \newpage
 \input{tex/mark.tex}
+\newpage
+\input{tex/detektionsmetoder.tex}
 \newpage
 % Litteraturliste
 \bibliographystyle{abbrv}
