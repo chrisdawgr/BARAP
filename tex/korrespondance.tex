@@ -1,6 +1,6 @@
 \chapter{Korrespondance Analyse} \label{sec:Kor}
-Korrespondance problemet, imellem to eller flere billeder af samme objekt, referere til problemet om at finde et sæt af punkter i det ene billede, der kan identificeres og matches i det andet.
-Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat for en række ændringer, det kan f.eks. være forskydning i kameraets position ift. scenen eller  ændringer i scenens motiv. Et godt eksempel på korrespondance problemet er det menneskelige syn. Øjnene agere som to kameraer, der hver især fanger deres billede og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. Korrespondancen mellem øjnene tillader også opfattelse dybde i billedet, hvilket skyldes den horisontale forskydning af menneskets øjne. Denne sektion vil beskrive, hvordan denne korrespondance kan efterlignes af en computer.
+Korrespondance problemet, imellem to eller flere billeder af samme objekt, referere til problemet i at finde et sæt af punkter i det ene billede, der kan identificeres og matches i det andet.
+Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat for en række ændringer, det kan f.eks. være forskydning i kameraets position ift. scenen eller  ændringer i scenens motiv. Et godt eksempel på korrespondance problemet er det menneskelige syn. Øjnene agere som to kameraer, der hver især fanger deres billede og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. Korrespondancen mellem øjnene tillader også opfattelse af dybde i billedet, hvilket skyldes den horisontale forskydning af menneskets øjne. Denne sektion vil beskrive, hvordan denne korrespondance kan efterlignes af en computer.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/3.png}
@@ -11,20 +11,20 @@ Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat fo
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{F} og \textit{F'}. Disse punkter skal nøjes beskrives af en deskriptor \textit{D} så hvert punkt får tilknyttet en deskriptor $D(F)$ og $D(F')$. Det ønskes, for to korresponderende punkter, at: $D(F)\approx D(F')$, en nøje beskrivelse vil tillade korresponderende punkter at blive matched korrekt. Korrespondance analysens pipeline vil yderligere beskrives i denne sektion. Pipelinen består af følgende trin:
+I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{F} og \textit{F'}. Disse punkter skal beskrives af en deskriptor \textit{D} så hvert punkt får tilknyttet en deskriptor $D(F)$ og $D(F')$. Det ønskes, for to korresponderende punkter, at: $D(F)\approx D(F')$ - en god deskriptor vil tillade, at korresponderende punkter bliver matchet korrekt. Korrespondanceanalysen består af følgende trin:
 \begin{enumerate}
 \item{Feature Detektion}
 \item{Feature Deskription}
 \item{Feature Matching}
 \end{enumerate}
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt i et billede (x,y), om dette punkt er et interessepunkt. Detektorens resultat vil derved være et subset af isolerede punkter fra billedet, der er markeret som interessante. (Så hvornår er punkter interessante?) Der er mange måder at definere hvad et interessepunkt er og i sidste ende bestemmer applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der ledes efter skal en detektor besidde følgende egenskaber:
+Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt i et billede (x,y), om dette punkt er et interessepunkt. Detektorens resultat vil derved være et subset af isolerede punkter fra billedet. Der er mange måder at definere hvad et interessepunkt er og i sidste ende bestemmer applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der ledes efter skal en detektor besidde følgende egenskaber:
 \begin{itemize}
 \item{\emph{Repeterbar}: Moravec \cite{moravec} definere et godt interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. Repeterbarheden significere detektorens uafhængighed af forskellige betingelser i billedet, dvs. dens evne til at detektere ens punkter i billeder, udsat for forskellige ændringer. }
 \item{\emph{Distinktive:}
 De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område. Dette muliggør bedere beskrivelse af punktet og derved større mulighed for korrekt match.}
 \end{itemize}
-Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan forekomme i billederne, og derved være invariante overfor disse. Ændringerne kan være geometriske f.eks. rotation, skalering (se figur \ref{fig:skal}) eller affine transformationer. Det kan også være fotometriske ændringer i form af intensitetsskift i billederne forsaget af lysændringer.
+Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan forekomme i billederne, og derved være invariante overfor disse. Ændringerne kan være geometriske. F.eks. rotation, skalering (se figur \ref{fig:skal}) eller affine transformationer. Det kan også være fotometriske ændringer i form af intensitetsskift i billederne forsaget af lysændringer.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.37\textwidth]{fig/28.png}
@@ -74,16 +74,16 @@ Billedet differentieres derfor ved en approksimeret differentiering. Differentie
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
 \end{equation}
-Ovenstående i kan opnås ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$, hvor foldning af et billede \emph{I}, med en kerne \emph{K}: $I\oplus K$, hvor K har indgangen m x n og I M x N udregnes som:
+Ovenstående kan opnås ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$, hvor foldning af et billede \emph{I}, med en kerne \emph{K}: $I\oplus K$, hvor K har indgangen m x n og I M x N udregnes som:
 \begin{equation}
 O(i,j) = \sum\limits_{k=1}^m \sum\limits_{l=1}^m I(i+k-1,l-1)K(k,l)
 \end{equation}
-Hvor $O(i,j)$ er det nye punkt i billedet. Ved differentiering fremhæves udsving i intensitetsskiftene i billederne, hvilket gør det muligt at identificere kanterne. Problemet ved dette, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet, hvilket vil resultere i fejlagtige detektioner af kanter. For at imødekomme dette foldes billedet med et Gaussisk filter, hvilket er en approksimering til den Gaussiske funktion. Det Gaussiske filter kan bruges, i billedbehandling, til at beskrive et punkt, ved en vægtet normalfordeling i de omliggende pixel, visualiseret som en klokke, der ligges over billedet. Foldningen med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standart afvigelsen, der angiver graden af glatningen, er defineret som:
+Hvor $O(i,j)$ er det originale punkt foldet med en kerne. Ved differentiering fremhæves udsving i intensitetsskiftene i billederne, hvilket gør det muligt at identificere kanterne. Problemet ved dette, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet, hvilket kan resultere i fejlagtige detektioner af kanter. For at imødekomme dette foldes billedet med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Det Gaussiske filter kan bruges, i billedbehandling, til at beskrive et punkt, ved en vægtet normalfordeling i de omliggende pixel, visualiseret som en klokke, der ligges over billedet. Foldningen med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen, der angiver graden af glatningen, er defineret som:
 \begin{equation}
 G(x,y) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^{2}}}
 \label{2dgaussian}
 \end{equation} 
-For at undgå itereration af biledet to gange, for differentiering og sløring, kan dette udføres i en samlet operation, ved at folde billedet med et differentieret Gaussisk filter, da foldning er en associativ operation. Yderligere, for at detektere kanter, kan denne operation udvides. Ved en differentiering bliver signalet fra figur ref til en kurve der ligner et bjerg. For en mere præcis definition af en kant, kan den dobbelt afledte tages som set i figur \ref{fig:deriv}.
+For at undgå itereration af billedet to gange, for differentiering og sløring, kan dette udføres i en samlet operation, ved at folde billedet med et differentieret Gaussisk filter, da foldning er en associativ operation. Yderligere, for at detektere kanter, kan denne operation udvides. Ved en differentiering bliver signalet fra figur ref til en kurve der ligner et bjerg. For en mere præcis definition af en kant, kan den dobbelt afledte tages som set i figur \ref{fig:deriv}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/8.png}
