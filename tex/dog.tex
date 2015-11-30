@@ -1,11 +1,10 @@
 \section{Difference of Gaussian}
-Difference of Gaussian, også referet til som "DoG", er en detektionsmetode introduceret  af David Lowe \cite{sift} og udgør feature detektoren i metoden SIFT\footnote{Distinctive Image Features
-from Scale-Invariant Keypoints}. DoG er en skala-invariant blob detektor, der definere et billede i skalarummet det undersøgte billede foldet med et Gaussisk filter:
+Difference of Gaussian, eller "DoG", er en detektionsmetode introduceret  af David Lowe \cite{sift} og udgør feature detektoren i metoden den samlede metode SIFT\footnote{Distinctive Image Features
+from Scale-Invariant Keypoints}. "DoG" er en skala-invariant blob detektor, der definere et billede i skalarummet det undersøgte billede foldet med et Gaussisk filter:
 \begin{equation}
 L(x,y,\sigma) \ast I(x,y)
 \end{equation}
-Metoden detektere punkter ved at lede efter ekstremaer i skala-rummet af DoG funktionen $ D(x,y,\sigma) $, hvilket kan udledes ved at tage forskellen imellem to nærliggende skalaer separeret af en en faktor $k$:
-
+Metoden detektere punkter ved at lede efter ekstremaer i skala-rummet af "DoG" funktionen $ D(x,y,\sigma) $, hvilket kan udledes ved at tage forskellen imellem to nærliggende skalaer separeret af en en faktor $k$, hvor k er udvalgt til at være $k=\sqrt{2}$:
 \begin{equation}
 \begin{split}
 D(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
@@ -41,4 +40,40 @@ Yderligere kan \eqref{difference} udledes til,
 (k-1)\sigma^2LoG &\approx DoG
 \end{split}
 \end{equation}
-
+Skalarummet deles op i $s$ oktaver, hvor overgangen fra hver oktav er en fordobling af sigma værdien. For hver oktav indgår $s+3$ skala billeder, der hver iterativt foldes foldet med en Gaussisk kerne, med en sigma værdi ganget med en faktor $k$. Når en oktav er fuldført, udvælges skalabillede nummer to, fra oktaven, dette billede nedsamples til halv størrelse og anvendes som første billede til næste oktav. De $s+3$ slørrede billeder, for hver oktav, subtrakteres med det første naboliggende skalabillede, som vist i figur \ref{fig:difference}(a) for at opnå "\textit{difference of gaussian}" billeder.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{fig/30.png}
+     \vspace{-1em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+    \label{fig:difference}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+Dernæst udvælges lokale ekstremaer i "DoG" billederne, for hver pixel, ved at sammenligne et 3x3 pixel område i billedet med et 3x3 pixel område i "DoG" billedet over, og under. Hver pixel bliver derved sammenlignet med dens 27 naboer i de omkringliggende "DoG" billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det er det mindste eller det største i af disse, som illustreret i figur \ref{fig:difference}(b). Når lokale ekstremaer er udvalgt fravælges dårligt lokaliseret punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaet ligger imellem pixel værdierne. Disse kan ikke direkte udvælges, men estimeres ved en Taylor udvidelse (af?) for at udvælge den korrekte subpixel position. Denne metode er introduceret af Brown og Lowe (citat 2002 måske) og kan opskrives som:
+\begin{equation}
+D(x)=D+\dfrac{\partial D^T}{\partial x}x\dfrac{1}{2}x^T\dfrac{\partial^2D}{\partial x^2}x
+\end{equation}
+Lokationen af ekstremaet $\hat{x}$ findes ved at tage den afledte af den ovenstående funktion ift. x og sætte den til 0:
+\begin{equation}
+\hat{x}= \dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
+\end{equation}
+Er det lokale ekstrema lokaliseret med afstand $\hat{x}>0.5$ i en given dimension, vurderes det at punktet er lokaliseret tættere på et andet ekstrema, og punktet ændres ift. $\hat{x}$. Ustabile punkter med lav kontrast kan fjernes ved:
+\begin{equation}
+D(\hat{x})=D+\dfrac{1}{2}\dfrac{\partial D^T}{\partial x}\hat{x}
+\end{equation}
+Metoden vil også have positivt respons overfor kanter, derfor anvendes metoder lånt fra Harris og Stephens \cite{harris} til at neutralisere disse svar. Hessian metoden opstilles som:
+\begin{equation}
+H =
+\begin{bmatrix}
+D_{xx} & D{xy} \\
+D{xy} & D{yy}
+\end{bmatrix}
+\end{equation}
+Hvor en grænseværdi for $r$ kan opstilles for at fjerne punkter lokaliseret på en kant:
+\begin{equation}
+\dfrac{tr(H)^2}{Det(H)}<\dfrac{(r+1)^2}{r}
+\end{equation}
+Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter.
+\subsection*{Algoritme}
