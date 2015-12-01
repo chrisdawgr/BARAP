@@ -1,5 +1,5 @@
 \chapter{Korrespondance Analyse} \label{sec:Kor}
-Korrespondance problemet, imellem to eller flere billeder af samme objekt, referere til problemet i at finde et sæt af punkter i det ene billede, der kan identificeres og matches i det andet.
+Korrespondance problemet, imellem to eller flere billeder af samme objekt, referere til problemet om at finde et sæt af punkter i det ene billede, der kan identificeres og matches i det andet.
 Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat for en række ændringer, det kan f.eks. være forskydning i kameraets position ift. scenen eller  ændringer i scenens motiv. Et godt eksempel på korrespondance problemet er det menneskelige syn. Øjnene agere som to kameraer, der hver især fanger deres billede og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. Korrespondancen mellem øjnene tillader også opfattelse af dybde i billedet, hvilket skyldes den horisontale forskydning af menneskets øjne. Denne sektion vil beskrive, hvordan denne korrespondance kan efterlignes af en computer.
 \begin{figure}[H]
     \centering
@@ -11,14 +11,16 @@ Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat fo
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{F} og \textit{F'}. Disse punkter skal beskrives af en deskriptor \textit{D} så hvert punkt får tilknyttet en deskriptor $D(F)$ og $D(F')$. Det ønskes, for to korresponderende punkter, at: $D(F)\approx D(F')$ - en god deskriptor vil tillade, at korresponderende punkter bliver matchet korrekt. Korrespondanceanalysen består af følgende trin:
+I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{p} og \textit{p'}. Disse punkter skal beskrives af en deskriptor \textit{D} så hvert punkt får tilknyttet en deskriptor $D(p)$ og $D(p')$. Det ønskes, for to korresponderende punkter, at: $D(p)\approx D(p')$ - en god deskriptor vil tillade, at korresponderende punkter bliver matchet korrekt. Korrespondanceanalysen består af følgende trin:
 \begin{enumerate}
 \item{Feature Detektion}
 \item{Feature Deskription}
 \item{Feature Matching}
 \end{enumerate}
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt i et billede (x,y), om dette punkt er et interessepunkt. Detektorens resultat vil derved være et subset af isolerede punkter fra billedet. Der er mange måder at definere hvad et interessepunkt er og i sidste ende bestemmer applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der ledes efter skal en detektor besidde følgende egenskaber:
+Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt i et billede (x,y), om dette punkt er et interessepunkt.  En Feature Detektor $Det$ er en funktion, der tager et billede som input, $I$ og returnere et subset af isolerede punkter, $p_i$ fra billedet, som er vurderet til at være interessante. 
+$$ Det(I)=\lbrace p_1,p_2,...,p_n \rbrace$$
+Der er mange forskellige definitioner af hvad et interessepunkt er og i sidste ende angiver applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der ledes efter skal en detektor besidde følgende egenskaber:
 \begin{itemize}
 \item{\emph{Repeterbar}: Moravec \cite{moravec} definere et godt interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. Repeterbarheden significere detektorens uafhængighed af forskellige betingelser i billedet, dvs. dens evne til at detektere ens punkter i billeder, udsat for forskellige ændringer. }
 \item{\emph{Distinktive:}
@@ -37,7 +39,7 @@ Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan
   \end{figure} \noindent
 Detektoren skal også være robust overfor små deformationer som støj i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Interessepunkter defineres ikke udefra semantiske meningsfulde områder, som ansigter eller objekter, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixel områder, som er matematisk definerbare og distinktive. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
  \subsection{Hjørner}\label{subsec:corner}
-En hjørnedetektor, leder efter hjørner i billedet og anvender disse som interessepunkter. Et hjørne kan defineres ved et punkt der har to dominerende kanter i hver sin retning.
+En hjørnedetektor er en feature detektor, der definere et hjørne som værende et interessepunkt. Et hjørne kan defineres ved et punkt, der har to dominerende kanter i hver sin retning, derved er et hjørne et punkt, hvor der foregår store intensitetskift i det omrkingliggende område. Som følge af denne definition er hjørne distinktivt og kan bruges som interessepunkt. At detektere hjørner er en udbredt teknik, da de er lokalt definerbare og ofte forekommer i forskellige scener.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/6.png}
@@ -50,8 +52,7 @@ En hjørnedetektor, leder efter hjørner i billedet og anvender disse som intere
     \vspace{-2.7em}  
   \end{figure}  
 \noindent
-Hvorfor er hjørner gode punkter? Et hjørne er et godt interessepunkt da der foregår store intensitetsskift omkring hjørnets omliggende område og er derfor distinkt ift. området.
-En intuitiv måde at definere hvorfor et punkt er interessant, er at placere et rektangulært vindue omkring punktet. Dette vindue forskydes lokalt i x og y retningen. Opstår der et nyt objekt, identisk med interessepunktet, som resultat af forskydningen af vinduet er punktet ikke lokalt distinkt. I figur \ref{fig:2} ses tre udvalgte punkter med et rektangulært vindue placeret over. I stil med ovenstående definition, forskydes det firkantede vindue i alle retninger. Forskydes \textbf{(a)} vil det matche alle de forskudte billeder da punktet og regionen omkring punktet er homogent. Punktet er derfor ikke distinkt. Forskydes \textbf{(b)} i x-aksen opnås et nyt objekt, men en forskydning i y-aksen vil resultere i samme objekt af en kant, og punktet er derfor ikke distinkt. Punktet placeret på et hjørne \textbf{(c)} er distinkt da ingen forskydninger vil matche original billedet. Hjørnet kan derfor bruges som et interessepunkt. At detektere hjørner er en udbredt teknik, da de er lokalt definerbare og ofte forekommer i forskellige scener.
+En intuitiv måde at definere hvorfor et hjørne er interessant, er at placere et rektangulært vindue omkring punktet. Dette vindue forskydes lokalt i x og y retningen. Opstår der et nyt objekt, identisk med interessepunktet, som resultat af forskydningen af vinduet er punktet ikke lokalt distinkt. I figur \ref{fig:2} ses tre udvalgte punkter med et rektangulært vindue placeret over. I stil med ovenstående definition, forskydes det firkantede vindue i alle retninger. Forskydes \textbf{(a)} vil det matche alle de forskudte billeder da punktet og regionen omkring punktet er homogent. Punktet er derfor ikke distinkt. Forskydes \textbf{(b)} i x-aksen opnås et nyt objekt, men en forskydning i y-aksen vil resultere i samme objekt af en kant, og punktet er derfor ikke distinkt. Punktet placeret på et hjørne \textbf{(c)} er distinkt da ingen forskydninger vil matche det originale billedet. Hjørnet kan derfor bruges som et interessepunkt. Denne intuitive definition kan kvantificeres til en matematisk definition, der estimere auto-korrelationen imellem de forskudte biller. Auto-korrelationen vil angive intensitetsskiftene og derved, hvor der opstår hjørner. 
 \subsection{Kanter}\label{subsec:kant}
 Som nævnt er kanter ikke lokalt distinkte, men kan bruges til at fjerne en del unødvendig information fra et billedet, ved kun at udtrykke kanterne.  En kant kan defineres som et skarpt skift i billedintensiteten. 
 En måde at visualisere denne definition af en kant, er ved at opfatte billedet som en funktion, der afbilder billedintensiteten i 1-dimension. En høj kurve, angiver et skarpt intensitetsskift og derved en kant. Kanter kan derved identificeres ved at finde disse skarpe sving i intensitetsfunktionen, se figur \ref{fig:kant}.
@@ -74,16 +75,21 @@ Billedet differentieres derfor ved en approksimeret differentiering. Differentie
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
 \end{equation}
-Ovenstående kan opnås ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$, hvor foldning af et billede \emph{I}, med en kerne \emph{K}: $I\oplus K$, hvor K har indgangen m x n og I M x N udregnes som:
+\eqref{diff} kan udføres på billedet ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$. Foldning af et billede \emph{I}, med en kerne \emph{K} defineres ved operatoren: $I\ast K$ og udføres ved, for hvert punkt i billedet ved at udregne:
 \begin{equation}
 O(i,j) = \sum\limits_{k=1}^m \sum\limits_{l=1}^m I(i+k-1,l-1)K(k,l)
 \end{equation}
-Hvor $O(i,j)$ er det originale punkt foldet med en kerne. Ved differentiering fremhæves udsving i intensitetsskiftene i billederne, hvilket gør det muligt at identificere kanterne. Problemet ved dette, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet, hvilket kan resultere i fejlagtige detektioner af kanter. For at imødekomme dette foldes billedet med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Det Gaussiske filter kan bruges, i billedbehandling, til at beskrive et punkt, ved en vægtet normalfordeling i de omliggende pixel, visualiseret som en klokke, der ligges over billedet. Foldningen med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen, der angiver graden af glatningen, er defineret som:
+, hvor K har indgangen $(m \times n)$ og I $(M \times N)$. \\
+Problemet ved differentiering, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet af differentieringen, hvilket kan resultere i fejlagtige detektioner af kanter. For at fjerne støjen foldes billedet med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Det Gaussiske filter beskriver et punkt, ved en vægtet normalfordeling af de omkringliggende pixelværdier. Foldning af et billede med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen af den Gaussiske fordelingen, er defineret som:
 \begin{equation}
-G(x,y) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^{2}}}
+G(x,y,\sigma) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^{2}}}
 \label{2dgaussian}
 \end{equation} 
-For at undgå itereration af billedet to gange, for differentiering og sløring, kan dette udføres i en samlet operation, ved at folde billedet med et differentieret Gaussisk filter, da foldning er en associativ operation. Yderligere, for at detektere kanter, kan denne operation udvides. Ved en differentiering bliver signalet fra figur ref til en kurve der ligner et bjerg. For en mere præcis definition af en kant, kan den dobbelt afledte tages som set i figur \ref{fig:deriv}.
+For at undgå itereration af billedet to gange, for differentiering og sløring, kan dette udføres i en samlet operation, ved at folde billedet med et differentieret Gaussisk filter, da foldning er en associativ operation.
+\begin{equation}
+\dfrac{\partial}{\partial x}(G \ast f) = (\dfrac{\partial}{\partial x}G) \ast f
+\end{equation}
+Udføres ovenstående på signalet fra figur \ref{fig:kant} vil det resultere i et "bakke" formet signal, hvor bakken indikere en kant. For en mere præcis definition af en kant, kan den dobbelt afledte bruges som set i figur \ref{fig:deriv}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/8.png}
@@ -98,7 +104,7 @@ For at undgå itereration af billedet to gange, for differentiering og sløring,
 \noindent
 Kanten er nu let definerbar ved at lokalisere når funktionen krydser nul. I et 2-dimensionelt billede repræsentere intensitetsskift også en orientering. Vertikale kanter findes ved at folde billedet med et Gaussisk filter, differentieret i x-aksen og y-aksen for horisontale kanter.
 \subsection{Blobs}
-En blob detektor detektere regioner i billedet, hvor der sker en ændring af billedets egenskaber, det kan f.eks. være lysintensiteten ift. den omliggende region. En blob består af et sæt sammenhængnede pixels alle af samme intensitet, der er distinktive ift. området. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor defineres som bestående af et område med \emph{mindst} ét lokalt ekstrema, enten et maksimum eller et minimum. Blobbens struktur er ikke semantisk intuitivt definerbar, men er matematisk veldefineret <?>.
+En blob detektor er en feature detektor variant, der finder regioner i billedet, hvor der sker en ændring af billedets egenskaber, det kan f.eks. være lysintensiteten ift. den omliggende region. En blob består af et sæt sammenhængnede pixels alle af samme intensitet, der er distinktive ift. området. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor defineres som bestående af et område med \emph{mindst} ét lokalt ekstrema, enten et maksimum eller et minimum.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/11.png}
@@ -111,7 +117,7 @@ En blob detektor detektere regioner i billedet, hvor der sker en ændring af bil
   \end{figure}
        \vspace{-2.7em}
 \noindent
-I figur \ref{fig:lindblob}(a), ses en blob defineret af dets lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere blobbens domæne som værende afgrænset af dens "saddle point". Et "saddle point" angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke. Punktet definere altså, hvordan blobben er lokalt præsenteret. Denne definition på en blob stemmer overens med definitionen af interessepunkter. Det lokale ekstrema gør blobben til en veldefineret lokal struktur og derved distinktiv. Blobs har også en fordel ift. kant og hjørne detektion, da blobs indgår i de fleste domæner. Kanter og hjørner forekommer ofte i menneskeskabte scener, ved veldefinerede strukturer. Blobs har derfor flere applikationsområder, og kan bruges indenfor billeder af objekter, der ikke er menneskelige defineret scener, f.eks. indenfor medicinsk billedanalyse til detektion af anomalier i røntgenbilleder.  Ligesom i kant-detektion, kan blobs beskrives ved intensitetsskift, hvor der forekommer en krusning rundt om ekstremaet. En metode til at detektere disse ekstremaer hedder Laplacian operatoren: $\Delta^2$. Laplace operatoren anvendes på et gaussisk filter og opnår operatoren "Laplacian of Gaussian" \eqref{lap}:
+I figur \ref{fig:lindblob}(a), ses en blob defineret af dets lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere blobbens domæne som værende afgrænset af dens "saddle point". Et "saddle point" angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke. Punktet definere altså, hvordan blobben er lokalt præsenteret. Denne definition på en blob stemmer overens med definitionen af interessepunkter. Det lokale ekstrema gør blobben til en veldefineret lokal struktur og derved distinktiv. Blobs har også en fordel ift. kant og hjørne detektion, da blobs indgår i de fleste domæner. Kanter og hjørner forekommer ofte i menneskeskabte scener, ved veldefinerede strukturer. Blobs har derfor flere applikationsområder, og kan bruges indenfor billeder af objekter, der ikke er menneskelige defineret scener, f.eks. indenfor medicinsk billedanalyse til detektion af anomalier i røntgenbilleder.  Ligesom i kant-detektion, kan blobs beskrives ved intensitetsskift, hvor der forekommer en krusning rundt om ekstremaet. En metode til at detektere disse ekstremaer hedder Laplace operatoren: $\Delta^2$. Laplace operatoren anvendes på et gaussisk filter og kaldes "Laplacian of Gaussian" \eqref{lap}:
 \begin{equation}
 \Delta^2 f = \dfrac{\partial^2 f}{\partial x^2}+\dfrac{\partial^2 f}{\partial y^2}, \Delta^2G_{\sigma}(x,y)
 \label{lap}
@@ -142,8 +148,7 @@ Blobs forekommer, ligesom andre strukturer, på forskellige skalaer, bestemt af 
   \end{figure}
        \vspace{-2.5em}
 \noindent
-<hvordan dette gøres GOD>
-Så hvordan udvælges cirklen, der dækker interesse området uafhængigt af områdets størrelse.  For Blobs er det interessant når der i et skaleret område opstår et ekstrema. En måde at søge efter ekstrema over forskellige skalaer er ved at oprette et skalarum for det undersøgte billede, hvor hvert billede skaleres og der for hver skala udvælges features. Skala-rummet i et 2-dimensionalt billede repræsenteres af flere billeder i forskellige skalaer af det originale billede. Billeder, der repræsentere forskellige skalaer, opnås ved at folde billedet med et 2-dimensionalt Gaussisk filter. 
+Så hvordan udvælges cirklen, der dækker interesse området uafhængigt af områdets størrelse?  For Blobs er det interessant når der i et skaleret område opstår et veldefineret ekstrema. En måde at søge efter ekstrema over forskellige skalaer er ved at oprette et skalarum for det undersøgte billede, hvor hvert billede skaleres og der for hver skala udvælges features. Skala-rummet i et 2-dimensionalt billede repræsenteres af flere billeder i forskellige skalaer af det originale billede. Billeder, der repræsentere forskellige skalaer, opnås ved at folde billedet iterativt med et Gaussisk filter med stigende $\sigma$ værdi. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/24.png}
@@ -157,22 +162,25 @@ Til venstre ses en visualisering af et skala-rum formet som en pyramide. Hvert n
   \end{figure}
        \vspace{-2.5em}
 \noindent
-Iterativ Gaussisk slørring med stigende sigma værdier, bruges til at at generere et skalarum af billedet.
-Et Gaussisk filter bruges da gradvis højere værdier af $\sigma$ fjerner fine strukturer, som vist i figur \ref{fig:mona} og nye objekter forekommer ikke ved transformationen fra finere til grovere skalaer \cite{lindenscale}. Idéen er derved at fjerne disse strukturer og, fremhæve andre objekter gradvist på en større skala der også kan detekteres.
+Et Gaussisk filter bruges da gradvis højere værdier af $\sigma$ fjerner fine strukturer, som vist i figur \ref{fig:mona} og nye strukturer forekommer ikke ved transformationen fra finere til grovere skalaer \cite{lindenscale}. Idéen er derved at fjerne disse strukturer og, lede efter  andre ekstremaer gradvist på større skalaer der også kan detekteres.
 Et billede i skalarummet for billedet $f(x,y)$ kan derfor defineres som i \eqref{scalespace}
 \begin{equation}
-L(x,y,\sigma) = g(x,y,\sigma)\ast f(x,y)
+L(x,y,\sigma) = G(x,y,\sigma)\ast f(x,y)
 \label{scalespace}
 \end{equation}
-hvor $g$ er det 2-dimensionelle Gaussiske filter,$L(x,y,\sigma)$ repræsentere et et billede i skala-rummet, og skala-parametren $\sigma$, bestemmer skalaen, eller placeringen i skala-rummet. $L(x,y,0) = f(x,y)$, da det er den "nederste" skala og den nederste del af pyramiden. Højere niveauer af pyramiden kan opnås ved at folde billedet med et Gaussisk filter af større sigma værdi.
+hvor $G$ er det 2-dimensionelle Gaussiske filter,$L(x,y,\sigma)$ repræsentere et et billede i skala-rummet, og skala-parametren $\sigma$, bestemmer skalaen, eller placeringen i skala-rummet. $L(x,y,0) = f(x,y)$, da det er den "nederste" skala og den nederste del af pyramiden. Højere niveauer af pyramiden kan opnås ved at folde billedet med et Gaussisk filter af større sigma værdi.
 \input{tex/Deskriptor.tex}
 \section{Matching}
-Når der er udvalgt et sæt interessepunkter og deres deskriptorer er oprettet, skal punkterne matches. Det er ikke alle fundne punkter, der har et korresponderende punkt i det modsvarende billede alt afhængigt af transformatione, overlap og okklusion i billedet. For hvert udvundet interessepunkt er der en tilhørende x-dimensional vektor, oprettet af deskriptoren, der beskriver interessepunktet udefra en given information. Denne vektor skal sammenlignes mede vektorer i det modsvarende billede, for at finde det bedste match. Det "bedste match" kan kvantificeres til at være den vektor, der har den mindste Euklidiske afstand \eqref{euc} til det undersøgte interessepunkt. 
+Fra deskriptoren er et sæt interessepunkter $p$ beskrevet ved features:
+$$ Des(I,p)= \lbrace F_1,F_2,...,F_n \rbrace $$
+$$ Des(I',p')=\lbrace F'_1,F'_2,...,F'_n \rbrace $$
+Pga. ændringer i billederne vil korresponderende features aldrig være helt identiske, og der skal derfor oprettes nogle metoder, der kan determinere, hvornår 2 punkter er "ens" nok til at korrespondere.
+Hver feature kommer i form af en x-dimensional vektor, der beskriver interessepunktet udefra noget data. Denne vektor skal sammenlignes med vektorer i det modsvarende billede, for at finde det bedste match. En metode er at undersøge den Euklidiske afstand mellem vektorene, hvor det "bedste match" kan kvantificeres til at være de vektor, der har de mindste Euklidiske afstande \eqref{euc}. 
 \begin{equation}
 ||P|| = \sqrt{\sum\limits_{i=1}^n(q_i-p_i)^2}
 \label{euc}
 \end{equation}
-Om to euklidiske afstande angiver et match kan defineres ved at sætte en sætte en grænseværdi. Der er dog visse problemer ved at sætte en sådan grænseværdi. Sættes den for lavt opstår falske negative match og sættes den for højt opstår der falske positive match se figur \ref{fig:skift}. Forskellige transformationer i billedet kan også gøre at de målte afstande ligger længere væk end normalt eller omvendt, det er derved usikkert at definere en generel grænseværdi. En anden anvendelig metode er at matche med den "nærmeste nabo", hvor hvert punkt bliver matchet med det nærmeste (euklidiske) punkt. Her vil der også typisk sættes en grænseværdi for at fravælge dårligt defineret korrespondancer. Dette kan dog også være et problem i visse applikation, hvor nogle punkter matcher flere punkter.
+Om to euklidiske afstande angiver et match kan defineres ved at sætte en sætte en grænseværdi. Der kan dog opstå visse problemer ved at sætte en sådan grænseværdi se figur \ref{fig:skift}. Forskellige transformationer i billedet kan også gøre at de målte afstande ligger længere væk end normalt eller omvendt, det er derved usikkert at definere en generel grænseværdi. En anden anvendelig metode er at matche med den "nærmeste nabo", hvor hvert punkt bliver matchet med den nærmeste euklidiske vektor. Her vil der også typisk sættes en grænseværdi for at fravælge dårligt defineret korrespondancer. Dette kan dog også være et problem i visse applikationer, hvor nogle punkter matcher flere punkter.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/22.png}
