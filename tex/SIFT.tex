@@ -1,0 +1,35 @@
+\subsection{SIFT}
+\subsubsection{Detektor}
+...
+\subsubsection{Deskriptor}
+SIFT deskriptoren skaber invarians overfor skala, belysning og vinkel, et givent objekt beskues fra. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16x16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
+\begin{equation}
+Des(I, p_i,\sigma_i,\theta_i) = F_i
+\end{equation}
+Hvor $I$ er billedet, 
+$p^T = \begin{pmatrix}
+	x_1 & x_2 & \cdots x_n \\
+	y_1 & y_2 & \cdots y_n \\
+\end{pmatrix}$ og $i$ svarer til den $i$'ende enhed, som fundet af detektoren, $\sigma$ er den tilhørende skala, punktet er fundet på, og $\theta$ er orienteringen af $p_i$. $F_i$ er en feature vektor som deskriptoren har fundet for punktet $p_i$.
+\\
+\\
+Skalaen for et givent punkt bestemmer, om det billede der skal foretages beregninger på, skal være subsamplet. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$. Dette opnås, ved at prikke hver indang i dataindsamlingsvinduet med rotationsmatricen:
+\begin{equation}
+W_{{mn}_{new}} = W_{mn} \cdot
+\begin{pmatrix}
+  \cos \theta_i & -\sin \theta_i \\
+  \sin \theta_i & \cos \theta_i  \\
+\end{pmatrix}
+\end{equation}
+$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i (18??) og (19??) respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16x16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med en Gausskerne med størrelse $16x16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
+\begin{equation}
+G_{new} = G(x,y,8) * Grad(x,y)
+\end{equation}
+Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse (4x4), som ses på billede(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er der $F_i$ repræsenteret ved 16 vinduer, med hver 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
+\begin{itemize}
+\item[1] alle punkter i $R_{ij}$ skal vægtes efter, hvor langt de ligger fra centrum af $R_{ij}$. Det er vedtaget, at der eksisterer tre længder (beskriv v. billede!!!)
+\item[2] 4 indgange i $F_i$ opdateres efter $R_{ij}$'s orientering. $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. 
+\item[3] De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)
+\end{itemize}
+
+$F_i$ bliver normaliseret, og alle værdier større end 0.2 skal sættes til 0.2, og $F_i$ skal normaliseres igen.
