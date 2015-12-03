@@ -18,13 +18,13 @@ I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er fo
 \item{Feature Matching}
 \end{enumerate}
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt i et billede (x,y), om dette punkt er et interessepunkt.  En Feature Detektor $Det$ er en funktion, der tager et billede som input, $I$ og returnere et subset af isolerede punkter, $p_i$ fra billedet, som er vurderet til at være interessante. 
+Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt (x,y) i et billede, om dette punkt er et interessepunkt.  En Feature detektor '$Det$' er en funktion, der tager et billede som input, $I$ og returnere et subset af isolerede punkter, $p_i$ fra billedet, som er vurderet til at være interessante. 
 $$ Det(I)=\lbrace p_1,p_2,...,p_n \rbrace$$
 Der er mange forskellige definitioner af hvad et interessepunkt er og i sidste ende angiver applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der ledes efter skal en detektor besidde følgende egenskaber:
 \begin{itemize}
 \item{\emph{Repeterbar}: Moravec \cite{moravec} definere et godt interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. Repeterbarheden significere detektorens uafhængighed af forskellige betingelser i billedet, dvs. dens evne til at detektere ens punkter i billeder, udsat for forskellige ændringer. }
 \item{\emph{Distinktive:}
-De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område. Dette muliggør bedere beskrivelse af punktet og derved større mulighed for korrekt match.}
+De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område. Dette muliggør en mere akkurat lokal lokalisering af punktet.}
 \end{itemize}
 Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan forekomme i billederne, og derved være invariante overfor disse. Ændringerne kan være geometriske. F.eks. rotation, skalering (se figur \ref{fig:skal}) eller affine transformationer. Det kan også være fotometriske ændringer i form af intensitetsskift i billederne forsaget af lysændringer.
 \begin{figure}[H]
@@ -32,14 +32,14 @@ Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan
     \includegraphics[width=0.37\textwidth]{fig/28.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{Figuren viser to ens kurver, der er set fra forskellige skalaer. Opfattes kurven langt væk fra, som den store kurve, vil de udvalgte områder opfattes som kanter. Skalere man ind på kurven vil området vise et hjørne. Det kan derfor, alt efter applikationsdomænet, være nødvendigt at anvende en skala invariant detektor.}}}
+       \caption{\textcolor{gray}{\footnotesize \textit{To ens kurver, der er set fra forskellige skalaer. Opfattes kurven langt væk fra, som den store kurve, vil de udvalgte områder opfattes som kanter. Skalere man ind på kurven vil området vise et hjørne. Det kan derfor, alt efter applikationsdomænet, være nødvendigt at anvende en skala invariant detektor.}}}
     \label{fig:skal}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
 Detektoren skal også være robust overfor små deformationer som støj i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Interessepunkter defineres ikke udefra semantiske meningsfulde områder, som ansigter eller objekter, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixel områder, som er matematisk definerbare og distinktive. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
  \subsection{Hjørner}\label{subsec:corner}
-En hjørnedetektor er en feature detektor, der definere et hjørne som værende et interessepunkt. Et hjørne kan defineres ved et punkt, der har to dominerende kanter i hver sin retning, derved er et hjørne et punkt, hvor der foregår store intensitetskift i det omrkingliggende område. Som følge af denne definition er hjørne distinktivt og kan bruges som interessepunkt. At detektere hjørner er en udbredt teknik, da de er lokalt definerbare og ofte forekommer i forskellige scener.
+En hjørnedetektor er en feature detektor, der definere et hjørne som værende et interessepunkt. Et hjørne kan defineres ved et punkt, der har to dominerende kanter i hver sin retning, derved er et hjørne et punkt, hvor der foregår store intensitetskift i det omrkingliggende område. Som følge af denne definition, er et hjørne distinktivt og kan bruges som interessepunkt. At detektere hjørner er en udbredt teknik indenfor feature detektion, hjørner ofte forekommer i forskellige menneskeskabte scener.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/6.png}
@@ -52,10 +52,9 @@ En hjørnedetektor er en feature detektor, der definere et hjørne som værende 
     \vspace{-2.7em}  
   \end{figure}  
 \noindent
-En intuitiv måde at definere hvorfor et hjørne er interessant, er at placere et rektangulært vindue omkring punktet. Dette vindue forskydes lokalt i x og y retningen. Opstår der et nyt objekt, identisk med interessepunktet, som resultat af forskydningen af vinduet er punktet ikke lokalt distinkt. I figur \ref{fig:2} ses tre udvalgte punkter med et rektangulært vindue placeret over. I stil med ovenstående definition, forskydes det firkantede vindue i alle retninger. Forskydes \textbf{(a)} vil det matche alle de forskudte billeder da punktet og regionen omkring punktet er homogent. Punktet er derfor ikke distinkt. Forskydes \textbf{(b)} i x-aksen opnås et nyt objekt, men en forskydning i y-aksen vil resultere i samme objekt af en kant, og punktet er derfor ikke distinkt. Punktet placeret på et hjørne \textbf{(c)} er distinkt da ingen forskydninger vil matche det originale billedet. Hjørnet kan derfor bruges som et interessepunkt. Denne intuitive definition kan kvantificeres til en matematisk definition, der estimere auto-korrelationen imellem de forskudte biller. Auto-korrelationen vil angive intensitetsskiftene og derved, hvor der opstår hjørner. 
+En intuitiv måde at definere hvorfor et hjørne er interessant, er at placere et rektangulært vindue omkring punktet. Dette vindue forskydes lokalt i x og y retningen. Opstår der et nyt objekt, identisk med interessepunktet, som resultat af forskydningen af vinduet er punktet ikke  distinktivt og derfor ej interessant. I figur \ref{fig:2} ses tre udvalgte punkter med et rektangulært vindue placeret over. I stil med ovenstående definition, forskydes det firkantede vindue i alle retninger. Forskydes \textbf{(a)} vil det ligne alle de forskudte billeder da punktet og regionen omkring punktet er homogent. Punktet er derfor ikke interessant. Forskydes \textbf{(b)} i x-aksen opnås et nyt objekt, men en forskydning i y-aksen vil resultere i samme objekt af en kant, og punktet er derfor ikke interessant. Punktet placeret på et hjørne \textbf{(c)} er interessant da ingen forskydninger vil ligne det originale billedet. Hjørnet kan derfor bruges som et interessepunkt. Denne intuitive definition kan kvantificeres til en matematisk definition, der estimere auto-korrelationen imellem de forskudte biller, hvilket angiver intensitetsskiftene imellem billederne og derved, hvor der opstår et hjørne. 
 \subsection{Kanter}\label{subsec:kant}
-Som nævnt er kanter ikke lokalt distinkte, men kan bruges til at fjerne en del unødvendig information fra et billedet, ved kun at udtrykke kanterne.  En kant kan defineres som et skarpt skift i billedintensiteten. 
-En måde at visualisere denne definition af en kant, er ved at opfatte billedet som en funktion, der afbilder billedintensiteten i 1-dimension. En høj kurve, angiver et skarpt intensitetsskift og derved en kant. Kanter kan derved identificeres ved at finde disse skarpe sving i intensitetsfunktionen, se figur \ref{fig:kant}.
+Som nævnt er kanter ikke interessant, da de ikke er lokalt distinkte. Kanter kan dog bruges til at fjerne en del unødvendig information fra et billedet, ved kun at udtrykke kanterne.  En kant kan defineres ved at opfatte billedet som en funktion, der afbilder billedintensiteten i 1-dimension. En høj kurve, angiver et skarpt intensitetsskift og derved en kant. Kanter kan derved identificeres ved at finde disse skarpe sving i intensitetsfunktionen, se figur \ref{fig:kant}.
 \noindent
 \begin{figure}[H]
     \centering
@@ -69,18 +68,16 @@ En måde at visualisere denne definition af en kant, er ved at opfatte billedet 
        \vspace{-2.5em}
   \end{figure}
 \noindent
-En differentiering af funktionen vil angive, hvor skarp kurven er og derved fremhæve dens udsving. Et 2-dimensionelt billede er ikke en kontinuerlig funktion, men består af diskrete værdier i form af pixel informationer.
-Billedet differentieres derfor ved en approksimeret differentiering. Differentiering af en funktion \emph{f(x)} kan approksimeres til følgende diskrete differentiering:
-\begin{equation}
+En differentiering af funktionen fra figur \ref{fig:kant} vil angive, hvor skarp kurven er og derved fremhæve dens udsving. Et 2-dimensionelt billede er ikke en kontinuerlig funktion, men består af diskrete værdier i form af pixel informationer.
+Billedet differentieres derfor ved en approksimeret differentiering: \begin{equation}
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
 \end{equation}
-\eqref{diff} kan udføres på billedet ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$. Foldning af et billede \emph{I}, med en kerne \emph{K} defineres ved operatoren: $I\ast K$ og udføres ved, for hvert punkt i billedet ved at udregne:
+\eqref{diff} kan udføres på billedet ved at folde billedet med kernen $[1 \hspace{0.5cm} 0 \hspace{0.5cm} -1]$. Foldning af et billede \emph{I} med indgangen $(M \times N)$, med en kerne \emph{K} med indgangen $(m \times n)$ , defineres ved operatoren: $I\ast K$ og udføres ved, for hvert punkt i billedet ved at udregne:
 \begin{equation}
 O(i,j) = \sum\limits_{k=1}^m \sum\limits_{l=1}^m I(i+k-1,l-1)K(k,l)
 \end{equation}
-, hvor K har indgangen $(m \times n)$ og I $(M \times N)$. \\
-Problemet ved differentiering, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet af differentieringen, hvilket kan resultere i fejlagtige detektioner af kanter. For at fjerne støjen foldes billedet med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Det Gaussiske filter beskriver et punkt, ved en vægtet normalfordeling af de omkringliggende pixelværdier. Foldning af et billede med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen af den Gaussiske fordelingen, er defineret som:
+Problemet ved differentiering, visualiseret i figur \ref{fig:kant}, er at støj i billedet (de små udsving) også vil blive fremhævet, hvilket kan resultere i fejlagtige detektioner af kanter. For at fjerne støjen foldes billedet med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Det Gaussiske filter beskriver et punkt, ved en vægtet normalfordeling af de omkringliggende pixelværdier. Foldning af et billede med et Gaussisk filter vil derfor resultere i en "flydende" overgang mellem pixel værdierne og derfor glatte billedet.  Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen af den Gaussiske fordelingen, er defineret som:
 \begin{equation}
 G(x,y,\sigma) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^{2}}}
 \label{2dgaussian}
@@ -89,7 +86,7 @@ For at undgå itereration af billedet to gange, for differentiering og sløring,
 \begin{equation}
 \dfrac{\partial}{\partial x}(G \ast f) = (\dfrac{\partial}{\partial x}G) \ast f
 \end{equation}
-Udføres ovenstående på signalet fra figur \ref{fig:kant} vil det resultere i et "bakke" formet signal, hvor bakken indikere en kant. For en mere præcis definition af en kant, kan den dobbelt afledte bruges som set i figur \ref{fig:deriv}.
+Udføres ovenstående på signalet fra figur \ref{fig:kant} vil det resultere i et "bakke" formet signal, hvor bakken indikere en kant. For en mere lokaliserbar kant, kan den dobbelt afledte bruges som set i figur \ref{fig:deriv}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/8.png}
@@ -102,9 +99,9 @@ Udføres ovenstående på signalet fra figur \ref{fig:kant} vil det resultere i 
     \vspace{-2.5em}  
   \end{figure}
 \noindent
-Kanten er nu let definerbar ved at lokalisere når funktionen krydser nul. I et 2-dimensionelt billede repræsentere intensitetsskift også en orientering. Vertikale kanter findes ved at folde billedet med et Gaussisk filter, differentieret i x-aksen og y-aksen for horisontale kanter.
+Kanten er nu let definerbar, ved at lokalisere når funktionen krydser nul. I et 2-dimensionelt billede repræsentere intensitetsskift også en orientering. Vertikale kanter findes ved at folde billedet med et Gaussisk filter, differentieret i x-aksen og y-aksen for horisontale kanter.
 \subsection{Blobs}
-En blob detektor er en feature detektor variant, der finder regioner i billedet, hvor der sker en ændring af billedets egenskaber, det kan f.eks. være lysintensiteten ift. den omliggende region. En blob består af et sæt sammenhængnede pixels alle af samme intensitet, der er distinktive ift. området. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor defineres som bestående af et område med \emph{mindst} ét lokalt ekstrema, enten et maksimum eller et minimum.
+En blob detektor finder regioner i billedet, der består af et sæt sammenhængnede pixels, alle af samme intensitet, der er distinktive ift. området. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor defineres som et område med \emph{mindst} ét lokalt ekstrema, enten et maksima eller et minima.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/11.png}
@@ -117,12 +114,16 @@ En blob detektor er en feature detektor variant, der finder regioner i billedet,
   \end{figure}
        \vspace{-2.7em}
 \noindent
-I figur \ref{fig:lindblob}(a), ses en blob defineret af dets lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere blobbens domæne som værende afgrænset af dens "saddle point". Et "saddle point" angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke. Punktet definere altså, hvordan blobben er lokalt præsenteret. Denne definition på en blob stemmer overens med definitionen af interessepunkter. Det lokale ekstrema gør blobben til en veldefineret lokal struktur og derved distinktiv. Blobs har også en fordel ift. kant og hjørne detektion, da blobs indgår i de fleste domæner. Kanter og hjørner forekommer ofte i menneskeskabte scener, ved veldefinerede strukturer. Blobs har derfor flere applikationsområder, og kan bruges indenfor billeder af objekter, der ikke er menneskelige defineret scener, f.eks. indenfor medicinsk billedanalyse til detektion af anomalier i røntgenbilleder.  Ligesom i kant-detektion, kan blobs beskrives ved intensitetsskift, hvor der forekommer en krusning rundt om ekstremaet. En metode til at detektere disse ekstremaer hedder Laplace operatoren: $\Delta^2$. Laplace operatoren anvendes på et gaussisk filter og kaldes "Laplacian of Gaussian" \eqref{lap}:
+I figur \ref{fig:lindblob}(a), ses en blob defineret af dets lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere blobbens domæne som værende afgrænset af dens "saddle point". Et "saddle point" angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke. Punktet definere altså blobbens domæne. Det lokale ekstrema gør blobben til en veldefineret lokal struktur og derved interessant. Blobs har også en fordel ift. kant og hjørne detektion, da blobs indgår i de fleste domæner. Kanter og hjørner forekommer ofte i menneskeskabte scener, ved veldefinerede strukturer. Blobs har derfor flere applikationsområder, og kan bruges indenfor billeder af objekter, der ikke er menneskelige defineret scener.  Ligesom i kant-detektion, kan blobs beskrives ved intensitetsskift, hvor der forekommer en krusning rundt om ekstremaet. En metode til at detektere disse ekstremaer hedder Laplace operatoren $\Delta^2$, defineret som:
 \begin{equation}
-\Delta^2 f = \dfrac{\partial^2 f}{\partial x^2}+\dfrac{\partial^2 f}{\partial y^2}, \Delta^2G_{\sigma}(x,y)
+\Delta^2 f = \dfrac{\partial^2 f}{\partial x^2}+\dfrac{\partial^2 f}{\partial y^2}
+\end{equation}
+ Laplace operatoren anvendes på et gaussisk filter og kaldes "Laplacian of Gaussian" eller "LoG" \eqref{lap}:
+\begin{equation}
+LoG=\sigma\Delta^2G
 \label{lap}
 \end{equation}
-Laplacian of gaussian operatoren kan diskritiseres og og foldes med billedet for at finde lokale ekstremaer. Figur \ref{fig:lapgauss} viser, hvordan laplace operatoren opnår et maximum i centeret af en blob, og at blobben derved bliver lokaliserbar. Hvis blobben (b), er tyndere eller tykkere vil laplace operatoren ikke længere resultere i et ekstrema, men nærmere et kant respons. Det er derfor nødvendigt at normalisere laplace filteret ift. hvilken størrelse blobben har.
+"LoG" operatoren kan diskritiseres og og foldes med billedet for at finde lokale ekstremaer. Figur \ref{fig:lapgauss} viser, hvordan laplace operatoren opnår et maximum i centeret af en blob, og at blobben derved bliver lokaliserbar. Hvis blobben (b), er tyndere eller tykkere vil laplace operatoren ikke længere resultere i et ekstrema, men nærmere en "bakke". Det er derfor nødvendigt at normalisere laplace filteret ift. hvilken størrelse blobben har.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.60\textwidth]{fig/16.png}
@@ -148,7 +149,7 @@ Blobs forekommer, ligesom andre strukturer, på forskellige skalaer, bestemt af 
   \end{figure}
        \vspace{-2.5em}
 \noindent
-Så hvordan udvælges cirklen, der dækker interesse området uafhængigt af områdets størrelse?  For Blobs er det interessant når der i et skaleret område opstår et veldefineret ekstrema. En måde at søge efter ekstrema over forskellige skalaer er ved at oprette et skalarum for det undersøgte billede, hvor hvert billede skaleres og der for hver skala udvælges features. Skala-rummet i et 2-dimensionalt billede repræsenteres af flere billeder i forskellige skalaer af det originale billede. Billeder, der repræsentere forskellige skalaer, opnås ved at folde billedet iterativt med et Gaussisk filter med stigende $\sigma$ værdi. 
+Så hvordan udvælges cirklen, der dækker interesse området uafhængigt af områdets størrelse?  For Blobs er det interessant når der i et skaleret område opstår et veldefineret ekstrema. En måde at søge efter ekstremaer over forskellige skalaer er ved at oprette et skalarum for det undersøgte billede, hvor hvert billede skaleres og der for hver skala udvælges features. Skala-rummet i et 2-dimensionalt billede repræsenteres af flere billeder i forskellige skalaer af det originale billede. Billeder, der repræsentere forskellige skalaer, opnås ved at folde billedet iterativt med et Gaussisk filter med stigende $\sigma$ værdi. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/24.png}

@@ -1,8 +1,7 @@
-\chapter{Gennemgang af detektionsmetoder}\label{sec:detmet}
-I denne sektion vil, der udføres en gennemgang af forskellige detektionsmetoder. Visse metoder er udvalgt, da de også er blevet implementeret og afprøvet på markbilleder. <I dette afsnit vil der også gives eksempler på udvalge metodernes indvirkning på billeder> 
-
+\chapter{Gennemgang af udvalgte metoder}\label{sec:detmet}
+I denne sektion vil implementerede metoder gennemgås og eventuelle implementerings afvigelser fra metoden vil blive nævnt. Til sidst vil en overordnet konklusion, diskutere hver metodes styrke og svaghed. 
 \section{Moravec}\label{sec:moravec}
-Moravec's hjørne detektor, beskrevet i \cite{moravec}, er en af de første hjørnedetektorer, og definere et hjørne som værende et område, hvor der opstår store intensitetsskift. <correlation>. Moravec anvender denne definition til at opnå en matematisk formulering af hjørner ved at bygge videre på notationen om et kvadratisk vindue, omliggende det undersøgte punkt, diskuteret i \ref{subsec:corner}, typisk i størrelser af 3x3, 5x5 eller 7x7 pixel regioner. Sammenlignes to vinduer, hvor begge portrættere det samme objekt, vil intensitetsvariationen imellem disse vinduer være 0.
+Moravec's hjørne detektor, beskrevet i \cite{moravec}, er en af de første hjørnedetektorer, og definere et hjørne som værende et område, hvor der opstår store intensitetsskift. Moravec anvender denne definition til at opnå en matematisk formulering af hjørner ved at bygge videre på notationen om et kvadratisk vindue, omliggende det undersøgte punkt, diskuteret i \ref{subsec:corner}, typisk i størrelser af 3x3, 5x5 eller 7x7 pixel regioner. Sammenlignes to vinduer, hvor begge portrættere det samme objekt, vil intensitetsvariationen imellem disse vinduer være 0.
 De interessante punkter findes da når auto-korrelationen imellem de forskudte billeder er stor. Forskydningsvinduet kan derved bruges til at detektere hjørner, ved at tage et pixel område omkring et punkt, forskyde dette vindue med 1 pixel i alle principielle retninger (horisontalt, vertikalt og diagonalt) og udregne intensitetsvariationen. Denne variation kan beskrives med en vægtet funktion over vinduet  \emph{(WSSD: weighted summed square difference)}, der udregner forskellen på vinduerne:
 \begin{equation}
 E(u,v)= \sum w(x,y)[I(x,y)-I(x+u,y+v)]^2     
@@ -33,7 +32,6 @@ Moravec lider af følgende række problemer pga. dens simplicitet.
 \item{ En grænseværdi sættes sættes for $C(x,y)$}
 \item{lokale ekstremaer identificeres. }
 \end{enumerate}
-\subsection*{Eksempler?}
 \subsection*{Konklusion}
 Moravec er som nævnt en simpel algoritme, med mange udfordringer, der gør at den ikke bruges som en repeterbar detektor. Detektoren er i dag ikke i sig selv relevant, som den var da den blev udgivet, men bygges videre på i andre detektorer, f.eks. \textit{"Harris"} beskrevet i sektion, \ref{sec:harris} som direkte tilgår de nævne problemstillinger med Moravec.
 \section{Harris}\label{sec:harris}
@@ -115,5 +113,5 @@ I_xI_y & I_y^2
 \end{enumerate}
 \subsection*{Konklusion}
 Metoden anvendes som en repeterbar detektor og bruges i høj grad i dag. Detektoren er rotationsinvariant pga. dens brug af egenværdier, men er ifølge \cite{eval} stadig delvis anisotropisk, hvilket skyldes differentierings filtrene der kun bruges i x og y retningen. Mikolajczyk og Schmid \cite{eval} konkludere at detektoren er særlig følsom over for rotation omkring 45 grader. De konkludere også at detektorens repeterbarhed falder drastisk ved skalaændringer.
+\input{tex/SIFT.tex}
 % måske begræsninger istedet
-\input{tex/dog.tex}
