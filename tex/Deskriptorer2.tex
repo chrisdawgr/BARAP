@@ -1,0 +1,39 @@
+\section{Deskriptorer}
+\subsection{SIFT}
+
+\begin{equation}
+\begin{split}
+D(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
+           &= L(x,y,k \sigma)-L(x,y,\sigma)
+\end{split}
+\end{equation}
+DoG er en blob detektor, da det er en appproksimering af Laplacian of Gaussian eller "LoG" defineret som:
+\begin{equation}
+\begin{split}
+LoG(x,y,\sigma) &= \sigma^2 \Delta^2L(x,y,\sigma) \\
+                &= \sigma^2 (L_{xx}+L_{yy})
+\end{split}
+\end{equation}
+Lowe relatere approksimeringen af DoG og LoG, ved varme-diffusion ligningen:
+\begin{equation}
+\dfrac{\partial L}{\partial \sigma} = \sigma \Delta^2L
+\label{heat}
+\end{equation}
+Diffusions ligningen fra \eqref{heat}, kan approksimeres ved:
+\begin{equation}
+\begin{split}
+\dfrac{\partial L}{\partial \sigma} &= \sigma \Delta^2L \\
+&= \lim_{k \to 0} \dfrac{L(x,y,k\sigma)-L(x,y,\sigma)}{k\sigma-\sigma} \\
+&\approx \dfrac{L(x,y,k\sigma)-L(x,y,\sigma)}{k\sigma-\sigma}
+\end{split}
+\label{difference}
+\end{equation}
+Yderligere kan \eqref{difference} udledes til,
+\begin{equation}
+\begin{split}
+(k\sigma-\sigma)\sigma\Delta L &\approx L(x,y,k,\sigma)-L(x,y,\sigma) \\
+(k-1)\sigma^2\Delta L &\approx L(x,y,k\sigma)-L(x,y,\sigma) \\
+(k-1)\sigma^2LoG &\approx DoG
+\end{split}
+\end{equation}
+

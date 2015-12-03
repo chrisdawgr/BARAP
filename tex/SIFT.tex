@@ -20,6 +20,7 @@ W_{{mn}_{new}} = W_{mn} \cdot
   \cos \theta_i & -\sin \theta_i \\
   \sin \theta_i & \cos \theta_i  \\
 \end{pmatrix}
+\label{rotaionmatrix}
 \end{equation}
 $W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i (18??) og (19??) respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16x16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med en Gausskerne med størrelse $16x16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
 \begin{equation}
@@ -28,7 +29,7 @@ G_{new} = G(x,y,8) * Grad(x,y)
 Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse (4x4), som ses på billede(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er der $F_i$ repræsenteret ved 16 vinduer, med hver 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
 \begin{itemize}
 \item[1] alle punkter i $R_{ij}$ skal vægtes efter, hvor langt de ligger fra centrum af $R_{ij}$. Det er vedtaget, at der eksisterer tre længder (beskriv v. billede!!!)
-\item[2] 4 indgange i $F_i$ opdateres efter $R_{ij}$'s orientering. $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. 
+\item[2] 4 indgange i $F_i$ opdateres efter punkterne i $R_{ij}$'s orientering. Punkterne i $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. 
 \item[3] De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)
 \end{itemize}
 
