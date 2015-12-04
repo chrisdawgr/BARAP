@@ -1,6 +1,8 @@
+
 \subsection{SURF}
 SURF, ligesom SIFT, er en fuldstændig løsning, til at finde og beskrive blobs, som består af en detektor og en deskriptor. I forhold til SIFT, har SURF den fordel, at den beregningsmæssigt kan optimeres til at være hurtigere end SIFT, og metoden er mindre kompleks, fordi den består af færre beregningsskridt. SURF kan optimeres, igennem brug af integralbilleder[???].
-\subsubsection{Detector}
+\subsection*{Detektor}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/haarwavelet.png}
@@ -20,7 +22,6 @@ SURF deskriptoren producerer features, der består af 64 indgange. Den kan beskr
 \\
 \\
 For at gøre SURF invariant overfor rotation, skal Haar-wavelet responset findes i x og y retningen omkring punktet ($dx, dy$), respektivt. $dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $dx$ og $dy$ foldes med en cirkulær Gausskerne, med samme størrelse som Haar-wavelet responsene, og $\sigma_{Gauss} = 2.5\sigma$.
-\subsubsection{Detector}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{fig/surforientation.jpg}
