@@ -3,27 +3,24 @@
 \subsection{Deskriptor}
 SIFT deskriptoren skaber invarians overfor skala, belysning og vinkel, et givent objekt beskues fra. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16x16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
 \begin{equation}
-Des(I, p_i,\sigma_i,\theta_i) = F_i
+Des(I, p,\sigma,\theta) = F
 \end{equation}
-Hvor $I$ er billedet, 
-$p^T = \begin{pmatrix}
-	x_1 & x_2 & \cdots x_n \\
-	y_1 & y_2 & \cdots y_n \\
-\end{pmatrix}$ og $i$ svarer til den $i$'ende enhed, som fundet af detektoren, $\sigma$ er den tilhørende skala, punktet er fundet på, og $\theta$ er orienteringen af $p_i$. $F_i$ er en feature vektor som deskriptoren har fundet for punktet $p_i$.
+Hvor $I$ er billedet, $p$ er $(x,y)$, $\sigma$ er den tilhørende skala, punktet er fundet på, og $\theta$ er orienteringen af $p$. $F$ er en feature vektor som deskriptoren har fundet for punktet $p$.
 \\
 \\
 Skalaen for et givent punkt bestemmer, om det billede der skal foretages beregninger på, skal være subsamplet. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$. Dette opnås, ved at prikke hver indang i dataindsamlingsvinduet med rotationsmatricen:
 \begin{equation}
 W_{{mn}_{new}} = W_{mn} \cdot
 \begin{pmatrix}
-  \cos \theta_i & -\sin \theta_i \\
-  \sin \theta_i & \cos \theta_i  \\
+  \cos \theta & -\sin \theta \\
+  \sin \theta & \cos \theta  \\
 \end{pmatrix}
 \label{rotaionmatrix}
 \end{equation}
 $W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i (18??) og (19??) respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16x16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med en Gausskerne med størrelse $16x16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
 \begin{equation}
-G_{new} = G(x,y,8) * Grad(x,y)
+Grad_{new} = G(x,y,8) * Grad(x,y)
+\label{gradientsmooth}
 \end{equation}
 Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse (4x4), som ses på billede(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er der $F_i$ repræsenteret ved 16 vinduer, med hver 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
 \begin{itemize}
@@ -32,4 +29,13 @@ Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hv
 \item[3] De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)
 \end{itemize}
 
-$F_i$ bliver normaliseret, og alle værdier større end 0.2 skal sættes til 0.2, og $F_i$ skal normaliseres igen.
+$F$ bliver normaliseret, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
+
+
+\subsection*{Algoritme}
+\begin{enumerate}
+\item Det bestemmes via $\sigma$ hvilket billede der skal udføres beregninger på
+\item $W$ roteres, ved \eqref{rotaionmatrix}, og smoothes med \eqref{gradientsmooth}
+\item $R_{ij}$ oprettes, ved at dele $Grad_{new}$ op i 16 regioner, hver med størrelse 4x4
+\item Alle punkter, i alle regioner af $R_{ij}$, skal nu bruges til at opdatere $F$, som beskrevet de 3 skridt ovenfor
+\end{enumerate}

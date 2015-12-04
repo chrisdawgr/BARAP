@@ -1,4 +1,4 @@
-\subsection{Orientering af SURF punkter}
+\subsection{Orientering af SIFT punkter}
 Orienteringen af punkter skal bruges i deskriptoren, for at den kan være invariant overfor rotation. Skridtet her, kan beskrives ved:
 \begin{equation}
 Orientering(p, \sigma) = \theta
@@ -27,8 +27,18 @@ Der skal nu foretages en interpolation, omkring den indgang i histogrammet, med 
     \includegraphics[width=0.45\textwidth]{fig/sift-orientation-histogram.jpg}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{To billeder er af samme motiv, hvor kameraet fanger scenen fra to forskellige vinkler. F og F' angiver to korresponderende punkter, hvor den stiplede linje rammer de to scener \cite{kim}.}}}
-    \label{fig:1}
+       \caption{\textcolor{gray}{\footnotesize \textit{Histogrammet $H$ afbilledet, sammen med en andengradsligning. Andengradsligningen er beregnet over den største indgang i $H$}}}
+    \label{histogramheight}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
+
+Dette ses på figur \ref{histogramheight}: En andengradsligning er blevet tilnærmet den største værdi af $H$. Estimering af andengradspolynomiet sker over den største værdi i $H$, og dennes umiddelbare venstre og højre nabo.
+
+\subsection*{Algoritme}
+\begin{enumerate}
+\item Dataindsamlingsvindue placeres omkring interessepunkt, på samme skala og variant af billedet, som $\sigma$ foreskriver.
+\item \eqref{magnitudepoint}, \eqref{orientationpoint} bruge til at udregne alle størrelser og orienteringer af gradienter, $g$, $v$, respektivt. $g$ foldes, så: $g = G(x,y,1.5\sigma)$.
+\item Værdiene i $g$ adderes på indgange i histogrammet $H$, afhængigt af deres tilsvarede orientering i $v$.
+\item En interpolation laves omkring den største værdi i $H$ og dens tætteste naboer. Denne værdi returneres
+\end{enumerate}
