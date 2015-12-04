@@ -1,42 +1,41 @@
 \section{Matching}
-Matching foretages i to trin: Først bregnes den Euklidiske afstand som i \eqref{euc}, og derefter, sorteres dårlige matches fra:
-<Bemærk, at $\boldsymbol{\sigma}$(fed) i dette afsnit, betegner standardafvigelsen, hvor $\sigma$ er skala, som hidtil.>\\ 
+Matching foretages i to trin: Først bregnes den Euklidiske afstand som i \eqref{euc}, og derefter, sorteres dårlige matches fra: 
 \begin{equation}
 ||P|| = \sqrt{\sum\limits_{i=1}^n(F_i-F'_i)^2}
 \label{euc}
 \end{equation}
-For hver feature i $\bold{P}$, beregnes afstandene til $\bold{P}'$. Den feature i $\bold{P}'$ der ligger nærmest, bliver valgt og herved dannes et par, der tilføjes til det midlertidige sæt, af matches. Når alle inputs er blevet matched, sorteres de efter afstand, med korteste afstand først. 
-\\
-Ved brug af ovenstående, bliver der altså ikke sorteret dårlige matches fra, og hvis $|\bold{P}| > |\bold{P}'|$, er det garanteret, at mindst 1 element(og muligvis flere) fra $\bold{P}'$, har flere matches, fra $\bold{P}$. Dette er naturligvis ikke hensigtsmæssigt, da det antyder, at minimum ét af korrespondancerne, er matched forkert. Der er altså brug for en metode, til at sortere dårlige korrespondancer fra.
+Givet to sæt af punkter $\bold{P}, \bold{P}'$, hver bestående af $(F, p)$, udregnes der for hver feature i $\bold{P}$, afstandene til $\bold{P}'$. Den feature i $\bold{P}'$ der ligger nærmest, bliver valgt og herved dannes et par af punkter, der tilføjes til et midlertidigt sæt, af korrespondancer. Når alle inputs er blevet matched, sorteres de efter afstand, med korrespondancer af korteste afstand først. Hvis $|\bold{P}| > |\bold{P}'|$, er det garanteret, at mindst ét element(og muligvis flere) fra $\bold{P}'$, har flere matches, fra $\bold{P}$. Dette er ikke hensigtsmæssigt, da det antyder, at minimum ét af korrespondancerne er forkerte. Der er derfor anvendt en metode, til at sortere dårlige korrespondancer fra.
 \\
 \\
-En tilgang kunne være, udelukkende at kigge på de $m$ bedste matches. Empirisk er det konkluderet, at denne tilgang virker med $m=20$. Her fremkommer ingen outliers. Jo større $m$ bliver, des flere outliers kommer der. Der skal altså bruges en metode, der kan sortere outliers fra - specielt kunne det være interessant at vide, hvor mange inliers, der bliver fundet i alt.
+En tilgang kunne være, udelukkende at kigge på de $m$ bedste matches. Empirisk er det konkluderet, at denne tilgang virker med $m=20$. Her fremkommer ingen outliers. Anvendes en større værdi for $m$ bliver flere outliers tilføjet. Der skal derfor bruges en metode, der sortere outliers fra, og derved kunne konkludere, hvor mange inliers og outliers, de forskellige metoder resultere i.
 \\
-For at løse dette, kan en statistisk udregning, sammen med motion-vektorene bruges. 
+For at sortere forkerte korrespondancer fra, anvendes en statistisk udregning, der differentiere inliers og outliers.
 \\
-I denne metode, fjernes korrespondancer, der har en euklidiske afstand, der er mindre end middelværdien, af de 10 bedste matches, multipliceret med 5. Det resulterende sæt af punkters motion-vektor, skal nu udregnes: $MV = p_i - p'_i$. 
-$MV$'s standard afvigelse beregnes nu i x og y retningen. For x kan dette skrives: 
+Denne metode, fjerner korrespondancer, der har en euklidiske afstand, der er mindre end middelværdien, af de 10 bedste matches, multipliceret med 5, hvilket er en empirisk defineret konstant. Det resulterende sæt af punkters motion-vektor, skal nu udregnes: $MV = p_i - p'_i$. 
+$MV$'s standard afvigelse $\sigma$ beregnes nu i x og y retningen. For x kan dette skrives: 
 \begin{equation}
 \boldsymbol{\sigma_x} = \sqrt{ \sum \limits_{n=1}^N (x_i  - \mu)^2 }
 \label{pis}
 \end{equation}
-og beregningen for y, analog med \eqref{pis}. \\
-Iterativt fjernes punkter, hvis afstand fra middelværdispunktet, er større, end standardafvigelsesafstanden, her opskrevet som en indikatorfunktion, der determinere om en korrespondance korrekt:
-\[
-indikator=
+Iterativt fjernes punkter, hvis afstanden fra middelværdispunktet, er større, end standardafvigelsesafstanden, her opskrevet som en indikatorfunktion, der determinere om en korrespondance korrekt:
+
+\begin{equation}
+\begin{split}
+indikator = 
 \begin{cases}
-    1,& \sqrt{(x_i - \mu_x)^2 + (y_i - \mu_y)^2} < \sqrt{\boldsymbol\sigma_x^2 + \boldsymbol\sigma_y^2} \\
-    0,& \text{ellers}
-    \end{cases}
-\]
-\\
-\\
-Ovenstående bliver gentaget, indtil en grænseværdi for standardafvigelsen er nået. Processen er illustreret, på billede(????). Her ses, hvordan hver iteration fjerner forkerte korrespondancer, og bevæger sig tættere på en klynge af punkter, der må formodes at være inliers.
+1,&hvis \sqrt{(x_i - \mu_x)^2 + (y_i - \mu_y)^2} < \sqrt{\boldsymbol\sigma_x^2 + \boldsymbol\sigma_y^2} \\
+0,& ellers
+\end{cases}
+\end{split}
+\label{indikator}
+\end{equation}
+
+Ovenstående bliver gentaget, indtil en grænseværdi for standardafvigelsen er nået. Processen er illustreret, i figur \eqref{indikator}. Her ses, hvordan hver iteration fjerner forkerte korrespondancer, og bevæger sig tættere på en klynge af punkter, der må formodes at være inliers.
 \subsection*{Algoritme}
 \begin{enumerate}
 \item{For hvert element i $\bold{P}$, udregnes den Euklidiske afstand som i \eqref{euc}, og den indgang i $\bold{P}'$, der har mindst afstand, bliver matched med $\bold{P}$. Denne liste kaldes $M$}
 \item{$M$ sorteres, så bedste match er først.}
-\item{Motion-vektorene udregnes, sammen med \eqref{stddev} for x og y.}
-\item{Indikatorfunktionen(mangler eq) bruges til at fjerne punkter, der er større end længden af standardafvigelsen}
-\item{4 gentages, indtil \eqref{stddev} når en threshold værdi}
+\item{Motion-vektorene udregnes, sammen med \eqref{pis} for x og y.}
+\item{Indikatorfunktionen \eqref{indikator} bruges til at fjerne punkter, der er større end længden af standardafvigelsen}
+\item{4 gentages, indtil \eqref{pis} når en grænseværdi}
 \end{enumerate}
