@@ -1,0 +1,79 @@
+\section{Harris}\label{sec:harris}
+"Harris" hjørnedetektor er en metode introduceret af Chris Harris og Mike Stephens i 1988 \cite{harris}. Metoden refereres til som "Harris hjørnedetektor", men er også kendt som "Plessy". Metoden tager fat i Moravec's detektor og bygger videre på denne ved at adressere metodens begrænsninger, beskrevet i sektion \ref{sec:moravec}.
+\begin{enumerate}
+\item{ \textit{Anisotropisk respons:} Harris og Stephens har udvidet Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto korrelationen mellem skiftende vinduer kan approksimeres ved at udvide funktionen, ved en \textit{"Taylor udvidelse"} af 2 orden:
+\begin{subequations}
+\begin{align}
+E(u,v) = & \sum w(x,y)[I(x+u),(y+v)-I(x,y)]^2 \\
+\approx & \sum w(x,y)[I(x,y)+u I_x+v I_y-I(x,y)]^2 \\
+= & \sum w(x,y)I(x,y)u^2 I_x^2+2uv I_x I_y + v^2 I_y^2 \label{last}
+\end{align}
+\end{subequations}
+Ovenstående \eqref{last} kan omskrives til en overskuelig matrix operation:
+\begin{equation}
+E(u,v) \approx
+\begin{bmatrix}
+        u & v
+     \end{bmatrix}
+M
+\begin{bmatrix}
+        u \\
+        v
+     \end{bmatrix}
+\end{equation} 
+Hvor M er auto-korrelations matricen (også kaldt struktur-tensor), der består af horisontale og vertikale afledte af billedet:
+\begin{equation}
+M =  \sum w(x,y)
+\begin{bmatrix}
+I_x^2 & I_xI_y \\
+I_xI_y & I_y^2
+\label{M}
+\end{bmatrix}
+\end{equation}
+Billedets afledte i x og y aksen findes ved at udføre en diskret differentiering af billedet, hvilket kan opnås
+ ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
+\item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
+\item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{M} indeholder de differentieret retninger i et givet punkt og derved en beskrivelse af billedets geometriske struktur, i et punkt (x,y). Egenværdierne for denne matrix, vil være proportionale med den principielle krumning i billedets flade og er derfor interessant ift. at finde hjørne. Egenværdierne vil være proportionale med de forskellige steder vinduet kan placeres:
+\begin{enumerate}
+\item{ \textit{Homogen flade.} Billede intensiteten er konstant. Begge egenværdier vil være små og der vil ikke være nogen krumning i billedet.}
+\item{\textit{Kant.} For punkter placeret på en kant, vil der være en stor krumning på tværs af kanten, men ingen når kanten følges. Derfor vil én egenværdi være stor, mens den anden vil være lille}
+\item{\textit{Hjørne.} Et punkt placeret på et hjørne, vil have en stor kurve, i hver retning og derved bestå af to store egenværdier.}
+\end{enumerate}
+Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er store. Egenværdierne kan defineres udefra determinanten og sporet af M:
+\begin{subequations}
+\begin{align}
+\textbf{det}M & = \lambda_1 \lambda_2 \\
+\textbf{trace}M & = \lambda_1+\lambda_2
+\end{align}
+\end{subequations}
+Harris og Stephens foreslår følgende måde at definere "hjørnestyrken":
+\begin{equation}
+R = \textbf{det}M-k(\textbf{trace}M)^2
+\end{equation}
+hvor \textit{k} er en empirisk defineret konstant mellem $0.04-0.06$. I figur \ref{fig:egen} ses sammenhængen mellem værdien 'R', egenværdierne og hvordan de korrespondere med hjørner,kanter og homogene område, igen kan det ses at for et "stærkt" hjørne ønskes to store egenværdier.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{fig/26.png}
+     \vspace{-1em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ Opdeling af egenværdi rummet til specifikke regioner. }}}
+    \label{fig:egen}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+Ved værdien for R, kan det defineres om et punkt er lokaliseret på et hjørne. De interessante hjørne, er hvor der opstår en stor "hjørnestyrke", hvilket kan findes ved at sætte en grænseværdi, der definere et hjørne.
+ }
+\end{enumerate}
+\subsection*{Algoritme}
+\begin{enumerate}
+\item{ For hvert pixel i billedet (x,y), udregn struktur tensoren: $$ M = \begin{bmatrix}
+I_x^2 & I_xI_y \\
+I_xI_y & I_y^2
+\end{bmatrix} $$hvor $ I_x^2 = (\dfrac{\partial I}{\partial x})^2 \ast w$, og w er et Gaussisk vindue.}
+\item{ Konstruer et billede bestående af hjørnestyrken 'R' udregnet ved $$ R = \textbf{det}M-k(\textbf{trace}M)^2 $$  }
+\item{ Opstil en grænseværdi for billedet bestående af 'hjørnestyrken'}
+\item{ Lokaliser lokale ekstremaer }
+\end{enumerate}
+\subsection*{Konklusion}
+Metoden anvendes som en repeterbar detektor og bruges i høj grad i dag. Detektoren er rotationsinvariant pga. dens brug af egenværdier, men er ifølge \cite{eval} stadig delvis anisotropisk, hvilket skyldes differentierings filtrene der kun bruges i x og y retningen. Mikolajczyk og Schmid \cite{eval} konkludere at detektoren er særlig følsom over for rotation omkring 45 grader. De konkludere også at detektorens repeterbarhed falder drastisk ved skalaændringer.
