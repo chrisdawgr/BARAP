@@ -2,6 +2,81 @@
 \subsection{SURF}
 SURF, ligesom SIFT, er en fuldstændig løsning, til at finde og beskrive blobs, som består af en detektor og en deskriptor. I forhold til SIFT, har SURF den fordel, at den beregningsmæssigt kan optimeres til at være hurtigere end SIFT, og metoden er mindre kompleks, fordi den består af færre beregningsskridt. SURF kan optimeres, igennem brug af integralbilleder[???].
 \subsection*{Detektor}
+SURF detektoren, er baseret på en Determinant of Hessian (DoH) matrix.
+\\
+\\
+Hessian matricen, ser ud på følgende måde:
+\begin{equation}
+\mathcal{H}(p, \sigma) = 
+ \begin{pmatrix}
+ 	L_{xx}(p, \sigma) & L_{xy}(p, \sigma) \\
+ 	L_{xy}(p, \sigma) & L_{yy}(p, \sigma) 
+ \end{pmatrix}
+ \label{hessianmatrix}
+\end{equation}
+hvor $p = (x,y)$, og $\sigma$ svarer til skalaen, og 
+\begin{equation}
+L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
+\end{equation}
+$L_{xy}$ og $L_{yy}$ er Gaussfunktionen partielt differentieret ifht. $xy$ og $yy$.
+\\
+Ovenstående kan udregnes, ved at bruge en diskret approksimation, til den differentieret Gauss, og folde denne over billedet $I$. Boxfiltrene brugt, kan ses på figur <??>. For at få repræsentere forskellige skaler, bliver der brugt først brugt Gaussiske boxfilter, med størrelse 9x9, og $\sigma = 1.2$. I SURF bliver $I$ ikke subsamplet, men størrelsen på filtret der foldes over billedet, bliver større. For her oktav, eksisterer (i denne implementering) fire billeder, foldet med fem forskellige størrelse filterstørrelser. For hver skala, bruges nr. to filterstørrelse, fra forrige skala, og størrelsen mellem filtre, fordobles fra forrige skala, startende med filterstørrelse 9, og afstand mellem filtre 6. Dette er vist tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte, som er vist i tabel \ref{fig:firstderivfiltersize}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{center}    
+    \begin{tabular}{ | l | l | l | l | l |}
+    \hline
+    oktav & filter str 1 & filter str 2 & filter str 3 & filter str 4 \\ \hline
+    1 & 9 & 15 & 21 & 27 \\ \hline
+  	2 & 15 & 27 & 39 & 51 \\ \hline
+  	3 & 27 & 51 & 75 & 99 \\ \hline
+  	4 & 51 & 99 & 147 & 195 \\ \hline
+    \end{tabular}       
+    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
+    \label{fig:secderivfiltersize}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+
+\begin{figure}[H]
+    \centering
+    \begin{center}    
+    \begin{tabular}{ | l | l | l | l | l |}
+    \hline
+    oktav & filter str 1 & filter str 2 & filter str 3 & filter str 4 \\ \hline
+    1 & 3 & 5 & 7 & 9 \\ \hline
+  	2 & 5 & 9 & 13 & 17 \\ \hline
+  	3 & 9 & 17 & 25 & 33 \\ \hline
+  	4 & 17 & 33 & 49 & 65 \\ \hline
+    \end{tabular}       
+    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et førsteafledt filter}}}
+    \label{fig:firstderivfiltersize}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+Determinanten af \eqref{hessianmatrix} udregnes nu, for alle billederne:
+\begin{equation}
+\textbf{det}(\mathcal{H}_{approksimeret} = D_{xx}D_{yy}-0.9D_{xy}^2
+\label{deerminantofhessian}
+\end{equation}
+Herefter bliver der, ligesom i SIFT, fundet et maximum, af et 3x3x3 området af $I$, som vist \eqref{fig:difference}. Dette gøres for alle oktaver. Billederne gennemgår herefter non-maximum suppression, som også beskrevet i SIFT afsnittet.
+
+\subsection*{Algoritme}
+\begin{enumerate}
+\item Hessian matricen udregnes for alle oktaver, som vist i ligning \eqref{hessianmatrix}
+\item Determinanten findes, som \eqref{deerminantofhessian}.
+\item Maximum findes, af hvert 3x3x3 område af billeder på samme oktav
+\item Non-maximum suppression bruges til at finde extremaer.
+\end{enumerate}
+
+
+
+
+
+\subsection*{Orientering}
+
 
 \begin{figure}[H]
     \centering
