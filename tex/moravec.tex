@@ -1,0 +1,34 @@
+\section{Moravec}\label{sec:moravec}
+Moravec's hjørne detektor, beskrevet i \cite{moravec}, er en af de første hjørnedetektorer, og definere et hjørne som værende et område, hvor der opstår store intensitetsskift. Moravec anvender denne definition til at opnå en matematisk formulering af hjørner ved at bygge videre på notationen om et kvadratisk vindue, omliggende det undersøgte punkt, diskuteret i \ref{subsec:corner}, typisk i størrelser af 3x3, 5x5 eller 7x7 pixel regioner. Sammenlignes to vinduer, hvor begge portrættere det samme objekt, vil intensitetsvariationen imellem disse vinduer være 0.
+De interessante punkter findes da når auto-korrelationen imellem de forskudte billeder er stor. Forskydningsvinduet kan derved bruges til at detektere hjørner, ved at tage et pixel område omkring et punkt, forskyde dette vindue med 1 pixel i alle principielle retninger (horisontalt, vertikalt og diagonalt) og udregne intensitetsvariationen. Denne variation kan beskrives med en vægtet funktion over vinduet  \emph{(WSSD: weighted summed square difference)}, der udregner forskellen på vinduerne:
+\begin{equation}
+E(u,v)= \sum w(x,y)[I(x,y)-I(x+u,y+v)]^2     
+\end{equation}
+hvor $(u,v)$ er forskydningsvektoren, der bevæger sig mellem intervallet [-1,1], og summere over alle \textit{i} pixels i regionen . Den mindste forskel: $C(x,y)=min(E(u,v))$ i de otte skift, definere punktets \textit{hjørnestyrke}. Den mindste forskel tages da et punkt, der er lokaliseret langs en kant, resultere i et stort intensitetsskifte når kanten krydses, men lille skift ved bevægelse langs kanten. Der er ikke et specifikt minimum af, der definere et hjørne. Der anvendes derfor en grænseværdi for hvornår der opstår et hjørne. Figur \ref{fig:moravec} illustrere en udregning af \textit{WSSD} af et diagonalt skift på en isoleret sort pixel (med en intensitet på 0) på en hvid baggrund (med en intensitet på 255) og på et idealt hjørne. Det røde vindue indikere det originale vindue og det blå vindue indikere  vinduet forskudt med vektoren $u = (1,1)$. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{fig/25.png}
+     \vspace{-1em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ WSSD udregninger for intensitetsvariationer imellem forskudte vindue. }}}
+    \label{fig:moravec}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+Moravec lider af følgende række problemer pga. dens simplicitet. 
+\begin{itemize}
+\item{ Der undersøges kun et diskret sæt af pixelskift (i hver principiel orientering) og resultatet er derfor anisotropisk. Undersøges en kant, der ikke er horisontal, vertikal eller diagonal ift. punktet vil den mindste intensitetsvariation være stor, og derved kan punktet fejlagtigt detekteres som et hjørne. Dette medfører også at detektionen ikke er rotationsinvariant.}
+\item{Det skiftende vindue er rektangulær og binært, metoden er derfor meget følsom overfor støj i billedet.}
+\item{Detektoren finder punkter lokaliseret på kanter. I sektion \ref{subsec:kant} defineres en kant som værende et pludseligt skift i intensiteten i en given retning. Små deformationer i kanterne som støj, vil resultere i at den mindste intensitetsvariation vil være relativt stor, og derfor detektere punktet som værende et interessepunkt.}
+\end{itemize}
+% <evt konklusion>
+% <måske billeder download cornerdetection.pdf>
+\subsection*{Algoritme:}
+\begin{enumerate}
+\item{For hvert pixel i billedet, udregnes auto-korrelationen imellem skift af $(u,v) \in [-1,0,1]$. udregnet ved \textit{WSSD} }
+\item{\textit{"Hjørnestyrken"} udregnes for hvert pixel ved at finde $C(x,y)=min(E(u,v))$ }
+\item{ En grænseværdi sættes sættes for $C(x,y)$}
+\item{lokale ekstremaer identificeres. }
+\end{enumerate}
+\subsection*{Konklusion}
+Moravec er som nævnt en simpel algoritme, med mange udfordringer, der gør at den ikke bruges som en repeterbar detektor. Detektoren er i dag ikke i sig selv relevant, som den var da den blev udgivet, men bygges videre på i andre detektorer, f.eks. \textit{"Harris"} beskrevet i sektion, \ref{sec:harris} som direkte tilgår de nævne problemstillinger med Moravec.

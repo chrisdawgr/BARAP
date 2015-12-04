@@ -1,0 +1,10 @@
+\section{Matching}
+Fra deskriptoren er et sæt interessepunkter $p$ beskrevet ved features:
+$$ Des(I,p)= \lbrace F_1,F_2,...,F_n \rbrace $$
+$$ Des(I',p')=\lbrace F'_1,F'_2,...,F'_m \rbrace $$
+En matching funktion $Match$  tager disse to sæt af punkter med tilsvarende features, og opretter et sæt billede koordinater, som funktionen vurdere til at korrespondere. Matching funktionen kan beskrives som:
+\begin{equation}
+Match(\bold{P}, \bold{P}') = \bold{M}
+\end{equation}
+Hvor $\bold{P}, \bold{P}'$, er to sæt, hver bestående af $(F, p)$, og alle indgange i $\bold{M}$ består af par af koordinater, e.g. $(p_i, p'_j)$, vurderet til at korrespondere.
+Hver feature kommer i form af en n-dimensional vektor, der beskriver interessepunktet udefra noget data. Denne vektor skal sammenlignes med vektorer i det modsvarende billede, for at finde det bedste match. Pga. ændringer i billederne vil korresponderende features aldrig være helt identiske, og der skal derfor oprettes nogle metoder, der kan determinere, hvornår to punkter er "ens" nok til at korrespondere.
