@@ -11,7 +11,7 @@ Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat fo
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{p} og \textit{p'}. Disse punkter skal beskrives af en deskriptor $Des$ så hvert punkt får tilknyttet en deskriptor $D(p)$ og $D(p')$. Det ønskes, for to korresponderende punkter, at: $D(p)\approx D(p')$ - en deskriptor skal tillade, at korresponderende punkter kan matches korrekt, på trods af ændringer i billedet. Korrespondanceanalysen består af følgende trin, som vil beskrives i denne sektion:
+I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{p} og \textit{p'}. Disse punkter skal beskrives af en deskriptor $Des$ så hvert punkt får tilknyttet en deskriptor $Des(p)$ og $Des(p')$. Det ønskes, for to korresponderende punkter, at: $Des(p)\approx Des(p')$ - en deskriptor skal tillade, at korresponderende punkter kan matches korrekt, på trods af ændringer i billedet. Korrespondanceanalysen består af følgende trin, som vil beskrives i denne sektion:
 \begin{enumerate}
 \item{Feature Detektion}
 \item{Feature Deskription}
