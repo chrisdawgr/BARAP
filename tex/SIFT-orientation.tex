@@ -1,12 +1,12 @@
 \subsection{Orientering af SIFT punkter}
-Orienteringen af punkter skal bruges i deskriptoren, for at den kan være invariant overfor rotation. Skridtet her, kan beskrives ved:
+Orienteringen af punkter anvendes i deskriptoren, for at opnå invarians overfor rotation. Skridtet her, kan beskrives ved:
 \begin{equation}
 Orientering(p, \sigma) = \theta
 \end{equation}
-Hvor $p$ er interessepunktet, $\sigma$ er skalaen, og $\theta$ er orienteringen af punktet $p$. 
+Hvor $p$ er interessepunktet, $\sigma$ er skalaen, og $\theta$ er orienteringen af punktet. 
 \\
 \\
-Et 16x16 dataindsamlingsvindue er placeret omkring interessepunktet, på den skala og tilsvarende billede, interessepunktet er fundet på. For alle punkte i dataindsamlingsvinduet, er en størrelsen på en gradient, og dens orientering beregnet:
+Et $16\times16$ dataindsamlingsvindue er placeret omkring interessepunktet, på skalabilledet som interessepunktet er fundet på. For alle punkter i dataindsamlingsvinduet, er en størrelsen på en gradient, og dens orientering beregnet:
 \begin{equation}
 m(x,y) = \sqrt{(L(x + 1, y) - L(x - 1, y)^2 + (L(x, y + 1) - L(x, y - 1))^2  } 
 \label{magnitudepoint}
@@ -15,10 +15,11 @@ m(x,y) = \sqrt{(L(x + 1, y) - L(x - 1, y)^2 + (L(x, y + 1) - L(x, y - 1))^2  }
 o(x,y) = tan^{-1}((L(x + 1, y) - L(x - 1, y))^2 + (L(x, y + 1) - L(x, y - 1))^2 ) 
 \label{orientationpoint}
 \end{equation}
-$m$ er størrelsen af en gradient, og $o$ er gradientens retning. alle punkter indenfor dataindsamlingsvinduet, skal gives som input til \eqref{magnitudepoint} og \eqref{orientationpoint}, for at skabe et gradientvindue $g$ og orienteringsvindue $v$. Begge vinduer har størrelse 16x16. $g$ skal herefter foldes med et Gaussfilter hvor $\sigma_{Gauss} = 1.5\sigma_{point} $, med størrelse 16x16.
+$m$ er størrelsen af en gradient, og $o$ er gradientens retning. For alle punkter indenfor dataindsamlingsvinduet, skal 
+\eqref{magnitudepoint} og \eqref{orientationpoint} udregnes, for at skabe et gradientvindue $g$ og orienteringsvindue $v$, begge vinduer af størrelse $16\times16$. $g$ skal herefter foldes med et Gaussisk filter hvor $\sigma_{Gauss} = 1.5\sigma_{point} $, med størrelse $16\times16$.
 \\
 \\
-Der skal oprettes et orienteringshistogram $H$, med 36 indgange. Alle gradienter med orientering $v$, skal tilføjes vægtet af $g$ til $H$. En indgang i $H$, dækker en vinkel på $10^{\circ}$. F.eks. skal alle gradienter med vinkler mellem  $0^{\circ}-10^{\circ}$, tilføjes vægtet, til $H_1$, osv.. Dette resulterer i et orienteringshistogram, og den indgang i histogrammet med størst værdi, bliver bearbejdet. Lowe foreslår, at alle indgange i histogrammet, der ligger indenfor 80\% af det højeste punkt, bliver nye features - dette er undladt her, for at undgå at få for mange matches.
+Der skal oprettes et orienteringshistogram $H$, med 36 indgange. Alle gradienter med orientering $v$ skal tilføjes, vægtet af gradientstyrken $g$, til $H$. En indgang i $H$, dækker en vinkel på $10^{\circ}$. F.eks. skal alle gradienter med vinkler mellem  $0^{\circ}-10^{\circ}$, tilføjes vægtet, til $H_1$, osv. Dette resulterer i et orienteringshistogram, hvor indgangen i histogrammet, med størst værdi, bliver bearbejdet. Lowe foreslår, at alle indgange i histogrammet, der ligger indenfor 80\% af det højeste punkt, bliver nye features - dette er undladt her, for at undgå at få for mange matches.
 \\
 Der skal nu foretages en interpolation, omkring den indgang i histogrammet, med størst værdi, for at få et mere præcist estimat af $\theta$.
 

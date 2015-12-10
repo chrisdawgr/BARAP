@@ -1,7 +1,8 @@
 \section{Detektor}\label{sec:detect}
 Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt (x,y) i et billede, om dette punkt er et interessepunkt.  En feature detektor '$Det$' er en funktion, der tager et billede som input, $I$ og returnere et subset af isolerede punkter, $P= \lbrace p_1,p_2,...,p_n\rbrace$ fra billedet, som er vurderet til at være interessante. 
 $$ Det(I)=\lbrace P \rbrace$$
-Moravec \cite{moravec} definere et brugbart interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. Der er mange forskellige definitioner af hvad et interessepunkt er og i sidste ende angiver applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der anvendes efter, skal en detektor besidde følgende egenskaber:
+Moravec \cite{moravec} definere et brugbart interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. 
+Der er mange forskellige definitioner af hvad et interessepunkt er og i sidste ende angiver applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der anvendes efter, skal en detektor besidde følgende egenskaber:
 \begin{itemize}
 \item{\emph{Repeterbar}: Repeterbarheden significere detektorens uafhængighed af forskellige betingelser i billedet, dvs. dens evne til at detektere ens punkter i billeder, udsat for forskellige ændringer. }
 \item{\emph{Distinktive:}

@@ -1,15 +1,17 @@
 \section{SIFT}
+SIFT\footnote{Distinctive Image Features
+from Scale-Invariant Keypoints} er en korrespondanceanalyse metode, introduceret af David Lowe i 2004 \cite{SIFT}. SIFT er en samlet løsning, der består af en detektor og en deskriptor.
 \input{tex/dog.tex}
 \input{tex/SIFT-orientation.tex}
 \subsection{Deskriptor}
-SIFT deskriptoren skaber invarians overfor skala, belysning og vinkel, et givent objekt beskues fra. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16x16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
+SIFT deskriptoren skaber invarians overfor skala, belysning og vinkel. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16x16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
 \begin{equation}
 Des(I, p,\sigma,\theta) = F
 \end{equation}
-Hvor $I$ er billedet, $p$ er $(x,y)$, $\sigma$ er den tilhørende skala, punktet er fundet på, og $\theta$ er orienteringen af $p$. $F$ er en feature vektor som deskriptoren har fundet for punktet $p$.
+Hvor $I$ er billedet, $p$ er et interessepunkt $(x,y)$, $\sigma$ er den tilhørende skalaparameter punktet er fundet på, og $\theta$ er orienteringen af $p$. $F$ er en feature vektor, tilegnet punktet $p$.
 \\
 \\
-Skalaen for et givent punkt bestemmer, om det billede der skal foretages beregninger på, skal være subsamplet. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$. Dette opnås, ved at prikke hver indang i dataindsamlingsvinduet med rotationsmatricen:
+Skalaen for et givent punkt bestemmer, om det billede der skal foretages beregninger på, skal være subsamplet. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$. Dette opnås, ved at tage prik produktet, af hver indgang i dataindsamlingsvinduet, med rotationsmatricen:
 \begin{equation}
 W_{{mn}_{new}} = W_{mn} \cdot
 \begin{pmatrix}
@@ -18,25 +20,23 @@ W_{{mn}_{new}} = W_{mn} \cdot
 \end{pmatrix}
 \label{rotaionmatrix}
 \end{equation}
-$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i (18??) og (19??) respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16x16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med en Gausskerne med størrelse $16x16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
+$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
 \begin{equation}
 Grad_{new} = G(x,y,8) * Grad(x,y)
 \label{gradientsmooth}
 \end{equation}
-Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse (4x4), som ses på billede(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er der $F_i$ repræsenteret ved 16 vinduer, med hver 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
-\begin{itemize}
-\item[1] alle punkter i $R_{ij}$ skal vægtes efter, hvor langt de ligger fra centrum af $R_{ij}$. Det er vedtaget, at der eksisterer tre længder (beskriv v. billede!!!)
-\item[2] 4 indgange i $F_i$ opdateres efter punkterne i $R_{ij}$'s orientering. Punkterne i $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. 
-\item[3] De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)
-\end{itemize}
+Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse $4\times4$, som set i figur(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er $F_i$ repræsenteret ved 16 vinduer, hver med 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
+\begin{enumerate}
+\item{ alle punkter i $R_{ij}$ skal vægtes efter, hvor langt de ligger fra centrum af $R_{ij}$. Det er vedtaget, at der eksisterer tre længder (beskriv v. billede!!!)}
+\item{ 4 indgange i $F_i$ opdateres efter punkterne i $R_{ij}$'s orientering. Punkterne i $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. }
+\item{ De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)}
+\end{enumerate}
 
-$F$ bliver normaliseret, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
-
-
+$F$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
 \subsection*{Algoritme}
 \begin{enumerate}
 \item Det bestemmes via $\sigma$ hvilket billede der skal udføres beregninger på
-\item $W$ roteres, ved \eqref{rotaionmatrix}, og smoothes med \eqref{gradientsmooth}
-\item $R_{ij}$ oprettes, ved at dele $Grad_{new}$ op i 16 regioner, hver med størrelse 4x4
+\item $W$ roteres, ved rotationsmatricen \eqref{rotaionmatrix}, og glattes med \eqref{gradientsmooth}
+\item $R_{ij}$ oprettes, ved at dele $Grad_{new}$ op i 16 regioner, hver med størrelse $4\times4$
 \item Alle punkter, i alle regioner af $R_{ij}$, skal nu bruges til at opdatere $F$, som beskrevet de 3 skridt ovenfor
 \end{enumerate}
