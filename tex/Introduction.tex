@@ -1,17 +1,31 @@
 \chapter{Introduktion} \label{sec:intro}
-Future Cropping er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab skal hjælpe landmænd med at automatisere detektion af ukrudt i marker. I dag bekæmper landmænd ukrudt, ved at sprøjte hele marken med pesticider, uvidende om, hvor ukrudtet er placeret. Projektet har til formål at nedsætte dette forbrug af pesticider, ved hjælp af en drone \footnote{UAV (eng. unmanned aerial vehicle} udstyret med kamera og GPS. Dronen tager et antal overlappende luft billeder over landmandens mark, disse billeder bliver analyseret af en algoritme, der identificere, hvor ukrudtet befinder sig og derved, hvor der er behov for pesticider. Derefter oprettes et ukrudtskort, der bestemmer, hvordan de enkelte billeder korrespondere med hinanden og derved giver et fuldt overblik over, hvor ukrudtet, detekteret i de enkelte billeder, befinder sig\cite{drone}.
+Future Cropping er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab, har til formål at automatisere detektionen af ukrudt i marker. I dag bekæmpes ukrudt, ved at sprøjte hele marken med pesticider, uvidende om, hvor ukrudtet er placeret. Projektet har til formål at nedsætte forbruget af pesticider, ved hjælp af en drone\footnote{UAV (eng. unmanned aerial vehicle} udstyret med et kamera. Dronen tager et antal overlappende luftbilleder af en mark, disse billeder analyseres af en algoritme, der identificere, hvor ukrudtet befinder sig i de enkelte billeder. Resultatet af denne analyse overføres til et globalt koordinatsystem af hele marken, hvilket kan opnås ved at bestemme de geometriske relationer imellem billederne. Det samlede ukrudtskort, vil angive ukrudtets placering og derved, hvor der er behov for pesticider \cite{drone}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{fig/drone4.jpg}
+     \vspace{-0.5em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+    \label{fig:difference}
+     \end{center}
+     \vspace{-3em}
+  \end{figure} \noindent
 \section{Opgavens problemfelt} \label{subsec:felt}
-Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle billeder passer sammen, hvilket er det første skridt i etableringen af ukrudtskortet. Dette udføres ved at etablere korrespondancer imellem billederne, taget af dronen, hvilket er muligt da billederne overlapper hinanden. Denne teknik hedder "korrespondanceanalyse" og er en teknik, indenfor Computer Vision, der består af følgende trin. (\textit{1}) Interessante punkter detekteres i billederne, som resultat af at anvende af en række matematiske modeller på billederne. <Formålet ved dette stadie er udvælge de samme punkter/objekter i de overlappende billeder>. (\textit{2}) Området omkring disse fundne punkter beskrives af en deskriptor. Denne deskriptor beskriver punktet udefra en bestemt information, så punkterne kan sammenlignes i de overlappende billeder. (\textit{3}) Hver beskrivelse sammenlignes med andre fundne interessepunkter i andre billeder for at "matche" punkterne.
+Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle billeder af marken passer sammen, hvilket er det første skridt i etableringen af ukrudtskortet. Dette udføres ved at etablere korrespondancer imellem billederne, hvilket er muligt da billederne i gennemsnit overlapper hinanden med ca. 70 \%. Denne teknik hedder korrespondanceanalyse og er en teknik, indenfor Computer Vision, der udføres imellem to eller flere billeder. Korrespondanceanalysen imellem to billeder, består af følgende trin: 
+\begin{enumerate}
+\item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Formålet ved dette stadie er udvælge de samme punkter, hvor billederne overlapper.}
+\item{En deskriptor beskriver, for hvert interessepunkt den lokale billedstruktur omkring punktet.}
+\item{Hver beskrivelse af punkter sammenlignes med beskrivelser af punkter i det andet billede  for at undersøge om punkterne korrespondere.}
+\end{enumerate}
+\section{Rapportens Opbygning}
 \section{Problemformulering} \label{subsec:form}
-Med udgangspunkt i litteraturen inden for
+Med udgangspunkt i litteraturen indenfor
 korrespondanceanalyse samt implementering af
-flere eksisterende metoder, hvilke metoder, teoretisk og praktisk, anvendes bedst til korrespondanceanalyse af markbilleder? \\ \\
-\textbf{Udvidelse af problemformuleringen} \\
-Der opstilles en beskrivelse af forskellige udvalgte metoder, der indgår i korrespondanceanalysens pipeline. Der vil foretages korrespondanceanalyse af markbilleder, ved implementering af disse metoder. \\
-Det eksperimentelle fokus i opgaven vil ligge på afprøvning af de forskellige metoder på markbilleder. Udvælgelsen af metoder er baseret på hypoteser ift. hvordan de forventes at reagere på markbillederne. Disse hypoteser vil eksperimentalt be - eller afkræftes, og derved give en empirisk forståelse for hvilke metoder, der gør korrespondance analysen mulig. Der ønskes derfor at komme frem til en eller flere metoder, der kan etablere korrespondancer imellem to markbilleder og en analyse af, hvilke metoder, der gør det bedst.
-\\ \\
-Markbilledernes manglende diversitet, samt inkonsistente forhold under fotograferingen, diskuteret i afsnit \ref{sec:mark}, præsenterer nogle potentielle udfordringer ved korrespondanceanalysen. Udfordringerne gør det derfor interessant at undersøge, hvorvidt det er muligt at finde tilpas nok punkter, der kan anvendes. Hovedproblemet ved opgaven fokusere derfor på, hvordan der bedst kan detekteres features i markbillederne.
+flere eksisterende metoder er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder \\ \\
+\section{Udvidelse af problemformuleringen} \\
+Der opstilles en beskrivelse af forskellige udvalgte metoder, der indgår i korrespondanceanalysens pipeline og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. \\
+Det eksperimentelle fokus i opgaven vil ligge på afprøvning, af de implementerede metoder, på markbillederne. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at opnå en korrekt korrespondanceanalyse af markbilleder (afsnit \ref{sec:mark}). Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for hvilke forudsætninger metoderne skal besidde for at udføre en korrekt korrespondanceanalyse. Der ønskes at komme frem til en eller flere metoder, der kan etablere korrespondancer imellem to markbilleder samt en analyse af, hvilke metoder der gør det bedst.
 \subsection{Afgrænsning} \label{subsec:afg}
-Projektet sigter på at afprøve allerede eksisterende metoder i et specifikt domæne og ikke
+Projektet sigter på at afprøve allerede eksisterende metoder på markbilleder og ikke
 skabe nye metoder. Programmellet konstrueres mht. afklaring af de nævnte problemstillinger
-og ikke mhp. efterfølgende at blive anvendt i praksis. De udvalgte metoder implementeres mhp. funktionaliteten, visse implementerings detaljer vil derfor undlades, hvis det enelige formål er at simplificere kompleksiteten.
+og ikke mhp. efterfølgende at blive anvendt i praksis. De udvalgte metoder implementeres mhp. funktionaliteten, visse implementerings detaljer vil derfor undlades, hvis formålet er at simplificere kompleksiteten.
