@@ -11,9 +11,9 @@ Future Cropping er et forsknings projekt, oprettet af Miljøstyrelsen, der i sam
      \vspace{-3em}
   \end{figure} \noindent
 \section{Opgavens problemfelt} \label{subsec:felt}
-Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle billeder af marken passer sammen, hvilket er det første skridt i etableringen af ukrudtskortet. Dette udføres ved at etablere korrespondancer imellem billederne, hvilket er muligt da billederne i gennemsnit overlapper hinanden med ca. 70 \%. Denne teknik hedder korrespondanceanalyse og er en teknik, indenfor Computer Vision, der udføres imellem to eller flere billeder. Korrespondanceanalysen imellem to billeder, består af følgende trin: 
+Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle billeder af marken passer sammen, hvilket er det første skridt i etableringen af ukrudtskortet. De geometriske relationer bestemmes, ved at etablere korrespondancer imellem billederne. Denne teknik hedder korrespondanceanalyse, og går ud på at determinere, for to eller flere billeder, hvilke punkter der korrespondere på tværs af billederne. Korrespondanceanalysen imellem to billeder, består af følgende trin: 
 \begin{enumerate}
-\item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Formålet ved dette stadie er udvælge de samme punkter, hvor billederne overlapper.}
+\item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Formålet ved dette stadie er udvælge de samme punkter, hvor billederne overlapper, hvilket er muligt da markbillederne i gennemsnit overlapper hinanden med ca. 70 \%.}
 \item{En deskriptor beskriver, for hvert interessepunkt den lokale billedstruktur omkring punktet.}
 \item{Hver beskrivelse af punkter sammenlignes med beskrivelser af punkter i det andet billede  for at undersøge om punkterne korrespondere.}
 \end{enumerate}
@@ -22,7 +22,7 @@ Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle bill
 Med udgangspunkt i litteraturen indenfor
 korrespondanceanalyse samt implementering af
 flere eksisterende metoder er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder \\ \\
-\section{Udvidelse af problemformuleringen} \\
+\section{Udvidelse af problemformuleringen}
 Der opstilles en beskrivelse af forskellige udvalgte metoder, der indgår i korrespondanceanalysens pipeline og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. \\
 Det eksperimentelle fokus i opgaven vil ligge på afprøvning, af de implementerede metoder, på markbillederne. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at opnå en korrekt korrespondanceanalyse af markbilleder (afsnit \ref{sec:mark}). Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for hvilke forudsætninger metoderne skal besidde for at udføre en korrekt korrespondanceanalyse. Der ønskes at komme frem til en eller flere metoder, der kan etablere korrespondancer imellem to markbilleder samt en analyse af, hvilke metoder der gør det bedst.
 \subsection{Afgrænsning} \label{subsec:afg}
