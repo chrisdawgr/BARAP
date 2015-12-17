@@ -1,6 +1,6 @@
 \subsection{Determinant of Hessian}
-Determinant of Hessian eller \textit{DoH}: $\textbf{det}\mathcal{H}L$ , udgør feature detektoren i
-SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p=(x,y)$ i et billede:
+Determinant of Hessian eller \textit{DoH} udgør feature detektoren i
+SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et billede:
 \begin{equation}
 \mathcal{H}(p, \sigma) = 
  \begin{bmatrix}
@@ -9,12 +9,12 @@ SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p=(x,y)
  \end{bmatrix}
  \label{hessianmatrix}
 \end{equation}
-hvor $\sigma$ svarer til skalaen og $L_{xy} $, $L_{yy}$ og $L_{xx}$\eqref{lxx}, er den Gaussiske funktionen, partielt differentieret ifht. $xy$, $yy$ og $xx$.
+hvor $\sigma$ angiver skala og $L_{xy} $, $L_{yy}$ og $L_{xx}$ (vist i ligning\eqref{lxx}), er den Gaussiske funktionen, partielt differentieret ift. $xy$, $yy$ og $xx$.
 \begin{equation}
 L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 \label{lxx}
 \end{equation}
-Bay et.al anvender approkismerede, vægtede box filtrer $D_{xx}$, $D_{yy}$ og $D_{xy}$, der ved brug af integralbilleder nedsætter antallet af beregninger drastisk. Disse filtrer består udelukkende af værdier af -2,-1,0 eller 1. I implementeringen er disse boxfiltrer ikke anvendt, og er derved udregnet som i \eqref{lxx}, figur \ref{fig:lxxlyylxy} viser en illustration af de anvendte filtre.
+Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som fordelagtigt, ved brug af integralbilleder, nedsætter antallet af beregninger drastisk. I denne implementering er disse boks filtre ikke anvendt, og er derved udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{fig/31.png}
@@ -25,7 +25,19 @@ Bay et.al anvender approkismerede, vægtede box filtrer $D_{xx}$, $D_{yy}$ og $D
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I metoden oprettes skalarummet ved iterativt at forøge størrelsen af filtrene, med $\sigma=1.2$, fremfor at forøge størrelsen af $\sigma$. For hver oktav, eksisterer, i denne implementering, fire billeder, foldet med fire forskellige filterstørrelser. For hver oktav, bruges nr. to filterstørrelse, fra forrige oktav til starten af den næste oktav, og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte, som er vist i tabel \ref{fig:firstderivfiltersize}
+I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. Dette er det samme som at anvende en stigende filterstørrelse med en fast sigma værdi. I figur \ref{fig:siftsurf} ses forholdet imellem størrelserne af den Gaussiske funktion den samme. 
+\ref{fig:siftsurf}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{fig/34.png}
+     \vspace{-0.5em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+    \label{fig:siftsurf}
+     \end{center}
+     \vspace{-1.5em}
+  \end{figure} \noindent
+For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav, bruges nr. 2 filterstørrelse, fra forrige oktav til starten af næste, og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
 \begin{figure}[H]
     \centering
     \begin{center}    
@@ -42,31 +54,32 @@ I metoden oprettes skalarummet ved iterativt at forøge størrelsen af filtrene,
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-For hvert punkt i billederne opstilles Hessian matricen, hvorefter determinten udregnes for alle punkter i billederne. Bay et.al. udregner determinanten ved:
+For hvert punkt i billederne opstilles Hessian matricen, hvorefter determinanten udregnes for alle punkter i billederne. Bay et.al. udregner determinanten ved:
 \begin{equation}
 \textbf{det}\mathcal{H}_{approksimeret} = D_{xx}D_{yy}-wD_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-, hvor $w$ er en vægt, tilføjet, for at balancere de approksimerede filtre og boks filtrene. Da denne implementering ikke anvender boks filtrer udregnes determinanten som:
+hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentierede Gaussiske filtre og boks filtrene. Da denne implementering ikke anvender boks filtre, udregnes determinanten som:
 \begin{equation}
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-Determinant of Hessian reagere på mørke og lyse blobs, ved positive svar. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinantbillederne, som vist på figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, hvilket er en metode introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter ikke lokaliseret tæt nok på ekstremaer og svage ekstremaer.
+Hessian matricen anvendes, da den beskriver den lokale geometriske krumning omkring et punkt. Hessian matricens egenvektorer angiver de principielle retninger af krumningerne, og egenværdierne beskriver størrelserne af disse krumninger. For blobs ønskes et lokalt ekstrema, og derved at egenværdierne enten begge skal være positive eller begge være negative. Er dette ikke gældende vil blobben have en krumning i hver sin retning og derved være et saddle-point. Determinanten udregnes, da det er produktet af egenværdierne og derfor fortæller noget om fortegnet på disse. En positiv determinant vil betyde at egenværdier af samme fortegn, hvor en negativ vil betyde at fortegnet for egenværdierne er forskellige og punktet derfor placeret på et saddle-point. I figur \ref{fig:konkav}(venstre) ses et punkt placeret på et maxima, hvor krumningen er konkav i alle retningerne derfor vil egenværdierne være negative og determinanten positiv. I det andet billede (højre) ses et punkt placeret på et saddle-point. Krumningerne er konkave og konvekse, hvilket vil resultere i egenværdier af forskellige fortegn og derved en negativ determinant. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig/36.png}
+     \vspace{-0.5em}
+    \begin{center}    
+       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+    \label{fig:konkav}
+     \end{center}
+     \vspace{-1.5em}
+  \end{figure} \noindent
+Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, hvilket er en metode introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
 \subsection*{Algoritme}
 \begin{enumerate}
-\item {Hessian matricen opstilles for alle punkter i skalabillederne som:
-$$
-\mathcal{H} = 
- \begin{bmatrix}
- 	L_{xx} & L_{xy} \\
- 	L_{xy} & L_{yy} 
- \end{bmatrix} $$
-}
-\item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder ved:
-$$
-\textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
-$$
+\item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}
+\item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder som i ligning \eqref{deerminantofhessian}.
 \item Lokale maxima udvælges, af hvert $3\times3\times3$ område af billeder på samme oktav.
 \item Accurate keypoint localisation, bruges til at fjerne dårligt lokaliserede punkter.
 \end{enumerate}
