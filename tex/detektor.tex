@@ -1,25 +1,33 @@
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der determinere, for hvert punkt (x,y) i et billede, om dette punkt er et interessepunkt.  En feature detektor '$Det$' er en funktion, der tager et billede som input, $I$ og returnere et subset af isolerede punkter, $P= \lbrace p_1,p_2,...,p_n\rbrace$ fra billedet, som er vurderet til at være interessante. 
-$$ Det(I)=\lbrace P \rbrace$$
-Moravec \cite{moravec} definere et brugbart interessepunkt som værende et punkt, der entydigt kan lokaliseres i billeder, taget fra forskellige vinkler af en scene. 
-Der er mange forskellige definitioner af hvad et interessepunkt er og i sidste ende angiver applikationsdomænet, hvilke punkter, der lokaliseres bedst. Interessepunkter kan f.eks. være kanter eller linjer i landskabet, ved genkendelse af veje fra satellitbilleder. Uanset hvilke strukturer, der anvendes efter, skal en detektor besidde følgende egenskaber:
+Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om dette punkt er et interessepunkt, hvis egenskaber kan karakteriseres som\cite{pointsurvey}::
 \begin{itemize}
-\item{\emph{Repeterbar}: Repeterbarheden significere detektorens uafhængighed af forskellige betingelser i billedet, dvs. dens evne til at detektere ens punkter i billeder, udsat for forskellige ændringer. }
+\item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation}
 \item{\emph{Distinktive:}
-De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område. Dette muliggør en mere korrekt lokalisering af punktet.}
+De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område.} 
 \end{itemize}
-Ovenstående egenskaber kan opnås ved at tage højde for de ændringer, der kan forekomme i billederne, og derved være invariante overfor disse. Ændringerne kan være geometriske. F.eks. rotation, skalering (se figur \ref{fig:skal}) eller affine transformationer. Det kan også være fotometriske ændringer i form af intensitetsskift i billederne forsaget af lysændringer.
+En feature detektor '$Detec$' er en funktion, der får $I$ som input, og returnere interesspunkter.
+$$ Detec	(I)= \bold{P}$$
+Moravec \cite{moravec} som en af de første, definerede et interessepunkt således: "A
+feature is good if it can be located unambiguously in different views of a scene. A
+uniformly colored region or a simple edge does not make for good features because
+its parts are indistinguishable. Regions, such as corners, with high contrast in
+orthogonal directions are best." I følge Moravec, indeholder et godt interessepunkt altså stor kontrast, i de ortogonale retninger - den stringente matematiske definition, vil blive gennemgået i senere afsnit. \\
+\\
+Moravec er blot en definition af et interessepunkt ud af mange, og i sidste ende angiver anvendelsesområdet, hvilke punkter, der lokaliseres bedst. Uanset hvilke strukturer der anvende.
+\\
+\\
+Imellem to billeder, kan der være geometriske forskelligheder, som f.eks. rotation, skalering(se figur  \ref{fig:skal}) ændring af perspektiv. Der kan også forekomme fotometriske ændringer, som ændring af pixelintensitet(ændring i R,G og/eller B værdien i en pixel) forsaget af lysændringer. Disse faktorer, skal en detektor helst være invariant overfor.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.37\textwidth]{fig/28.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{To ens kurver, set på forskellige skalaer. Opfattes kurven langt væk, som den store kurve, vil de udvalgte områder opfattes som kanter. Opfattes hele kurven vil området vise et hjørne. Det kan derfor, alt efter applikationsdomænet, være nødvendigt at anvende en skala invariant detektor.}}}
+       \caption{\textcolor{gray}{\footnotesize \textit{To ens kurver, set på forskellige to To ens kurver, set på forskellige skalaer. Opfattes kurven langt væk, som den store kurve, vil de udvalgte områder opfattes som kanter. Opfattes hele kurven vil området vise et hjørne. Det kan derfor, alt efter applikationsdomænet, være nødvendigt at anvende en skala invariant detektor.}}}
     \label{fig:skal}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Detektoren skal også være robust overfor små deformationer som støj i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Interessepunkter defineres ikke udefra semantiske meningsfulde områder, som ansigter eller objekter, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixel områder, som er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
+Detektoren skal også være robust overfor små deformationer som støj i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Interessepunkter defineres ikke udfra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
 \input{tex/hjorner.tex}
 \input{tex/kanter.tex}
 \input{tex/blobs.tex}

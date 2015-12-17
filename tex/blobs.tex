@@ -1,5 +1,7 @@
 \subsection{Blobs}
-En blob detektor finder regioner i billedet, der består af et sæt sammenhængnede pixels, alle af samme intensitet, der er distinktive ift. området. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor defineres som et område med \emph{mindst} ét lokalt ekstrema, enten et maksima eller et minima. Det lokale ekstrema gør blobben til en veldefineret, lav-niveau struktur og derved interessant. Blobs har også en fordel ift. kant og hjørne detektion, da blobs indgår i de fleste domæner, hvor kanter og hjørner oftest forekommer i menneskeskabte scener, ved veldefinerede strukturer og har derfor flere applikationsområder.
+En blob er en region i et billede, hvor intensitet er konstant, og forskellig fra intensiteten udenfor regionen. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt - altså strukturer, der står i kontrast til deres baggrund. 
+
+%Det lokale ekstrema gør blobben til en veldefineret, lav-niveau struktur og kravet om konstant intensitet gør den pr. definition distinktiv. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/11.png}
@@ -12,29 +14,35 @@ En blob detektor finder regioner i billedet, der består af et sæt sammenhængn
   \end{figure}
        \vspace{-2.7em}
 \noindent
-I figur \ref{fig:lindblob}(a), ses en blob defineret af dets lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere blobbens domæne som værende afgrænset af dens "saddle point". Et "saddle point" angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke. Ligesom i kant-detektion, kan blobs beskrives ved intensitetsskift, hvor der forekommer en krusning rundt om ekstremaet. En metode til at detektere disse ekstremaer hedder Laplace operatoren $\Delta^2$, der er defineret som:
+I figur \ref{fig:lindblob}(a), ses en blob defineret af dens lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere en blob som værende afgrænset af dens saddelpunkt; et saddelpunkt angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke.
+\\
+\\
+En metode til at detektere ekstremaer, er Laplace af Gauss(LoG). Laplace defineres således:
 \begin{equation}
-\Delta^2 f = \dfrac{\partial^2 f}{\partial x^2}+\dfrac{\partial^2 f}{\partial y^2}
+\Delta f = \nabla^2 f =  \sum_{i = 1}^n \frac{\partial^2 f}{\partial x^2_i}
 \end{equation}
- Laplace operatoren anvendes på et gaussisk filter og kaldes 'Laplacian of Gaussian' forkortet: 'LoG' \eqref{lap}:
+Anvendes Laplace operatoren på gaussfunktionen ligning \eqref{2dgaussian}, kan der dannes en kerne, der fremhæver regioner, som beskrevet. 
 \begin{equation}
-LoG=\sigma\Delta^2G
+LoG= \sigma^2\Delta G
 \label{lap}
 \end{equation}
-"LoG" operatoren kan diskritiseres og og foldes med billedet for at finde lokale ekstremaer. Figur \ref{fig:lapgauss} viser, hvordan laplace operatoren opnår et maximum i centeret af en blob, og at blobben derved bliver lokaliserbar. Hvis blobben (b), er tyndere eller tykkere vil laplace operatoren ikke længere resultere i et ekstrema, men nærmere en "bakke". Det er derfor nødvendigt at normalisere størrelsen af '$LoG$' filteret ift. hvilken størrelse blobben har.
+Bemærk, at $\sigma^2$ er blevet multipliceret på fra venstre. Dette er gjort for at normalisere LoG, således, at responset er invariant overfor størrelsen af $\sigma$. LoG kan diskritiseres og foldes med billedet for at finde lokale ekstremaer. \\
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.60\textwidth]{fig/16.png}
+    \includegraphics[width=0.90\textwidth]{fig/normLoG.jpg}
     \vspace{-0.5em}   
     \begin{center}
     \caption{\textcolor{gray}{\footnotesize \textit{
     (a) En 3-D visualisering af en to-dimensional Laplacian of Guassian (b) ét en-dimensionalt signal (c) Laplacian of Gaussian operatoren anvendt på (b)}}}
-    \label{fig:lapgauss}
+    \label{fig:normLoG}
      \end{center}
   \end{figure}
        \vspace{-2.5em}
 \noindent
-Blobs forekommer, ligesom andre strukturer, på forskellige skalaer, bestemt af størrelsen af objektet og objektets placering i billedet.
+Et andet problem opstår, når der skal findes en blob. Problemet er illustreret på figur \eqref{fig:normLoG} - hvilke størrelse skal $\sigma$ være, for at finde blobben? Figuren viser fire forskellige værdier for $\sigma$. I første illustration er $\sigma$ værdien for lav - her dannes flere ekstremaer, men ingen af dem karakteriserer et blob, da den absolutte værdi for funktionen evalueret på det afledte af LoG signalet, er for lav. Dog ser illustration tres kurve ud til, at have tilstrækkelig høj absolut værdi, til at kunne karakteriseres som et blob. \\
+Problemet omkring valg af skala, kan afhjælpes ved skalarumsrepræsentation, som gennemgås i.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.25\textwidth]{fig/29.png}

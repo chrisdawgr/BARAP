@@ -1,45 +1,22 @@
-\subsection{Difference of Gaussian}
-Difference of Gaussian, eller \textit{DoG}, udgør feature detektoren i den samlede metode SIFT. DoG er en skala-invariant blob detektor, der definere et billede i skalarummet, af det undersøgte billede, foldet med et Gaussisk filter:
-\begin{equation}
-L(x,y,\sigma)= G(x,y,\sigma) \ast I(x,y)
-\end{equation}
-Metoden detektere punkter ved at lede efter ekstremaer i skala-rummet af DoG funktionen $D(x,y,\sigma)$, hvilket kan udledes ved at tage forskellen imellem to nærliggende skalaer separeret af en en faktor $k=\sqrt{2}$, med en initial $\sigma$ værdi på $\sigma_0 = 1.6$, dvs. et givent skalabillede findes ved $\sigma_n=\sigma_0 \cdot k^n$:
+\subsection{Detektion}
+SIFT gør brug af Difference of Gaussian(DoG), for at finde interessepunkter. DoG er en skala-invariant blob detektor, der bruger skalarumsrepræsentation af input billedet, og er en approksimation af en skalanormaliseret Laplacian of Gaussian. DoG kan udregnes, ved en subtraktion af en nærliggende skala, separeret med en konstant $k$. 
+
 \begin{equation}
 \begin{split}
 D(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
            &= L(x,y,k \sigma)-L(x,y,\sigma)
 \end{split}
 \end{equation}
-DoG er en blob detektor, da det er en approksimering til Laplacian of Gaussian eller \textit{LoG} defineret som:
+Lowe relatere approksimeringen af DoG til LoG, ved varme-diffusion ligningen:
 \begin{equation}
-\begin{split}
-LoG(x,y,\sigma) &= \sigma^2 \Delta^2L(x,y,\sigma) \\
-                &= \sigma^2 (L_{xx}+L_{yy})
-\end{split}
-\end{equation}
-Lowe relatere approksimeringen af DoG og LoG, ved varme-diffusion ligningen:
-\begin{equation}
-\dfrac{\partial L}{\partial \sigma} = \sigma \Delta^2L
+\dfrac{\partial G}{\partial \sigma} = \sigma \Delta^2L \approx \frac{G(x,y,k\sigma) - G(x,y,\sigma)}{k\sigma-\sigma}
 \label{heat}
 \end{equation}
-Diffusions ligningen fra \eqref{heat}, kan approksimeres ved:
+Der gælder derfor: 
 \begin{equation}
-\begin{split}
-\dfrac{\partial L}{\partial \sigma} &= \sigma \Delta^2L \\
-&= \lim_{k \to 0} \dfrac{L(x,y,k\sigma)-L(x,y,\sigma)}{k\sigma-\sigma} \\
-&\approx \dfrac{L(x,y,k\sigma)-L(x,y,\sigma)}{k\sigma-\sigma}
-\end{split}
-\label{difference}
+G(x,y,k\sigma) - G(x,y,\sigma) \approx (k - 1)\sigma^2\delta^2G
 \end{equation}
-Yderligere kan \eqref{difference} udledes til,
-\begin{equation}
-\begin{split}
-(k\sigma-\sigma)\sigma\Delta L &\approx L(x,y,k,\sigma)-L(x,y,\sigma) \\
-(k-1)\sigma^2\Delta L &\approx L(x,y,k\sigma)-L(x,y,\sigma) \\
-(k-1)\sigma^2LoG &\approx DoG
-\end{split}
-\end{equation}
-Skalarummet deles op i $s$ oktaver, hvor der i overgangen imellem oktaver sker en fordobling af sigma værdien. For hver oktav indgår $s+3$ skala billeder, der hver iterativt foldes med et Gaussisk filter, med en $\sigma$ værdi ganget med en faktor $k$, på denne måde ledes der efter blobs af forskellige størrelser, hvor $\sigma$ agere som en skala parameter. Lowe anbefaler at bruge fire oktaver, hver med syv skala billeder. I implementeringen er der brugt fire oktaver, dog giver alle oktaver ikke brugbare interessepunkter og der anvendes derfor 5 skala billeder per. oktav, hvilket er empirisk defineret, til at give brugbare resultater. Når en oktav er fuldført, udvælges skalabillede nummer to, fra oktaven, dette billede nedsamples til halv størrelse og anvendes som første billede til næste oktav. De $s+3$ slørrede billeder, for hver oktav, subtrakteres med det første naboliggende skalabillede, som vist i figur \ref{fig:difference}(a) for at opnå difference of gaussian billeder.
+Skalarummet deles op i $s$ oktaver, hvor hver ny oktav, har en $\sigma$ startværdi, der er dobbelt så storm som startværdien, af forrige oktav. For hver oktav indgår $s+3$ skala billeder, der hver iterativt foldes med et Gaussisk filter, med $\sigma$ multipliceret med en faktor $k$. Lowe anbefaler at bruge fire oktaver, hver med syv skala billeder. I implementeringen er der brugt fire oktaver, dog giver alle oktaver ikke brugbare interessepunkter og der anvendes derfor 5 skalabilleder per. oktav, hvilket er har vist sig, at give brugbare resultater. For hver oktav, nedsamples inputbilledet, så det er halvt så stort, som forrige oktav. Figur \ref{fig:difference}(a) viser hvordan DoG billeder produceres: Ved at subtrahere et billede i en given oktav, med forrige billede i samme oktav.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/30.png}
@@ -50,15 +27,24 @@ Skalarummet deles op i $s$ oktaver, hvor der i overgangen imellem oktaver sker e
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Difference of Gaussian, ligesom Laplacian of Gaussian, reagere på lyse og mørke blobs, som optræder som lokale minima eller maksima\cite{linden1}, derfor skal der udvælges lokale ekstremaer i DoG billederne. For hver pixel, sammenlignes et $3\times3$ pixel område i billedet med et $3\times3$ pixel område i DoG billedet over, og under. Hver pixel bliver derved sammenlignet med dens 27 naboer i de omkringliggende DoG billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det er det mindste eller det største af disse, som illustreret i figur \ref{fig:difference}(b). Når lokale ekstremaer er udvalgt fravælges dårligt lokaliseret punkter f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Subpixels kan ikke direkte udvælges, men estimeres ved en Taylor udvidelse af skalarummet, for at udvælge den korrekte subpixel position. Denne metode er introduceret af Brown og Lowe (citat 2002) og kan opskrives som:
+Når DoG billederne er blevet produceret, skal ekstremaer udvælges. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} b. Hver pixel bliver derved sammenlignet med dens 27 naboer i de omkringliggende DoG billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det har den absolutte største intensitet. 
+\\
+\\
+Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
 \begin{equation}
 D(x)=D+\dfrac{\partial D^T}{\partial x}x\dfrac{1}{2}x^T\dfrac{\partial^2D}{\partial x^2}x
+\label{nonmax}
 \end{equation}
+Ovenstående kan forstås om en Taylor udvidelse af i punket D.
 Lokationen af ekstremaet $\hat{x}$ findes ved at tage den afledte af den ovenstående funktion ift. $x$ og sætte den til 0:
 \begin{equation}
 \hat{x}= \dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
 \end{equation}
-Er det lokale ekstrema lokaliseret med afstand $\hat{x}>0.5$ i en given dimension, vurderes det at punktet er lokaliseret tættere på et andet ekstrema, og punktet fjernes. Lowe udvider dette til flytte punktet til det andet ekstrema. Dette er dog ikke implementeret da et tilstrækkeligt antal punkter allerede udvælges. \\ Ustabile punkter med lav kontrast kan fjernes ved at sætte en grænseværdi for $D(\hat{x})$:
+Non-maximal suppression er blevet brugt anderledes i denne opgave, ifht. SIFT beskrivelsen: Lowe foreslår, at hvis et punkt er et ekstrema, som udregnet ved ligning\ref{nonmax} og $\hat{x} > 0.5$ i en retning, skal ligning \ref{nonmax} udregnes omkring det nye punkt og dette gentages, indtil $\hat{x} < 0.5$ (eller indtil udregning er udført et max antal gange).
+\\
+I denne opgave bliver et punkt fjernet, hvis $\hat{x} > 0.5$ i en given retning, da dette kun ville kunne øge antallet af interessepunkter, hvilket ikke er nødvendigt, da der er mange. Det vil ligeledes øge kompleksiteten af applikationen.
+\\
+Nu skal punkter med la kontrast fjernes, ved at sætte grænseværdi, for $D(\hat{x})$:
 \begin{equation}
 D(\hat{x})=D+\dfrac{1}{2}\dfrac{\partial D^T}{\partial x}\hat{x}
 \end{equation}

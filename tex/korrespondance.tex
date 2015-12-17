@@ -1,17 +1,21 @@
-\chapter{Korrespondance Analyse} \label{sec:Kor}
-Korrespondance problemet, imellem to eller flere billeder af samme objekt, referere til problemet om at finde et sæt af punkter i det ene billede, der kan identificeres og matches i det andet.
-Udfordringen ved problemet ligger i at billederne, der skal matches, er udsat for en række ændringer, det kan f.eks. være forskydning i kameraets position ift. scenen eller  ændringer i scenens motiv. Et eksempel på korrespondance problemet er det menneskelige syn. Øjnene agere som to kameraer, der hver især fanger deres billede og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. Korrespondancen mellem øjnene tillader også opfattelse af dybde i billedet, hvilket skyldes den horisontale forskydning af menneskets øjne. Denne sektion vil beskrive, hvordan denne korrespondance kan opnås af en computer.
+\chapter{Korrespondanceanalyse} \label{sec:Kor}
+En korrespondanceanalyse løser korrespondanceproblemet. Sidstnævnte kan defineres som: Givet to billeder af samme scene, find da et sæt af punkter i billede 1, der svarer til punkter i billede 2 \cite{Stefano}. Udfordringen ved problemet er, at billederne, der skal findes korrespondancer af, varier. I tiden mellem et kamera tager to billede af samme scene, kan der ske forskydning af kameraets position, eller ændringer af scenens motiv, medmindre billedet er taget under strengt kontrollerede forhold. 
+Et eksempel på korrespondanceproblemet er det menneskelige syn: Øjnene agere som to kameraer, der indfanger  hver deres billede, og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/3.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{To billeder er af samme motiv, hvor kameraet fanger scenen fra to forskellige vinkler. F og F' angiver to korresponderende punkter, hvor den stiplede linje rammer de to scener \cite{kim}.}}}
+       \caption{\textcolor{gray}{\footnotesize \textit{Billeder af samme scene, fra to forskellige vinkler. F og F' angiver korresponderende punkter \cite{kim}.}}}
     \label{fig:1}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder af samme scene, men hvor kameravinklen er forskudt. For at opnå en korrespondance imellem billederne, skal der detekteres nogle unikke punkter, som optræder i begge billeder. I billedet er der udvalgt to korresponderende punkter \textit{p} og \textit{p'}. Disse punkter skal beskrives af en deskriptor $Des$ så hvert punkt får tilknyttet en deskriptor $Des(p)$ og $Des(p')$. Det ønskes, for to korresponderende punkter, at: $Des(p)\approx Des(p')$ - en deskriptor skal tillade, at korresponderende punkter kan matches korrekt, på trods af ændringer i billedet. Korrespondanceanalysen består af følgende trin, som vil beskrives i denne sektion:
+I figur \ref{fig:1} ses to billeder af samme scene, fra to forskellige vinkler. For at producere korrespondancer, skal der detekteres punkter, som optræder i begge billeder. Dette bliver gjort af en detektor. 
+\\
+I figur \ref{fig:1} er der detekteret to korresponderende punkter $p$ og $p'$. Disse punkter og deres lokaleområde skal beskrives af en deskriptor. Beskrivelsen sker i form af en vektorrepræsentation. 
+For en deskriptor skal gælde, at: $Des(p)\approx Des(p')$, hvis $p$ og $p'$ repræsentere det samme punkt. Endvidere skal der gælde, at $Des(p)\neq Des(p'')$, hvis $p$, $p''$ ikke repræsentere det samme punkt. \\
+Korrespondanceanalyse består af følgende trin, som vil blive nærmere forklaret i følgende sektion:
 \begin{enumerate}
 \item{Feature Detektion}
 \item{Feature Deskription}

@@ -1,15 +1,15 @@
 \section{Harris}\label{sec:harris}
-"Harris" hjørnedetektor er en metode introduceret af Chris Harris og Mike Stephens i 1988 \cite{harris}. Metoden refereres til som "Harris hjørnedetektor", men er også kendt som "Plessy". Metoden tager fat i Moravec's detektor og bygger videre på denne, ved at adressere metodens begrænsninger, beskrevet i sektion \ref{sec:moravec}.
+Harris hjørnedetektor blev introduceret af Chris Harris og Mike Stephens i 1988 \cite{harris}. Metoden refereres til som Harris hjørnedetektor, men er også kendt som Plessy. Harris hjørnedetektor kan ses som en videreudvikling af Morave, ved at adressere Moravecs begrænsninger:
 \begin{enumerate}
 \item{ \textit{Anisotropisk respons:} Harris og Stephens udvider Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto-korrelationen imellem skiftende vinduer kan approksimeres ved at udvide funktionen, ved en \textit{"Taylor udvidelse"} af anden orden, og beskrives derved udefra dens afledte:
 \begin{subequations}
 \begin{align}
-E(u,v) = & \sum w(x,y)[I(x+u),(y+v)-I(x,y)]^2 \\
-\approx & \sum w(x,y)[I(x,y)+u I_x+v I_y-I(x,y)]^2 \\
-= & \sum w(x,y)I(x,y)u^2 I_x^2+2uv I_x I_y + v^2 I_y^2 \label{last}
+E(u,v) = & \sum w(x,y)[I(x + u, y + v) - I(x,y)]^2 \\
+\approx & \sum w(x,y)[I(x,y) + uI_x  + vI_y - I(x,y)]^2 \\
+= & \sum w(x,y)[u^2I_x^2 + 2uvI_xI_y + v^2I_y^2]  \label{last}
 \end{align}
 \end{subequations}
-Ovenstående \eqref{last} kan omskrives til en overskuelig matrix operation:
+Ligning \eqref{last} kan omskrives til matrixform
 \begin{equation}
 E(u,v) \approx
 \begin{bmatrix}
@@ -21,37 +21,37 @@ M
         v
      \end{bmatrix}
 \end{equation} 
-Hvor M er auto-korrelations matricen (også kaldt struktur-tensor), der består af horisontale og vertikale gradienter af punktet:
-\begin{equation}
-M =  \sum w(x,y)
+Hvor M er auto-korrelations matricen (også kaldt struktur-tensoren), med $w(x,y)$ ganget på:
+$$ 
+M = w(x,y) 
 \begin{bmatrix}
-I_x^2 & I_xI_y \\
-I_xI_y & I_y^2
-\label{M}
+	I_x^2 & I_xI_y \\
+	I_xI_y & I_y^2
 \end{bmatrix}
-\end{equation}
+$$
+
 Billedets afledte i x og y aksen findes ved at udføre en diskret differentiering af billedet, hvilket kan opnås
  ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
-\item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
+\item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue ($w(x,y)$) omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
 \item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{M} indeholder de differentieret retninger i et givet punkt og derved en beskrivelse af billedets geometriske struktur, i et punkt $(x,y)$. Egenværdierne for denne matrix, vil være proportionale med den principielle krumning i billedets flade og er derfor interessant ift. at finde hjørner. Egenværdierne vil være proportionale med de forskellige steder vinduet kan placeres:
 <overvej autokorrelations billederne fra springer>
 \begin{enumerate}
-\item{ \textit{Homogen flade.} Billede intensiteten er konstant. Begge egenværdier vil være små og der vil ikke være nogen krumning i billedet.}
+\item{ \textit{Homogen flade.} Billedintensiteten er konstant. Begge egenværdier vil være små og der vil ikke være nogen krumning i billedet.}
 \item{\textit{Kant.} For punkter placeret på en kant, vil der være en stor krumning på tværs af kanten, men ingen når kanten følges. Derfor vil én egenværdi være stor, mens den anden vil være lille}
 \item{\textit{Hjørne.} Et punkt placeret på et hjørne, vil have en stor krumning, i hver retning og derved bestå af to store egenværdier.}
 \end{enumerate}
-Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er store. Egenværdierne kan defineres udefra determinanten og sporet af M:
+Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er store. Egenværdierne kan defineres ud fra determinanten og sporet af M:
 \begin{subequations}
 \begin{align}
 \textbf{det}M & = \lambda_1 \lambda_2 \\
 \textbf{trace}M & = \lambda_1+\lambda_2
 \end{align}
 \end{subequations}
-Harris og Stephens foreslår følgende måde at definere "hjørnestyrken":
+Harris og Stephens foreslår et mål for hjørnestyrken - dvs. om der er grund til at tro, at et punkt er et hjørne. Dette defineres således:
 \begin{equation}
 R = \textbf{det}M-k(\textbf{trace}M)^2
 \end{equation}
-hvor \textit{k} er en empirisk defineret konstant mellem $0.04-0.06$. I figur \ref{fig:egen} ses sammenhængen mellem værdien 'R', egenværdierne og hvordan de korrespondere med hjørner,kanter og homogene områder, igen kan det ses at for et "stærkt" hjørne ønskes to store egenværdier.
+hvor \textit{k} er en empirisk defineret konstant mellem $0.04-0.06$. I figur \ref{fig:egen} ses sammenhængen mellem værdien $R$, egenværdierne og hvordan de korrespondere med hjørner,kanter og homogene områder, igen kan det ses at for et hjørne ønskes to store egenværdier.
 
 \begin{figure}[H]
     \centering
