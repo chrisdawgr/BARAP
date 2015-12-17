@@ -1,22 +1,23 @@
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om dette punkt er et interessepunkt, hvis egenskaber kan karakteriseres som\cite{pointsurvey}::
+Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om punktet er et interessepunkt. Et interessepunkt kan karakteriseres som\cite{pointsurvey}:
 \begin{itemize}
 \item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation}
 \item{\emph{Distinktive:}
-De fundne interessepunker skal være unikke ift. intensitetsvariationen i det omkringliggende område.} 
+Intensiteten i og omkring interessepunktet skal være unikt, så et interessepunkt er entydigt lokaliserbart}
 \end{itemize}
-En feature detektor '$Detec$' er en funktion, der får $I$ som input, og returnere interesspunkter.
-$$ Detec	(I)= \bold{P}$$
-Moravec \cite{moravec} som en af de første, definerede et interessepunkt således: "A
+En feature detektor '$Detect$' er en funktion, der tager et billede som input, og returnere interesspunkter.
+\begin{equation}
+Detect(I)= \bold{P}
+\label{detect}
+\end{equation}
+hvor $P = {p_1, p_2,..., p_n}$, og $p_i$ udgør interessepunkterne
+Moravec \cite{moravec} definerer som en af første, hvad et interessepunkt således: "A
 feature is good if it can be located unambiguously in different views of a scene. A
 uniformly colored region or a simple edge does not make for good features because
 its parts are indistinguishable. Regions, such as corners, with high contrast in
-orthogonal directions are best." I følge Moravec, indeholder et godt interessepunkt altså stor kontrast, i de ortogonale retninger - den stringente matematiske definition, vil blive gennemgået i senere afsnit. \\
-\\
-Moravec er blot en definition af et interessepunkt ud af mange, og i sidste ende angiver anvendelsesområdet, hvilke punkter, der lokaliseres bedst. Uanset hvilke strukturer der anvende.
-\\
-\\
-Imellem to billeder, kan der være geometriske forskelligheder, som f.eks. rotation, skalering(se figur  \ref{fig:skal}) ændring af perspektiv. Der kan også forekomme fotometriske ændringer, som ændring af pixelintensitet(ændring i R,G og/eller B værdien i en pixel) forsaget af lysændringer. Disse faktorer, skal en detektor helst være invariant overfor.
+orthogonal directions are best." I følge Moravec, indeholder et godt interessepunkt altså stor kontrast, i de ortogonale retninger - en matematiske definition, vil blive gennemgået i senere afsnit. Der findes mange definitioner af et interessepunkt, og i sidste ende angiver anvendelsesområdet, hvilke punkter, der lokaliseres bedst.
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.37\textwidth]{fig/28.png}
@@ -27,7 +28,10 @@ Imellem to billeder, kan der være geometriske forskelligheder, som f.eks. rotat
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Detektoren skal også være robust overfor små deformationer som støj i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Interessepunkter defineres ikke udfra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
+En Detektor skal være robust overfor små deformationer som støj (tilfældig intensitetsvariation, der ikke er tilstede i scenen) i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Imellem to billeder, kan der være geometriske forskelligheder, som f.eks. rotation, skalering(se figur  \ref{fig:skal}) ændring af perspektiv. Der kan også forekomme fotometriske ændringer, som ændring af pixelintensitet forsaget af lysændringer. Disse faktorer, skal en detektor helst være invariant overfor.  
+\\
+\\
+Interessepunkter defineres ikke udfra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
 \input{tex/hjorner.tex}
 \input{tex/kanter.tex}
 \input{tex/blobs.tex}

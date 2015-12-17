@@ -1,6 +1,6 @@
 \chapter{Korrespondanceanalyse} \label{sec:Kor}
-En korrespondanceanalyse løser korrespondanceproblemet. Sidstnævnte kan defineres som: Givet to billeder af samme scene, find da et sæt af punkter i billede 1, der svarer til punkter i billede 2 \cite{Stefano}. Udfordringen ved problemet er, at billederne, der skal findes korrespondancer af, varier. I tiden mellem et kamera tager to billede af samme scene, kan der ske forskydning af kameraets position, eller ændringer af scenens motiv, medmindre billedet er taget under strengt kontrollerede forhold. 
-Et eksempel på korrespondanceproblemet er det menneskelige syn: Øjnene agere som to kameraer, der indfanger  hver deres billede, og omdanner disse billeder til ét sammenhængende panoramisk billede, ved hjælp af oprettelse af korrespondancer. \\
+Korrespondanceproblemet kan defineres som: Givet to billeder af samme scene, udvælges et sæt af punkter i billede 1, der svarer til punkter i billede 2 \cite{Stefano}. Dette løser korrespondanceanalysen. Udfordringen ved problemet er, at billederne, der skal etableres korrespondancer imellem, varierer - der kan ske forskydning af kameraets position, eller ændringer af scenens motiv i tiden mellem to billeder bliver taget, medmindre billedet er taget under strengt kontrollerede forhold. 
+Et eksempel på korrespondanceproblemet er det menneskelige syn: Øjnene agere som to kameraer, der indfanger  hver deres billede, og omdanner disse billeder til ét sammenhængende panoramisk billede, ved oprettelse af korrespondancer. \\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/3.png}
@@ -11,10 +11,10 @@ Et eksempel på korrespondanceproblemet er det menneskelige syn: Øjnene agere s
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder af samme scene, fra to forskellige vinkler. For at producere korrespondancer, skal der detekteres punkter, som optræder i begge billeder. Dette bliver gjort af en detektor. 
+I figur \ref{fig:1} ses to billeder af samme scene, fra to forskellige vinkler. For at etablere korrespondancer, skal der udvælges punkter, som optræder i begge billeder, hvilket udføres af en detektor.
 \\
-I figur \ref{fig:1} er der detekteret to korresponderende punkter $p$ og $p'$. Disse punkter og deres lokaleområde skal beskrives af en deskriptor. Beskrivelsen sker i form af en vektorrepræsentation. 
-For en deskriptor skal gælde, at: $Des(p)\approx Des(p')$, hvis $p$ og $p'$ repræsentere det samme punkt. Endvidere skal der gælde, at $Des(p)\neq Des(p'')$, hvis $p$, $p''$ ikke repræsentere det samme punkt. \\
+I figur \ref{fig:1} er der detekteret to korresponderende punkter $p$ og $p'$. Disse punkter og deres lokaleområde skal beskrives af en deskriptor $Des(p)$. Beskrivelsen sker i form af en vektorrepræsentation af punktet og dets lokalområde. 
+For en deskriptor skal gælde, at: $Des(p)\approx Des(p')$, hvis $p$ og $p'$ repræsentere korresponderende punkter. Endvidere skal der gælde, at $Des(p)\not \approx Des(p')$, hvis $p$, $p'$ ikke repræsentere korresponderende punkter. \\
 Korrespondanceanalyse består af følgende trin, som vil blive nærmere forklaret i følgende sektion:
 \begin{enumerate}
 \item{Feature Detektion}
@@ -24,3 +24,6 @@ Korrespondanceanalyse består af følgende trin, som vil blive nærmere forklare
 \input{tex/detektor.tex}
 \input{tex/Deskriptor.tex}
 \input{tex/matchingintro.tex}
+
+
+Korrespondanceproblemet kan defineres som: Givet to billeder af samme scene, udvælges et sæt af punkter i billede 1, der svarer til punkter billede 2. der svarer til projekter af samme fysiske genstande
