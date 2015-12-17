@@ -14,14 +14,25 @@ En blob er en region i et billede, hvor intensitet er konstant, og forskellig fr
   \end{figure}
        \vspace{-2.7em}
 \noindent
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
 I figur \ref{fig:lindblob}(a), ses en blob defineret af dens lokale ekstrema, hvor styrken af blobben beksrives ved kontrasten, ift. området omkring ekstremaet. Lindenberg definere en blob som værende afgrænset af dens saddelpunkt; et saddelpunkt angiver punktet, hvor intensiteten stopper med at falde og starter med at stige for lyse blobs, og modsat for mørke.
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
+%MEGA FORKERT
 \\
 \\
 En metode til at detektere ekstremaer, er Laplace af Gauss(LoG). Laplace defineres således:
 \begin{equation}
 \Delta f = \nabla^2 f =  \sum_{i = 1}^n \frac{\partial^2 f}{\partial x^2_i}
 \end{equation}
-Anvendes Laplace operatoren på gaussfunktionen ligning \eqref{2dgaussian}, kan der dannes en kerne, der fremhæver regioner, som beskrevet. 
+Anvendes Laplace operatoren på Gaussfunktionen (ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne.
 \begin{equation}
 LoG= \sigma^2\Delta G
 \label{lap}
@@ -40,7 +51,7 @@ Bemærk, at $\sigma^2$ er blevet multipliceret på fra venstre. Dette er gjort f
   \end{figure}
        \vspace{-2.5em}
 \noindent
-Et andet problem opstår, når der skal findes en blob. Problemet er illustreret på figur \eqref{fig:normLoG} - hvilke størrelse skal $\sigma$ være, for at finde blobben? Figuren viser fire forskellige værdier for $\sigma$. I første illustration er $\sigma$ værdien for lav - her dannes flere ekstremaer, men ingen af dem karakteriserer et blob, da den absolutte værdi for funktionen evalueret på det afledte af LoG signalet, er for lav. Dog ser illustration tres kurve ud til, at have tilstrækkelig høj absolut værdi, til at kunne karakteriseres som et blob. \\
+Når blobs skal lokaliseres, skal $\sigma$ værdien være tilpasses blobbens størrelse, som ses på figur \eqref{fig:normLoG}. Figuren viser fire forskellige værdier for $\sigma$. I første illustration er $\sigma$ værdien for lav - her dannes flere ekstremaer, men ingen af dem karakteriserer en blob, da den absolutte værdi for funktionen evalueret på det afledte af LoG signalet, er for lav. Dog ser kurven i illustration tre ud til, at have tilstrækkelig høj absolut værdi, til at kunne karakteriseres som et blob. \\
 Problemet omkring valg af skala, kan afhjælpes ved skalarumsrepræsentation, som gennemgås i.
 
 \begin{figure}[H]

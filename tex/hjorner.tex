@@ -13,7 +13,7 @@ At detektere hjørner er en udbredt teknik indenfor feature detektion, da hjørn
   \end{figure}  
 \noindent
 I figur \ref{fig:2} ses tre udvalgte punkter med et dataindsamlingsvindue placeret over. For at lokalisere et hjørne, forskydes dataindsamlingsvinduet med en enkelt pixelværdi, i otte retninger (syd, sydøst, øst, osv), og billedintensiteten sammenlignes med originalvinduet, der ikke er forskudt - et hjørne identificeres ved, at et skift i alle retninger, danner otte vinduer, hvis intensitet er forskelligt fra hver andre.???
-
+	
 . Forskydes  \textbf{(a)}, uanset retning, vil alle forskudte vinduer være identiske, da punktet og regionen omkring er homogent. Punktet er derfor ikke interessant. Forskydes \textbf{(b)} i x-aksen vil der opstå en region der ikke identisk med den originale, men en forskydning i y-aksen vil resultere i en region identiske med den originale, og punktet er derfor ikke interessant. Punktet placeret på et hjørne \textbf{(c)} er interessant en forskydninger uanset retning, vil resultere i en region, der ikke er identisk med den originale. Hjørnet kan derfor bruges som et interessepunkt. Denne intuitive definition kan kvantificeres til en matematisk definition, der estimere auto-korrelationen imellem de forskudte billeder, hvilket angiver intensitetsskiftene imellem billederne og derved angivers hvor der opstår et hjørne.
 
 
