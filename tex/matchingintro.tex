@@ -1,9 +1,11 @@
 \section{Matching}
-Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved features:
-$$ Des(I,\bold{P})= \lbrace F_1,F_2,...,F_n \rbrace $$
-$$ Des(I',\bold{P'})=\lbrace F'_1,F'_2,...,F'_m \rbrace $$
-En matching funktion $Match$  tager disse to sæt af punkter med tilsvarende features, og returnere et sæt parvise punkter vurderet til at korrespondere. Matching funktionen kan beskrives som:
+Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved ligning 
+En matching funktion $Match$ tager to sæt, hver bestående af 
+$$ (p_i,f_i) \in \mathbb{P} $$
+
+
+ tager disse to sæt af punkter med tilsvarende features, og returnere et sæt parvise punkter vurderet til at korrespondere. Matching funktionen kan beskrives som:
 \begin{equation}
-Match(\bold{P}, \bold{P}') = \bold{M}
+Match(\mathbb{P}, \mathbb{P}') = \bold{M}
 \end{equation}
-Hvor $\bold{P}, \bold{P}'$, er to sæt, hver bestående af $(F, p)$, og alle indgange i $\bold{M}$ består af parvise koordinater, e.g. $(p_i, p'_j)$. Hver feature kommer i form af en n-dimensional vektor, der beskriver interessepunktet. Denne vektor skal sammenlignes med vektorer i det modsvarende billede, for at finde det bedste match. Pga. ændringer i billederne vil korresponderende features aldrig være helt identiske, og der skal derfor oprettes nogle metoder, der kan determinere, hvornår to punkter er "ens" nok til at korrespondere.
+Hvor alle indgange i $\bold{M}$ består af parvise koordinater, e.g. $(p_i, p'_j)$. Feature vektorene i det ene billede skal sammenlignes med feature vektorer i det andet billede. Pga. ændringer i billederne vil korresponderende features aldrig være helt identiske, og der skal derfor oprettes nogle metoder, der kan determinere, hvornår to Features er ens nok til at tilsvarende punkter korrespondere.
