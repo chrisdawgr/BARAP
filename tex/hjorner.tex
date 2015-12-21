@@ -1,21 +1,10 @@
 \subsection{Hjørner}\label{subsec:corner}
-At detektere hjørner er en udbredt teknik indenfor feature detektion, da hjørner ofte forekommer i forskellige menneskeskabte scener og fordelagtigt kan bruges i disse sammenhæng.
-Et hjørne kan defineres som et område i og omkring et punkt, der har to dominerede kantretninger (beskrevet i sektion ref). Der opstår derved store intensitetsvariationer i områder, hvor der forekommer hjørner.
-Den store intensitetsvariation medføre at hjørner er distinktive og derved kan bruges som interessepunkter. En intuitiv måde at bestemme om et område er distinktivt er ved at sammenligne området, med naboliggende områder. Er området ens med de omkringliggende områder, er området ikke distinkt. Er området forskelligt, kan dette område unikt udvælges og er derved distinktivt.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{fig/6.png}
-    \vspace{-1em}   
-    \begin{center}    
-    \caption{\textcolor{gray}{\footnotesize \textit{
-     Tre udvalgte vinduer, med interessepunkter i centrum af samme motiv. \textbf{(a)} Punktet er lokaliseret i en teksturløs region, d.v.s. ingen teksturskift. \textbf{(b)} Punktet er lokaliseret på en kant. \textbf{(c)} Punktet er lokaliseret på et hjørne }}}
-    \label{fig:2}
-     \end{center}
-    \vspace{-2.7em}  
-  \end{figure}  
-\noindent
-Et eksempel på ovenstående definition er illustreret i figur \ref{fig:2}, hvor tre punkter er udvalgt med et dataindsamlingsvindue placeret henover. For at bestemme om punkternes områder er distinktive, forskydes dataindsamlingsvindue med en enkelt pixel i de otte principielle retninger. Vil et af de otte forskudte vinduer portrættere den samme scene som det originale vindue omkring punktet, er punktet ikke distinkt. Forskydes  \textbf{(a)} vil alle de forskudte vinduer være ens med det originale, da området omkring er fladt. Det vil ikke være muligt at udvælge to korresponderende punkter på flade regioner.
-Forskydes \textbf{(b)} i x-aksen vil der opstå et vindue der er forskelligt fra det originale, men en forskydning i y-aksen vil resultere i et vindue, ens med det originale. Et interessepunkt placeret her vil ikke kunne differentieres fra punkter lokaliseret langs y-aksen og er derved ikke distinkt. Punktet placeret på et hjørne \textbf{(c)} er interessant da forskydninger uanset retning, vil resultere i en region, der ikke er identisk med den originale. Et punkt placeret her vil derved kunne differentieres fra eventuelt omkringliggende punkter, og kan derved bruges som et interessepunkt. Figur \ref{app} illustrere ovenstående nævnte problemstillinger ved udvælgelsen af korrespondancer i ikke distinktive regioner.
+At detektere hjørner er en udbredt teknik indenfor feature detektion, da hjørner ofte forekommer i forskellige menneskeskabte scener og fordelagtigt kan bruges i disse sammenhæng. Et hjørne kan defineres som et område i og omkring et punkt, der har to dominerede kantretninger og kan derved lokaliseres i et billede udefra en kvantificeret fortolkning af dette. \\ Udover at være lokaliserbare ved en matematisk definition, skal et interessepunkt besidde en unik struktur, der tillader en entydig korrespondance. I figur \ref{app} ses tre udvalgte punkter, placeret forskelligt i samme scene, hvor punkterne beskrives af en blå cirkel omkring punktet. Figuren illustrere mulige korresponderende punkter, for et givent interessepunkt.
+\begin{enumerate}[label=\alph*]
+\item{Interessepunktet er placeret på et fladt området, hvor intensiteten er ens for hele området. Punktet vil have mange mulige korresponderende punkter.}
+\item{ Interessepunktet er lokaliseret på en kant. Punktet vil have flere mulige korresponderende punkter på den tilsvarende kant i den anden figur.}
+\item{Interessepunktet er lokaliseret på et hjørne. Det ses at kun ét andet punkt i modsvarende scene er identisk med dette.}
+\end{enumerate}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/37.png}
@@ -28,8 +17,4 @@ Forskydes \textbf{(b)} i x-aksen vil der opstå et vindue der er forskelligt fra
     \vspace{-2.7em}  
   \end{figure}  
 \noindent
-Denne intuitive definition af et hjørne kan kvantificeres til en matematisk definition, der estimere auto-korrelationen imellem de forskudte billeder, hvilket angiver intensitetsvariationen imellem billederne og derved angiver hvor der opstår et hjørne.
-\\ \\
-Ovenstående udleder at områderne omkring hjørner er distinktive, og udvælges en begrænset mængde hjørner i billedet, vil det leve op til en repeterbar detektion.
-
-Hvis det antages, at der forekommer en begrænset mængde hjørner i et billede, kan et hjørne bruges som interessepunkt, da lever op til kravet om repeterbarhed. <Om det er distinktivt, kan diskuteres>.
+Ovenstående definition viser at punkter placeret på hjørner er unikke og kan derfor entydigt differentieres fra ikke korresponderende punkter. Hjørner kan som nævnt udvælges i billederne pga. de dominerende kantretninger i og omkring punktet, hvilket medfører store intensitetsskift i området omkring et hjørne. En af de første hjørne detektorer udviklet af Moravec \cite{Moravec} lokalisere et hjørne ved at estimere auto-korrelationen imellem regioner af billedet, og definere hjørner, hvor der forekommer store intensitetsskift omkring et punkt.

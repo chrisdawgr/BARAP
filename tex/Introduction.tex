@@ -11,30 +11,20 @@ Future Cropping er et forsknings projekt, oprettet af Miljøstyrelsen, der i sam
      \vspace{-3em}
   \end{figure} \noindent
 \section{Opgavens problemfelt} \label{subsec:felt}
-<<<<<<< HEAD
-Opgavens afsæt i Future Cropping projektet er etablering  af korrespondancer, hvilket kan bruges til at estimere de geometriske relationer imellem billederne igennem homografier. Estimering af de geometriske relationer imellem billederne tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process der er benyttet til at etablere korrespondancer, hvilket i denne opgave betegnes som korrespondanceanalyse:
-=======
-
-perskektivsiske projektioner af samme fysiske scenepunkt
-
-
-
-
-Opgavens afsæt i dette projekt er bestemmelsen af, hvordan de individuelle billeder af marken passer sammen, hvilket er det første skridt i etableringen af ukrudtskortet. De geometriske relationer bestemmes, ved at etablere korrespondancer imellem billederne. Denne teknik hedder korrespondanceanalyse, og går ud på at determinere, for to eller flere billeder, hvilke punkter der korrespondere på tværs af billederne. Korrespondanceanalysen imellem to billeder, består af følgende trin: 
->>>>>>> 15adab819bf8504af30118450c526adf4c56c599
+Opgavens afsæt i Future Cropping projektet er etablering af korrespondancer, hvilket kan bruges til at estimere de geometriske relationer imellem billederne, igennem homografier. Estimering af de geometriske relationer imellem billederne tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process der er benyttet til at etablere korrespondancer, hvilket i denne opgave betegnes som korrespondanceanalyse, som udføres imellem to billeder:
 \begin{enumerate}
 \item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Formålet ved dette stadie er at udvælge  punkter i begge billeder, der repræsentere projektionen af det samme fysiske objekt. Billederne overlapper i gennemsnit hinanden med ca. 70 \%, hvilket gør korrespondanceanalysen mulig}
 \item{For hvert interessepunkt oprettes en vektor, der beskriver den lokale billedstruktur omkring interessepunktet.}
-\item{Beskrivelserne af interessepunkterne i de to billeder, skal sammenlignes for bestemme, hvilke punkter der korresponderer.}
+\item{Beskrivelserne af interessepunkterne i de to billeder, sammenlignes for bestemme, hvilke punkter der korresponderer.}
 \end{enumerate}
 En nærmere definition af korrespondancebegrebet er givet i sektion \ref{sec:detect}.
 \section{Rapportens Opbygning}
 \section{Problemformulering} \label{subsec:form}
 Med udgangspunkt i litteraturen indenfor
 korrespondanceanalyse samt implementering af
-flere eksisterende metoder er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder. \\ \\
+flere eksisterende metoder er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder.
 \section{Udvidelse af problemformuleringen}
-Der opstilles en beskrivelse af forskellige korrespondanceanalytiske metoder og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at løse korrespondanceproblemet ved markbilleder (afsnit \ref{sec:mark}). Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for hvilke forudsætninger metoderne skal besidde for at etablere korrespondancer. 
+Der opstilles en beskrivelse af forskellige korrespondanceanalytiske metoder og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at løse korrespondanceproblemet ved markbilleder (afsnit \ref{sec:mark}). Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for, hvilke forudsætninger metoderne skal besidde for at etablere korrespondancer. 
 Det undersøges, hvilke metoder der muliggør en løsning af korrespondanceproblemet, samt en komparativ analyse af metodernes præstation.
 \subsection{Afgrænsning} \label{subsec:afg}
 Projektet sigter på at afprøve allerede eksisterende metoder på markbilleder og ikke
