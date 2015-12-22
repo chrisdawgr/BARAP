@@ -7,7 +7,17 @@
 \usepackage{amsmath}
 \usepackage{color,colortbl}
 \usepackage{amsfonts}
+%new
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic} 
+\usepackage{multirow}
+\DeclareMathOperator*{\argmin}{argmin}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+%newend
 \usepackage{amssymb}
+%\usepackage{mathabx}
 \usepackage{gensymb}
 \usepackage{graphicx}
 %\usepackage{xcolor}
@@ -32,7 +42,7 @@
 \newpage
 \renewcommand{\contentsname}{Indholdsfortegnelse}
 \setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 \tableofcontents*
 \newpage
 \pagenumbering{arabic}
@@ -44,6 +54,8 @@
 \input{tex/korrespondance.tex}
 \newpage
 \input{tex/mark.tex}
+\newpage%s
+\input{tex/eksperiment.tex}
 \newpage%s
 \input{tex/scale.tex}
 \newpage

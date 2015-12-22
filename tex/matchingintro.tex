@@ -1,10 +1,8 @@
 \section{Matching}
-Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved ligning 
-En matching funktion $Match$ tager to sæt, hver bestående af 
-$$ (p_i,f_i) \in \mathbb{P} $$
-
-
- tager disse to sæt af punkter med tilsvarende features, og returnere et sæt parvise punkter vurderet til at korrespondere. Matching funktionen kan beskrives som:
+Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved et sæt af features $\bold{F}$ 
+En matching funktion $Match$ tager disse to sæt $ (\bold{P},\bold{F})$, hver bestående af 
+$ (p_i,f_i) $
+Funktionen tager disse to sæt af punkter med tilsvarende features, og returnere et sæt parvise punkter vurderet til at korrespondere. Matching funktionen kan beskrives som:
 \begin{equation}
 Match(\mathbb{P}, \mathbb{P}') = \bold{M}
 \end{equation}

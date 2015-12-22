@@ -1,7 +1,7 @@
 \chapter{Analyse af markbilleder} \label{sec:mark}
 Denne sektion har til formål at klarlægge udfordringer ved korrespondanceanalysen af markbilleder. Udfordringerne opstilles på baggrund af en analyse af billederne og vil resultere i hypoteser om, hvilke korrespondanceanalytiske metoder, der bedst muliggør en korrekt korrespondanceanalyse.
 \section{Flyverute}
-<Dronens overflyvning foregår ved at dronen får fire punkter, der definere markens placering. Dronen starter derefter i et hjørne og flyver systematisk fra side til side for at overflyve hele marken. Dronen flyver med én orientering. Dronen starter med en højde på ca. 50 meter og taber derefter glidende højde til den er på ca. 6 meter.>
+Dronens overflyvning foregår ved at dronen får fire punkter, der definere markens placering. Dronen starter derefter i et hjørne og flyver systematisk fra side til side, med samme orientering, for at overflyve hele marken. Dronen starter med en højde på ca. 50 meter og taber derefter glidende højde til den er på ca. 6 meter.
 \section{Markbilleder}
 I denne opgave er et sæt billeder fra samme overfløjede kornmark anvendt. På billedsættet ses en kornmark, der består af umiddelbare tilfældige kornstrukturer. I enkelte billeder er der traktorspor. Som illustreret i figur <Indsæt billede der viser udsnit af korn>, er kornet af relativ identisk udseende, og det er derfor vanskeligt at differentiere imellem korn områder, da der ikke opstår definerbare mønstre. Ligheden imellem billederne kan derfor besværliggøre korrespondanceanalysen, hvilket gør det interessant at undersøge hvorvidt det er muligt at opnå korrespondancer.
  figur \ref{fig:korn}.
@@ -15,7 +15,7 @@ I denne opgave er et sæt billeder fra samme overfløjede kornmark anvendt. På 
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Følgende observationer er gjort omkring markbillederne:
+Følgende observationer er gjort af markbillederne, samt forhold omkring overflyvningen:
 \begin{itemize}
 \item{\textbf{Overlap:} Overlappet imellem billederne har en signifikant indflydelse på korrespondanceanalysen. Et stort overlap vil betyde at interessepunkter har større sandsynlighed for at indgå i begge billeder. Derfor, ved mindre overlap, skal der udvælges flere interessepunkter. Det er bekræftet at billederne overlapper hinanden med ca. 70\%\footnote{JOHN}, der forekommer dog store udsving i overlappet, alt efter hvilken højde billederne er taget på. Figur \ref{fig:overlap} viser fire billeder, sat sammen parvist, der er taget ved to forskellige højder, hvor billedernes overlap er markeret med blåt. (a) er taget når dronen er på største højde, billederne er estimeret til at overlappe hinanden med ca. 80 $\%$. (b) er taget ved en lavere højde, billederne overlapper hinanden med ca. 35 $\%$.
 \begin{figure}[H]
@@ -39,9 +39,6 @@ Følgende observationer er gjort omkring markbillederne:
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent}
-\item{\textbf{Landskab:} I enkelte billeder forekommer kornet i samme størrelse, da marken er flad.
-
-Dronen ændrer dog højde under overflyvningen.}
 \item{\textbf{Okklusion:}
 Korn, der stikker direkte op imod kameraet, ses som mørke områder pga. den synlige jord, hvilket vil resultere i et mørkere område direkte under dronen. Forskydes kameraets position, vil det samme område nu ligne korn, da jorden ikke længere kan ses. 
 \begin{figure}[H]
@@ -63,6 +60,7 @@ Ud fra ovenstående analyse er der opstillet følgende hypoteser om krav til de 
 \item{ <Det forventes, grundet strukturen af korn, at detektorer som leder efter veldefinerede strukturer, som hjørner, ikke vil have en god effekt på korn, men at blobs vil give bedre resultater.> }
 \item{ Det forventes ikke at metoderne behøver være rotationsinvariante, grundet den lille rotation der forekommer imellem billederne. }
 \item{Det forventes at metoderne skal være skalainvariante, både pga. den skiftende fotograferingshøjde, men også for at tilpasse detektoren størrelsen som interesseområderne forekommer på.}
-\item{Grundet det til tider lille overlap imellem billeder, forventes det at detektoren skal tilpasses til at finde mange punkter, for at sikre en repeterbar detektion.}
-\item{Dette kan have en stor indflydelse på korrespondanceanalysen, da mørke områder kan opfattes som interesseområder, og medføre inkonsistente beskrivelser af interessepunkter.}
+\item{
+Grundet det til tider lille overlap imellem billeder, forventes det at detektoren skal tilpasses til at finde mange punkter, for at sikre en repeterbar detektion.}
+\item{Det forventes ikke at der skal tages højde for problemer ved okklusion, da det kun foregår når dronen flyver lavest. Et overvejet tiltag var ikke at undersøge et område direkte under dronen, men det blev konkluderet at eventuelle nye interessepunkter, der opstår ved okklusion vil sorteres væk som ikke korrespondancer.}
 \end{itemize}
