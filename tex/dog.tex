@@ -1,22 +1,36 @@
 \subsection{Detektion}
-SIFT gør brug af Difference of Gaussian(DoG), for at finde interessepunkter. DoG er en skala-invariant blob detektor, der bruger skalarumsrepræsentation af input billedet, og er en approksimation af en skalanormaliseret Laplacian of Gaussian. DoG kan udregnes, ved en subtraktion af en nærliggende skala, separeret med en konstant $k$. 
-
+SIFT gør brug af en metode kaldt Difference of Gaussian(DoG), til at finde interessepunkter. DoG er en skala-invariant blob detektor, og er en approksimation til en skalanormaliseret Laplacian of Gaussian(LoG). \\ DoG kan udregnes, ved en subtraktion af et nærliggende skalabillede, separeret med en konstant $k$.
 \begin{equation}
 \begin{split}
-D(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
+DoG(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
            &= L(x,y,k \sigma)-L(x,y,\sigma)
 \end{split}
 \end{equation}
-Lowe relatere approksimeringen af DoG til LoG, ved varme-diffusion ligningen:
+hvor Laplacian of Gaussian kan opstilles som:
 \begin{equation}
-\dfrac{\partial G}{\partial \sigma} = \sigma \Delta^2L \approx \frac{G(x,y,k\sigma) - G(x,y,\sigma)}{k\sigma-\sigma}
+\begin{split}
+LoG(x,y,\sigma)&=\sigma^2\nabla^2L(x,y,\sigma) \\
+&= \sigma^2(L_{xx}+L{yy})
+\end{split}
+\end{equation}
+Lowe relatere approksimeringen af DoG til LoG, ved diffusion ligningen:
+\begin{equation}
+\dfrac{\partial G}{\partial \sigma} = \sigma \nabla^2L
 \label{heat}
 \end{equation}
-Der gælder derfor: 
+Ovenstående kan approksimeres til:
 \begin{equation}
-G(x,y,k\sigma) - G(x,y,\sigma) \approx (k - 1)\sigma^2\delta^2G
+\sigma \nabla^2L \approx \frac{G(x,y,k\sigma) - G(x,y,\sigma)}{k\sigma-\sigma}
+\label{omskriv}
 \end{equation}
-Skalarummet deles op i $s$ oktaver, hvor hver ny oktav, har en $\sigma$ startværdi, der er dobbelt så storm som startværdien, af forrige oktav. For hver oktav indgår $s+3$ skala billeder, der hver iterativt foldes med et Gaussisk filter, med $\sigma$ multipliceret med en faktor $k$. Lowe anbefaler at bruge fire oktaver, hver med syv skala billeder. I implementeringen er der brugt fire oktaver, dog giver alle oktaver ikke brugbare interessepunkter og der anvendes derfor 5 skalabilleder per. oktav, hvilket er har vist sig, at give brugbare resultater. For hver oktav, nedsamples inputbilledet, så det er halvt så stort, som forrige oktav. Figur \ref{fig:difference}(a) viser hvordan DoG billeder produceres: Ved at subtrahere et billede i en given oktav, med forrige billede i samme oktav.
+Omskrivning af ligning \eqref{omskriv} giver:
+\begin{equation}
+\begin{split}
+(k\sigma-\sigma)\sigma\nabla^2L &\approx L(x,y,k\sigma)-L(x,y,\sigma) \\
+(k-1)\sigma^2LoG &\approx DoG
+\end{split}
+\end{equation}
+Metoden anvender et Skalarum, der deles op i $s$ oktaver, hvor hver ny oktav, har en $\sigma$ startværdi, der er dobbelt så stor som startværdien, af forrige oktav. For hver oktav indgår $s+3$ skala billeder, der hver iterativt foldes med et Gaussisk filter, med $\sigma$ multipliceret med en faktor $k$. Lowe anbefaler at bruge fire oktaver, hver med syv skala billeder. I denne implementering er der brugt fire oktaver, med 5 skalabilleder per. oktav, hvilket har vist sig, at give brugbare resultater. Metoden anvender en skalapyramide og billedet reduceres derfor, for hver oktav, med halv størrelse, ift. forrige oktav. Figur \ref{fig:difference}(a) viser hvordan DoG billeder produceres: Ved at subtrahere et billede i en given oktav, med forrige billede i samme oktav.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/30.png}
@@ -27,7 +41,8 @@ Skalarummet deles op i $s$ oktaver, hvor hver ny oktav, har en $\sigma$ startvæ
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Når DoG billederne er blevet produceret, skal ekstremaer udvælges. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} b. Hver pixel bliver derved sammenlignet med dens 27 naboer i de omkringliggende DoG billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det har den absolutte største intensitet. 
+Når DoG billederne er blevet produceret, skal ekstremaer udvælges. Ekstremaer udvælges da de indikere at der opstår blobs. Da $DoG \approx LoG$, og $LoG$ svarer til sporret af hessian matricen, eller summen af egenværdierne :$$\Delta L = L{xx}+L_{yy} $$, vil der opstå et maksima når $\Delta L<0$, da egenværdierne begge vil være negative og et minima når $\Delta L > 0$ da egenværdierne vil være positive, hvor egenværdierne bestemmer den principielle krumning i og omkring et punkt og en krumning i hver sin retning vil indikere et saddle-point og derved ikke et ekstrema.
+For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} b. Hver pixel bliver derved sammenlignet med dens 27 naboer i de omkringliggende DoG billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det er det største/mindste iblandt de 27 naboer. 
 \\
 \\
 Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
