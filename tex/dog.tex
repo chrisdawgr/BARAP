@@ -1,5 +1,5 @@
 \subsection{Detektion}
-SIFT gør brug af en metode kaldt Difference of Gaussian(DoG), til at finde interessepunkter. DoG er en skala-invariant blob detektor, og er en approksimation til en skalanormaliseret Laplacian of Gaussian(LoG). \\ DoG kan udregnes, ved en subtraktion af et nærliggende skalabillede, separeret med en konstant $k$.
+SIFT gør brug af en metode kaldt Difference of Gaussian(DoG), til at finde interessepunkter. DoG er en skala-invariant blob detektor, og er en approksimation til en skalanormaliseret Laplacian of Gaussian(LoG). \\ DoG kan udregnes, ved en subtraktion af et nærliggende skalabillede, separeret af en konstant $k$, hvor $G$ er et Gaussisk filter.
 \begin{equation}
 \begin{split}
 DoG(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
@@ -7,14 +7,14 @@ DoG(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
 \end{split}
 \label{dog}
 \end{equation}
-hvor den skalanormaliseret Laplacian of Gaussian kan opstilles som:
+Den skalanormaliseret Laplacian of Gaussian kan opstilles som:
 \begin{equation}
 \begin{split}
 LoG(x,y,\sigma)&=\sigma^2\nabla^2L(x,y,\sigma) \\
 &= \sigma^2(L_{xx}+L{yy})
 \end{split}
 \end{equation}
-Lowe relatere approksimeringen af DoG til LoG, ved diffusion ligningen:
+Lowe relatere approksimeringen af DoG til LoG, ved diffusions ligningen:
 \begin{equation}
 \dfrac{\partial G}{\partial \sigma} = \sigma \nabla^2L
 \label{heat}
@@ -31,10 +31,11 @@ Omskrivning af ligning \eqref{omskriv} giver:
 (k-1)\sigma^2LoG &\approx DoG
 \end{split}
 \end{equation}
-Metoden anvender et Skalarum, der deles op i $s$ oktaver, hvor hver ny oktav, har en $\sigma$ startværdi, der er dobbelt så stor som startværdien, af forrige oktav. For hver oktav indgår $s+3$ skalabilleder, der hver iterativt foldes med et Gaussisk filter, med $\sigma$ multipliceret med en faktor $k$. Lowe anbefaler at bruge fire oktaver, hver med syv skalabilleder. I denne implementering er der brugt fire oktaver, med 5 skalabilleder per. oktav, hvilket har vist sig, at give brugbare resultater. Metoden anvender en skalapyramide og billedet reduceres derfor, for hver oktav, med halv størrelse, ift. forrige oktav. \\ Figur \ref{fig:difference}(a) viser hvordan DoG billeder produceres: Ved at subtrahere et billede i en given oktav, med forrige billede i samme oktav.
+Metoden anvender et Skalarum, der deles op i $s$ oktaver, hver bestående af $s+3$ skalabilleder. Skalabillederne opnås ved at folde billederne iterativt med et Gaussisk filter, af stigende sigma værdi, dvs. med en stigende grad af slørring. Sigma værdien for første skalabillede, for en given oktav $l$ er dobbelt så stor som forrige: $Start\sigma_l = 2 \cdot Start\sigma_{l-1}$. Sigma værdien for næste skalabillede opnås ved at multiplicere sigma værdien med en konstant $k$. Lowe anbefaler at bruge fire oktaver, hver med syv skalabilleder. I denne implementering er der brugt fire oktaver, med fem skalabilleder per. oktav, hvilket har vist sig, at give brugbare resultater. Metoden anvender en skalapyramide og billedet reduceres derfor, for hver oktav, med halv størrelse, ift. forrige oktav. \\ 
+Når skalarummet er oprettet skal DoG billederne produceres, hvilket er illustreret i figur \ref{fig:difference}(a), ved at subtrahere et skalabillede i en given oktav, med forrige skalabillede i samme oktav.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{fig/30.png}
+    \includegraphics[width=0.90\textwidth]{fig/30.png}
      \vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{ }}}
@@ -42,8 +43,7 @@ Metoden anvender et Skalarum, der deles op i $s$ oktaver, hvor hver ny oktav, ha
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Når DoG billederne er blevet produceret, skal ekstremaer udvælges. Da $DoG \approx LoG$, og $LoG$ svarer til sporret af hessian matricen, eller summen af egenværdierne :$$\nabla^2 L = L{xx}+L_{yy} $$, vil der opstå et maksima når $\Delta L<0$, da egenværdierne begge vil være negative og et minima når $\Delta L > 0$ da egenværdierne vil være positive, hvor egenværdierne bestemmer den principielle krumning i og omkring et punkt og en krumning i hver sin retning vil indikere et saddle-point og derved ikke et ekstrema.
-For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens 27 naboer i de omkringliggende DoG billeder, hvor punktet bliver udvalgt til et ekstrema, hvis det er det største/mindste iblandt de 27 naboer.
+LoG svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier: $\nabla^2 L=tr(\mathcal{h})=\lambda_1+\lambda_2$. Hessian matricens egenværdier beskriver den princiepielle krumning i og omkring et punkt og kan derfor bruges til at udvælge forekomster af blobs. Der vil opstå et maksima når  $\nabla^2 L<0$, da egenværdierne begge vil være negative og et minima når $\nabla^2 L > 0$ da egenværdierne vil være positive. Der ønskes derved at identificere ekstremaer i DoG billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens $8+9+9=27$ naboer i de omkringliggende DoG billeder. Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt de 27 naboer.
 \\
 \\
 Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
@@ -51,17 +51,17 @@ Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.ek
 D(x)=D+\dfrac{\partial D^T}{\partial x}x\dfrac{1}{2}x^T\dfrac{\partial^2D}{\partial x^2}x
 \label{nonmax}
 \end{equation}
-Ovenstående kan forstås om en Taylor udvidelse af i punket D.
+Ovenstående kan forstås om en Taylor udvidelse af punket D.
 Lokationen af ekstremaet $\hat{x}$ findes ved at tage den afledte af den ovenstående funktion ift. $x$ og sætte den til 0:
 \begin{equation}
 \hat{x}= \dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
 \label{xhat}
 \end{equation}
-Non-maximal suppression er blevet brugt anderledes i denne opgave, ift. SIFT beskrivelsen: Lowe foreslår, at hvis et punkt er et ekstrema, som udregnet ved ligning\ref{nonmax} og $\hat{x} > 0.5$ i en retning, skal ligning \eqref{nonmax} udregnes omkring det nye punkt og dette gentages, indtil $\hat{x} < 0.5$ (eller indtil udregning er udført et max antal gange).
+I denne implementering er Non-maximal surpression anvendt anderledes ift. den anvendt i SIFT: Lowe foreslår, at hvis et punkt er et ekstrema, som udregnet ved ligning\ref{nonmax} og $\hat{x} > 0.5$ i en retning, skal ligning \eqref{nonmax} udregnes omkring det nye punkt og dette gentages, indtil $\hat{x} < 0.5$, eller indtil udregning er udført et max antal gange).
 \\
-I denne opgave bliver et punkt fjernet, hvis $\hat{x} > 0.5$ i en given retning, da dette kun ville kunne øge antallet af interessepunkter, hvilket er vurderet til ikke værende nødvendigt, da der i forvejen lokaliseres et stort antal punkter. Det vil ligeledes øge kompleksiteten af applikationen.
+I denne implementering bliver et punkt fjernet, hvis $\hat{x} > 0.5$ i en given retning, da dette kun vil øge antallet af interessepunkter, hvilket er vurderet til ikke at være nødvendigt, da der i forvejen lokaliseres et stort antal punkter. Det vil ligeledes øge kompleksiteten af applikationen.
 \\
-Nu skal punkter med lav kontrast fjernes, ved at sætte grænseværdi, for $D(\hat{x})$:
+Punkter med lav kontrast fjernes, ved at sætte grænseværdi, for $D(\hat{x})$:
 \begin{equation}
 D(\hat{x})=D+\dfrac{1}{2}\dfrac{\partial D^T}{\partial x}\hat{x}
 \label{dxhat}
@@ -74,7 +74,7 @@ D_{xx} & D{xy} \\
 D{xy} & D{yy}
 \end{bmatrix}
 \end{equation}
-Hessian matricens egenværdier definere den principielle krumning i og omkring et punkt. Er determinanten negativ vil det lokaliseret punkt være et saddle-point og fjernes derved. For at fjerne kanter ønskes det at én egenværdi ikke må være betydelig større/mindre end den anden. Istedet for at udregne egenværdierne opstilles en værdi $r$, der beskriver størrelsesforholdet imellem to egenværdier.
+Hessian matricens egenværdier definere den principielle krumning i og omkring et punkt. Er determinanten negativ vil det lokaliseret punkt være et saddle-point og fjernes derved. For at fjerne kanter ønskes det at én egenværdi ikke må være betydelig større/mindre end den anden. I stedet for at udregne egenværdierne opstilles en værdi $r$, der beskriver størrelsesforholdet imellem to egenværdier.
 \begin{equation}
 \dfrac{tr(\mathcal{H})^2}{Det(\mathcal{H})}<\dfrac{(r+1)^2}{r}
 \label{rval}
@@ -84,7 +84,8 @@ Hvor en grænseværdi for $r$ kan opstilles for at fjerne punkter lokaliseret p�
 \textbf{Input:} \\
 \textbf{Output:}
 \begin{enumerate}
-\item{Konstruer skalarummet for de forskellige oktaver, ved iterativt at folde skalabilledet med en stigende værdi af $\sigma$: $$ L(x,y,\sigma)= G(x,y,\sigma) \ast I(x,y) $$}
+\item{Konstruer skalarummet for de forskellige oktaver, ved iterativt at folde skalabilledet med en stigende værdi af $\sigma$: $$ L(x,y,\sigma)= G(x,y,\sigma) \ast I(x,y) $$
+og halver størrelsen af billedet for hver oktav.}
 \item{Udregn "\textit{Difference of Gaussian}" billeder, ved at tage forskellen imellem skala billederne, som i ligning \eqref{dog}}
 \item{Lokaliser ekstremaer for hvert punkt i "\textit{Difference of Gaussian}" billeder, ved at sammenligne punktet med dens 27 naboer som illustreret i figur \ref{fig:difference}.}
 \item{Afvis punkter der ikke er lokaliseret på ekstremaer, d.v.s. afvis punkter, der ikke opfylder $\hat{x}<0.5$ udefra ligning \eqref{xhat}.
