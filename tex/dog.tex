@@ -80,7 +80,7 @@ Hessian matricens egenværdier definere den principielle krumning i og omkring e
 \label{rval}
 \end{equation}
 Hvor en grænseværdi for $r$ kan opstilles for at fjerne punkter lokaliseret på en kant. Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter. 
-\subsection*{Algoritme}
+\subsection{Algoritme}
 \textbf{Input:} \\
 \textbf{Output:}
 \begin{enumerate}
@@ -88,7 +88,17 @@ Hvor en grænseværdi for $r$ kan opstilles for at fjerne punkter lokaliseret p�
 og halver størrelsen af billedet for hver oktav.}
 \item{Udregn "\textit{Difference of Gaussian}" billeder, ved at tage forskellen imellem skala billederne, som i ligning \eqref{dog}}
 \item{Lokaliser ekstremaer for hvert punkt i "\textit{Difference of Gaussian}" billeder, ved at sammenligne punktet med dens 27 naboer som illustreret i figur \ref{fig:difference}.}
-\item{Afvis punkter der ikke er lokaliseret på ekstremaer, d.v.s. afvis punkter, der ikke opfylder $\hat{x}<0.5$ udefra ligning \eqref{xhat}.
-Fjern punkter lokaliseret på ustabile ekstremaer ved at afvise punkter, der ikke opfylder $ |D(\hat{x})|>0.03 $ udefra ligning \eqref{dxhat}}
-\item{Opstil Hessian matricen og en grænseværdi $r$ og fjerne punkter der ikke opfylder denne grænseværdi, som i ligning \eqref{rval}.}
+
+\item{Afvis punkter der ikke er lokaliseret på ekstremaer, og ekstremaer med lav kontrast som i ligning \eqref{xhat} og \eqref{dxhat}:
+\begin{equation}
+\begin{split}
+\texttt{indikator} = 
+\begin{cases}
+\texttt{fjern}& \texttt{hvis } \hat{x}>0.5 \lor |D(\hat{x})|>0.03 , \\
+\texttt{behold}& \texttt{ellers}. 
+\end{cases}
+\end{split}
+\end{equation}
+}
+\item{Opstil Hessian matricen og en grænseværdi $r$ og fjern punkter der ikke opfylder denne grænseværdi, som i ligning \eqref{rval}.}
 \end{enumerate}
