@@ -1,9 +1,10 @@
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om punktet er et interessepunkt. Et interessepunkt kan karakteriseres som\cite{pointsurvey}:
+Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om punktet er et interessepunkt. Et interessepunkt er et punkt i et billede, der generelt kan karakteriseres ved\cite{pointsurvey}:
 \begin{itemize}
+\item{\textit{Definerbar struktur:} Punktet skal indgå i en strukur, der besidder en matematisk definition, der gør punktet lokaliserbart.}
 \item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation}
-\item{\emph{Distinktive:}
-Intensiteten i og omkring interessepunktet skal være unikt, så et interessepunkt er entydigt lokaliserbart}
+\item{\emph{Informationsrigt:}
+Intensiteten i og omkring interessepunktet skal være unikt, dette muliggør en mere detaljeret beskrivelse af punktet.}
 \end{itemize}
 En feature detektor '$Detect$' er en funktion, der tager et billede som input, og returnere interessepunkter.
 \begin{equation}
@@ -11,7 +12,7 @@ Detect(I)= \bold{P}
 \label{detect}
 \end{equation}
 hvor $P = {p_1, p_2,..., p_n}$.
-Moravec \cite{moravec} definerer som en af første et brugbart interessepunkt således: "A
+Moravec \cite{moravec} definerer som en af de første et brugbart interessepunkt således: "A
 feature is good if it can be located unambiguously in different views of a scene. A
 uniformly colored region or a simple edge does not make for good features because
 its parts are indistinguishable. Regions, such as corners, with high contrast in
@@ -26,10 +27,10 @@ orthogonal directions are best." I følge Moravec, indeholder et godt interessep
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-En Detektor skal være robust overfor små deformationer som støj (tilfældig intensitetsvariation, der ikke er tilstede i scenen) i billedet, hvilket fejlagtigt kan fortolkes som interessepunkter. Imellem to billeder, kan der være geometriske forskelligheder, som f.eks. rotation, skalering(se figur  \ref{fig:skal}) ændring af perspektiv. Der kan også forekomme fotometriske ændringer, som ændring af pixelintensitet forsaget af lysændringer. Disse faktorer, skal en detektor helst være invariant overfor.  
+En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering (se figur 3) og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i reflektion mod de to drone-positioner hvorfra billederne er optaget. En god detektor skal være invariant eller robust over for sådanne forskelle.
 \\
 \\
-Interessepunkter defineres ikke udfra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
+Interessepunkter defineres ikke udefra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
 \newpage
 \input{tex/hjorner.tex}
 \input{tex/kanter.tex}
