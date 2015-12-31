@@ -1,14 +1,14 @@
 \chapter{Analyse af markbilleder} \label{sec:mark}
-Denne sektion har til formål at klarlægge udfordringer ved korrespondanceanalysen af markbilleder. Udfordringerne opstilles på baggrund af en analyse af billederne og vil resultere i hypoteser om, hvilke korrespondanceanalytiske metoder, der bedst muliggør en korrekt korrespondanceanalyse.
+Denne sektion har til formål at klarlægge udfordringer ved korrespondanceanalysen af markbilleder. Udfordringerne opstilles på baggrund af en analyse af billederne og vil resultere i hypoteser om, hvilke forudsætninger de korrespondanceanalytiske metoder skal besidde for at muliggøre en korrespondanceanalyse.
 \section{Flyverute}
-Dronens overflyvning foregår ved at dronen får fire punkter, der definere markens placering. Dronen starter derefter i et hjørne og flyver systematisk fra side til side, med samme orientering, for at overflyve hele marken. Dronen starter med en højde på ca. 50 meter og taber derefter glidende højde til den er på ca. 6 meter.
+Dronens overflyvning foregår ved at dronen får fire punkter, der definere markens placering. Dronen starter derefter i et hjørne og flyver systematisk fra side til side, med samme orientering, for at overflyve hele marken. Dronen starter på en højde af ca. 60 meter, hvorefter den foretager en overflyvning, falder i højde og flyver marken over igen. I det udvalgte billedsæt er der fire overflyvninger, hvor hver overflyvning foregår på nogenlunde samme højde.
 \section{Markbilleder}
 I denne opgave er et sæt billeder fra samme overfløjede kornmark anvendt. På billedsættet ses en kornmark, der består af umiddelbare tilfældige kornstrukturer. I enkelte billeder er der traktorspor. Som illustreret i figur <Indsæt billede der viser udsnit af korn>, er kornet af relativ identisk udseende, og det er derfor vanskeligt at differentiere imellem korn områder, da der ikke opstår definerbare mønstre. Ligheden imellem billederne kan derfor besværliggøre korrespondanceanalysen, hvilket gør det interessant at undersøge hvorvidt det er muligt at opnå korrespondancer.
  figur \ref{fig:korn}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/20.png}
-     \vspace{-1em}
+     %\vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{Markbillederne forstørret ind på enkelte korn.}}}
     \label{fig:korn}
@@ -23,12 +23,12 @@ Følgende observationer er gjort af markbillederne, samt forhold omkring overfly
     \includegraphics[width=0.65\textwidth]{fig/17.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{Markbilleder taget fra forskellige højde, det blå område indikere overlap.}}}
+       \caption{\textcolor{gray}{\footnotesize \textit{Markbilleder taget fra forskellige højde, det blå område viser billedernes overlap.}}}
     \label{fig:overlap}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent }
-\item{\textbf{Rotation:} Det er observeret mindre grad af rotation imellem billederne. Når dronen er nået kanten af marken er det observeret at den i enkelte tilfælde rotere med op til 10-15 $^{\circ}$.
+\item{\textbf{Rotation:} Der er observeret mindre grad af rotation imellem billederne. Når dronen er nået kanten af marken er det registreret at den i enkelte tilfælde rotere med op til 10-15 $^{\circ}$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/19.png}
@@ -59,8 +59,7 @@ Ud fra ovenstående analyse er der opstillet følgende hypoteser om krav til de 
 \begin{itemize}
 \item{ <Det forventes, grundet strukturen af korn, at detektorer som leder efter veldefinerede strukturer, som hjørner, ikke vil have en god effekt på korn, men at blobs vil give bedre resultater.> }
 \item{ Det forventes ikke at metoderne behøver være rotationsinvariante, grundet den lille rotation der forekommer imellem billederne. }
-\item{Det forventes at metoderne skal være skalainvariante, både pga. den skiftende fotograferingshøjde, men også for at tilpasse detektoren størrelsen som interesseområderne forekommer på.}
-\item{
-Grundet det til tider lille overlap imellem billeder, forventes det at detektoren skal tilpasses til at finde mange punkter, for at sikre en repeterbar detektion.}
+\item{Det forventes at metoderne skal være skalainvariante. Bla. for at tilpasse størrelsen af kornet, <men også pga. flere artikler, der strengt understreger nødvendigheden for skalainvarians \cite{koen} \cite{blob} \cite{lindenscale}>.}
+\item{ Grundet det til tider lille overlap imellem billeder, forventes det at detektoren skal tilpasses til at finde mange punkter, for at sikre en repeterbar detektion.}
 \item{Det forventes ikke at der skal tages højde for problemer ved okklusion, da det kun foregår når dronen flyver lavest. Et overvejet tiltag var ikke at undersøge et område direkte under dronen, men det blev konkluderet at eventuelle nye interessepunkter, der opstår ved okklusion vil sorteres væk som ikke korrespondancer.}
 \end{itemize}

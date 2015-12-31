@@ -25,14 +25,13 @@ Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, 
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. Dette er det samme som at anvende en stigende filterstørrelse med en fast sigma værdi. I figur \ref{fig:siftsurf} ses forholdet imellem størrelserne af den Gaussiske funktion den samme. 
-\ref{fig:siftsurf}. 
+I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. Dette er det samme som at anvende en stigende filterstørrelse med en fast sigma værdi. I figur \ref{fig:siftsurf} ses forholdet imellem størrelserne af den Gaussiske funktion.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{fig/34.png}
      \vspace{-0.5em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+       \caption{\textcolor{gray}{\footnotesize \textit{Øverst ses den gaussiske funktion, hvor der ligesom i SIFT er vedligeholdt en filterstørrelse, men med stigende sigma værdi. Nederst ses den samme funktion, der ligesom i SURF vedligeholder den samme sigma værdi, men anvender stigende filterstørrelser.}}}
     \label{fig:siftsurf}
      \end{center}
      \vspace{-1.5em}
@@ -64,13 +63,13 @@ hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentiere
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-Hessian matricen anvendes, da den beskriver den lokale geometriske krumning omkring et punkt. Hessian matricens egenvektorer angiver de principielle retninger af krumningerne, og egenværdierne beskriver størrelserne af disse krumninger. For blobs ønskes et lokalt ekstrema, og derved at egenværdierne enten begge skal være positive eller begge være negative. Er dette ikke gældende vil blobben have en krumning i hver sin retning og derved være et saddle-point. Determinanten udregnes, da det er produktet af egenværdierne og derfor fortæller noget om fortegnet på disse. En positiv determinant vil betyde at egenværdier af samme fortegn, hvor en negativ vil betyde at fortegnet for egenværdierne er forskellige og punktet derfor placeret på et saddle-point. I figur \ref{fig:konkav}(venstre) ses et punkt placeret på et maxima, hvor krumningen er konkav i alle retningerne derfor vil egenværdierne være negative og determinanten positiv. I det andet billede (højre) ses et punkt placeret på et saddle-point. Krumningerne er konkave og konvekse, hvilket vil resultere i egenværdier af forskellige fortegn og derved en negativ determinant. 
+Hessian matricen anvendes, da den beskriver den lokale geometriske krumning omkring et punkt. Hessian matricens egenvektorer angiver de principielle retninger af krumningerne, og egenværdierne beskriver størrelserne af disse krumninger. For blobs ønskes et lokalt ekstrema, og derved at egenværdierne enten begge skal være positive eller begge være negative. Er dette ikke gældende vil blobben have en krumning i hver sin retning og derved være et saddle-point. Determinanten udregnes, da det er produktet af egenværdierne og derfor fortæller noget om fortegnet på disse. En positiv determinant vil betyde at egenværdierne er af samme fortegn, hvor en negativ vil betyde at fortegnet for egenværdierne er forskellige og punktet derfor placeret på et saddle-point. I figur \ref{fig:konkav}(venstre) ses et punkt placeret på et maxima, hvor krumningen er ens i alle retningerne derfor vil egenværdierne være negative og determinanten positiv. I det andet billede (højre) ses et punkt placeret på et saddle-point. Krumningerne forskellige, hvilket vil resultere i egenværdier af forskellige fortegn og derved en negativ determinant. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/36.png}
      \vspace{-0.5em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+       \caption{\textcolor{gray}{\footnotesize \textit{Til venstre ses et punkt placeret på et maksima. Til højre ses et punkt placeret på et saddle-point}}}
     \label{fig:konkav}
      \end{center}
      \vspace{-1.5em}
@@ -81,5 +80,5 @@ Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Der
 \item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}
 \item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder som i ligning \eqref{deerminantofhessian}.
 \item Lokale maxima udvælges, af hvert $3\times3\times3$ område af billeder på samme oktav.
-\item Accurate keypoint localisation, bruges til at fjerne dårligt lokaliserede punkter.
+\item Accurate keypoint localisation, bruges til at fjerne dårligt lokaliserede punkter ligesom i ligning \eqref{maxsurp}.
 \end{enumerate}
