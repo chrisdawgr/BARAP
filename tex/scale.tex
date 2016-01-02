@@ -1,4 +1,5 @@
 \subsection{Skalarum}
+En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering (se figur 3) og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i reflektion mod de to drone-positioner hvorfra billederne er optaget. En god detektor skal være invariant eller robust over for sådanne forskelle.  Flere artikler understreger nødvendigheden for skalainvarians hos detektorer og at problemet skal konfronteres i alle billedbehandlings situationer \cite{koen} \cite{blob} \cite{lindenscale}. Følgende sektion beskriver, hvordan en sådan invarians kan opnås. \\ \\
 Objekter i virkeligheden, såvel som detaljer i et billede, optræder kun som meningsfulde enheder over et specifikt skalainterval, bundet af en indre og en ydre skala. Et simpelt eksempel er et træ, der indenfor centimeters eller nanometers afstand vil optræde som blade eller molekyler og indenfor meters afstand, vil opfattes som et træ. Koenderink \cite{koen} definere et objekts skalainterval som værende afgrænset af to skalaer: den inderste og den yderste skala,  F.eks. vil en trætop have en indre skala på ca. 10 cm og en ydre skala på ca. 10 m. 
 \\
 Formelt kan et billede repræsenteres som en funktion af to variable:
@@ -45,7 +46,7 @@ Der anvendes et Gaussisk filter, på grund af dens unikke egenskaber,  bl.a. at 
   \end{figure} \noindent
 Koenderink \cite{koen} førte dette begreb videre til det to-dimensionelle tilfælde, ved at vise at foldningen af billedet med et Gaussisk filter er den generelle løsning til diffusionsligningen, som beskriver hvordan en varmefordeling $I$ udvikler sig over tid $t$.
 $$ \partial t I = \nabla^2I $$
-\subsection{Skala Pyramide}
+\subsubsection*{Skala Pyramide}
 En måde, at repræsentere et skalrum er ved en \textit{skalapyramide}. En skalapyramide repræsentation er en datatype, der opretter en række kopier af et billede, der iterativt reduceres i størrelse. Imellem, hvert nivuaeu af pyramiden er billedet foldet med et Guassisk filter og derefter halveret i størrelsen.
 \begin{figure}[H]
     \centering

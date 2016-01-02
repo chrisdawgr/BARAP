@@ -11,27 +11,14 @@ En feature detektor '$Detect$' er en funktion, der tager et billede som input, o
 Detect(I)= \bold{P}
 \label{detect}
 \end{equation}
-hvor $\bold{P} = {p_1, p_2,..., p_n}$ er et sæt punkter i billedet $I$ udvalgt til at være et interessepunkt.
+hvor $\bold{P} = {p_1, p_2,..., p_n}$ er et sæt punkter i billedet $I$ udvalgt til at være interessepunkter.
 Moravec \cite{moravec} definerer, som en af de første, et brugbart interessepunkt således: "A
 feature is good if it can be located unambiguously in different views of a scene. A
 uniformly colored region or a simple edge does not make for good features because
 its parts are indistinguishable. Regions, such as corners, with high contrast in
 orthogonal directions are best." <I følge Moravec, indeholder et godt interessepunkt en stor kontrast, i de ortogonale retninger>. Der findes mange definitioner af et interessepunkt, og i sidste ende angiver anvendelsesområdet, hvilke punkter, der lokaliseres bedst.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.37\textwidth]{fig/28.png}
-     \vspace{-1em}
-    \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{To ens kurver, set på forskellige to To ens kurver, set på forskellige skalaer. Opfattes kurven langt væk, som den store kurve, vil de udvalgte områder opfattes som kanter. Opfattes hele kurven vil området vise et hjørne. Det kan derfor, alt efter applikationsdomænet, være nødvendigt at anvende en skala invariant detektor.}}}
-    \label{fig:skal}
-     \end{center}
-     \vspace{-2.5em}
-  \end{figure} \noindent
-En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering (se figur 3) og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i reflektion mod de to drone-positioner hvorfra billederne er optaget. En god detektor skal være invariant eller robust over for sådanne forskelle.
-\\
-\\
-Interessepunkter defineres ikke udefra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, og er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
-\newpage
+Interessepunkter defineres ikke udefra semantisk meningsfulde områder, som ansigter eller bøger, da dette vil kræve en høj-niveau fortolkning af scenen. I stedet anvendes lav-niveau strukturere, der identificeres i lokale pixelområder, der er matematisk definerbare. Nedenstående er en gennemgang af forskellige lokale lav-niveau strukturere, der kan bruges i udvælgelsen af interessepunkter.
 \input{tex/hjorner.tex}
 \input{tex/kanter.tex}
 \input{tex/blobs.tex}
+\raggedbottom\input{tex/scale.tex}
