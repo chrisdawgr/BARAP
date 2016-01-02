@@ -1,5 +1,5 @@
 \subsection{Detektion}
-SIFT gør brug af en metode kaldt Difference of Gaussian(DoG), til at finde interessepunkter. DoG er en skala-invariant blob detektor, og er en approksimation til en skalanormaliseret Laplacian of Gaussian(LoG). \\ DoG kan udregnes, ved en subtraktion af et nærliggende skalabillede, separeret af en konstant $k$, hvor $G$ er et Gaussisk filter.
+SIFT gør brug af en metode kaldt Difference of Gaussian(DoG), til at finde interessepunkter. DoG er en skala-invariant blob detektor, og er en approksimation til en skalanormaliseret Laplacian of Gaussian(LoG). DoG kan udregnes, ved en subtraktion af et nærliggende skalabillede, separeret af en konstant $k$, hvor $G$ er et Gaussisk filter.
 \begin{equation}
 \begin{split}
 DoG(x,y,\sigma) &= (G(x,y,k\sigma)-(G(x,y,\sigma))\ast I(x,y) \\
@@ -43,7 +43,7 @@ Når skalarummet er oprettet skal DoG billederne produceres, hvilket er illustre
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-LoG svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier: $\nabla^2 L=tr( \mathcal{h} )=\lambda_1+\lambda_2$. Hessian matricens egenværdier beskriver den principielle krumning i og omkring et punkt og kan derfor bruges til at udvælge forekomster af blobs. Der vil opstå et maksima når  $\nabla^2 L<0$, da egenværdierne begge vil være negative og et minima når $\nabla^2 L > 0$ da egenværdierne vil være positive. Der ønskes derved at identificere ekstremaer i DoG billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens $8+9+9=27$ naboer i de omkringliggende DoG billeder. Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt de 27 naboer.
+LoG svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier: $\nabla^2 L=\bold{tr}( \mathcal{H} )=\lambda_1+\lambda_2$. Hessian matricens egenværdier beskriver den principielle krumning i og omkring et punkt og kan derfor bruges til at udvælge forekomster af blobs. Der vil opstå et maksima når  $\nabla^2 L<0$, da egenværdierne begge vil være negative og et minima når $\nabla^2 L > 0$ da egenværdierne vil være positive. Der ønskes derved at identificere ekstremaer i DoG billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens $8+9+9=26$ naboer i de omkringliggende DoG billeder. Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt de 26 naboer.
 \\
 \\
 Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
@@ -57,7 +57,7 @@ Lokationen af ekstremaet $\hat{x}$ findes ved at tage den afledte af den ovenst�
 \hat{x}= \dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
 \label{xhat}
 \end{equation}
-I denne implementering er Non-maximal surpression anvendt anderledes ift. den anvendt i SIFT: Lowe foreslår, at hvis et punkt er et ekstrema, som udregnet ved ligning\ref{nonmax} og $\hat{x} > 0.5$ i en retning, skal ligning \eqref{nonmax} udregnes omkring det nye punkt og dette gentages, indtil $\hat{x} < 0.5$, eller indtil udregning er udført et max antal gange).
+I denne implementering er Non-maximal surpression anvendt anderledes ift. den anvendt i SIFT: Lowe foreslår, at hvis et punkt er et ekstrema, som udregnet ved ligning \ref{nonmax} og $\hat{x} > 0.5$ i en retning, skal ligning \eqref{nonmax} udregnes omkring det nye punkt og dette gentages, indtil $\hat{x} < 0.5$, eller indtil udregning er udført et max antal gange.
 \\
 I denne implementering bliver et punkt fjernet, hvis $\hat{x} > 0.5$ i en given retning, da dette kun vil øge antallet af interessepunkter, hvilket er vurderet til ikke at være nødvendigt, da der i forvejen lokaliseres et stort antal punkter. Det vil ligeledes øge kompleksiteten af applikationen.
 \\
@@ -74,19 +74,19 @@ D_{xx} & D{xy} \\
 D{xy} & D{yy}
 \end{bmatrix}
 \end{equation}
-Hessian matricens egenværdier definere den principielle krumning i og omkring et punkt. Er determinanten negativ vil det lokaliseret punkt være et saddle-point og fjernes derved. For at fjerne kanter ønskes det at én egenværdi ikke må være betydelig større/mindre end den anden. I stedet for at udregne egenværdierne opstilles en værdi $r$, der beskriver størrelsesforholdet imellem to egenværdier.
+En negativ determinant angiver et saddle-point og fjernes derved. For at fjerne punkter lokaliseret på en kant beskrives forholdet imellem hessian matricens egenværdier, ved følgende ligning, hvor $r$ angiver størrelsesforholdet imellem egenværdierne:
 \begin{equation}
 \dfrac{tr(\mathcal{H})^2}{Det(\mathcal{H})}<\dfrac{(r+1)^2}{r}
 \label{rval}
 \end{equation}
-Hvor en grænseværdi for $r$ kan opstilles for at fjerne punkter lokaliseret på en kant. Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter. 
+En grænseværdi $r$ kan opstilles for at fjerne punkter lokaliseret på en kant. Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter.
 \subsection{Algoritme}
 \textbf{Input:} \\
 \textbf{Output:}
 \begin{enumerate}
 \item{Konstruer skalarummet for de forskellige oktaver, ved iterativt at folde skalabilledet med en stigende værdi af $\sigma$: $$ L(x,y,\sigma)= G(x,y,\sigma) \ast I(x,y) $$
 og halver størrelsen af billedet for hver oktav.}
-\item{Udregn "\textit{Difference of Gaussian}" billeder, ved at tage forskellen imellem skala billederne, som i ligning \eqref{dog}}
+\item{Udregn "\textit{Difference of Gaussian}" billeder, ved at tage forskellen imellem skala billederne, som i ligning \eqref{dog}.}
 \item{Lokaliser ekstremaer for hvert punkt i "\textit{Difference of Gaussian}" billeder, ved at sammenligne punktet med dens 27 naboer som illustreret i figur \ref{fig:difference}.}
 
 \item{Afvis punkter der ikke er lokaliseret på ekstremaer, og ekstremaer med lav kontrast som i ligning \eqref{xhat} og \eqref{dxhat}:
@@ -94,12 +94,12 @@ og halver størrelsen af billedet for hver oktav.}
 \begin{split}
 \texttt{indikator} = 
 \begin{cases}
-\texttt{fjern}& \texttt{hvis } \hat{x}>0.5 \lor |D(\hat{x})|>0.03 , \\
+\texttt{fjern}& \texttt{hvis } \hat{x}>0.5 \lor |D(\hat{x})|>0.03 \lor \bold{det} \mathcal{H}<0 , \\
 \texttt{behold}& \texttt{ellers}. 
 \end{cases}
 \end{split}
 \label{maxsurp}
 \end{equation}
 }
-\item{Opstil Hessian matricen og en grænseværdi $r$ og fjern punkter der ikke opfylder denne grænseværdi, som i ligning \eqref{rval}.}
+\item{Fjern punkter lokaliseret på en kant ved at opstille en grænseværdi $r$ og fjern punkter der ikke opfylder denne, som i ligning \eqref{rval}.}
 \end{enumerate}

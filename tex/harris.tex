@@ -32,7 +32,7 @@ M = w(x,y)
 \end{equation}
 Billedets afledte i x og y aksen findes ved at udføre en diskret differentiering af billedet, hvilket kan opnås
  ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
-\item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue ($w(x,y)$) omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
+\item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue $w(x,y)$ omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
 \item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{M} indeholder de differentieret retninger i et givet punkt og derved en beskrivelse af billedets geometriske struktur, i et punkt $(x,y)$. Egenværdierne for denne matrix, vil være proportionale med den principielle krumning i billedets flade og er derfor interessant ift. at finde hjørner. Egenværdierne vil være proportionale med de forskellige steder vinduet kan placeres:
 <overvej autokorrelations billederne fra springer>
 \begin{enumerate}
@@ -47,13 +47,12 @@ Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er
 \textbf{trace}M & = \lambda_1+\lambda_2
 \end{align}
 \end{subequations}
-Harris og Stephens foreslår et mål for hjørnestyrken - dvs. om der er grund til at tro, at et punkt er et hjørne. Dette defineres således:
+Harris og Stephens foreslår et mål for hjørnestyrken baseret på forholdet imellem de to egenværdier. Hvor en høj værdi angiver to store egenværdier. Dette defineres således:
 \begin{equation}
 R = \textbf{det}M-k(\textbf{trace}M)^2
 \label{rvalharris}
 \end{equation}
 hvor \textit{k} er en empirisk defineret konstant mellem $0.04-0.06$. I figur \ref{fig:egen} ses sammenhængen mellem værdien $R$, egenværdierne og hvordan de korrespondere med hjørner,kanter og homogene områder, igen kan det ses at for et hjørne ønskes to store egenværdier.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/26.png}

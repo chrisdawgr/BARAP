@@ -16,7 +16,7 @@ Figur \ref{fig:moravec} illustrere en udregning af $SSD$ af et diagonalt skift p
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent   
-Af de otte skift genereres otte intensitetsvariationer ift. det originale vindue. Den mindste forskel af disse otte variationer, definere punktets \textit{hjørnestyrke}.
+Af de otte skift genereres otte intensitetsvariationer $E(u,v)$ ift. det originale vindue. Den mindste forskel af disse otte variationer, definere punktets \textit{hjørnestyrke} $C(x,y).$
 $$
 C(x,y)=min(E(u,v))
 $$
@@ -33,7 +33,7 @@ Der opstilles en grænseværdi $t$ for $C$, der bestemmer om punktet er et hjør
 \label{cornerind}
 \end{equation}
  \\ \\
-Moravec lider af følgende problemer pga. dens simplicitet. 
+Moravec lider af følgende problemer pga. dens simplicitet:
 \begin{itemize}
 \item{Der undersøges kun et diskret sæt af pixelskift (i hver principiel retning) og resultatet er derfor anisotropisk, (afhængig af retning). Undersøges en kant, der ikke er horisontal, vertikal eller diagonal, vil den mindste intensitetsvariation være stor, og derved kan punktet fejlagtigt detekteres som et hjørne.}
 \item{Det skiftende vindue er rektangulært, og metoden er derfor meget følsom overfor støj i billedet.}
@@ -43,9 +43,9 @@ Moravec lider af følgende problemer pga. dens simplicitet.
 % <måske billeder download cornerdetection.pdf>
 \subsection{Algoritme}
 \begin{enumerate}
-\item{For hvert pixel i billedet, udregnes auto-korrelationen imellem skift af $(x,y) \in [-1,0,1]$. udregnet ved ligning \ref{moravec}}
-\item{\textit{"Hjørnestyrken"} udregnes for hvert pixel ved at finde $C(x,y)=min(E(u,v))$}
-\item{En grænseværdi sættes sættes for $C(x,y)$, og værdier i punkter, der er større end grænseværdien, returneres}
+\item{For hvert pixel i billedet, udregn auto-korrelationen imellem skift af $(u,v) \in \lbrace-1,0,1\rbrace$. udregnet ved ligning \ref{moravec}}
+\item{\textit{Find "Hjørnestyrken"} ved at tage $C(x,y)=min(E(u,v))$}
+\item{Fjern punkter der ikke overholder en sat grænseværdi for $C(x,y)$.}
 \end{enumerate}
 \subsection{Konklusion}
 Moravec er som nævnt en simpel algoritme, med mange udfordringer, der gør at den ikke bruges som en repeterbar detektor. Detektoren er i dag ikke i sig selv relevant, som den var da den blev udgivet, men bygges videre på i andre detektorer, f.eks. \cite{Harris} beskrevet i sektion, \ref{sec:harris} som direkte tilgår de nævne problemstillinger med Moravec.
