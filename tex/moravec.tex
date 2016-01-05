@@ -1,11 +1,14 @@
 \section{Moravec}\label{sec:moravec}
-Moravecs hjørne detektor\cite{moravec}, er en af de tidligste feature detektorer, og definere et hjørne som værende et område med lav selvlighed. Moravec anvender denne definition til at opnå en matematisk formulering af hjørner ved, for hvert punkt i billedet, at udregne auto-korrelationen af overlappende pixel regioner af 3x3, 5x5 eller 7x7 dataindsamlingsvinduer. En høj auto-korrelation imellem de overlappende pixelregioner vil betyde lav selvlighed og derved et hjørne. Dataindsamlingsvinduet kan derved bruges til at detektere hjørner, ved at forskyde dette med én pixel i alle principielle retninger (horisontalt, vertikalt og diagonalt) og udregne intensitetsvariationen (auto-korrelationen) af alle de forskudte vinduer. Denne variation kan beskrives med en vægtet funktion over vinduet  \emph{(SSD: Summed Square Difference)}, der udregner forskellen på vinduerne:
+Moravecs hjørnedetektor\cite{moravec}, er en af de tidligste feature detektorer og i denne metode defineres et hjørne, som et dataindsamlingsvindue i et billede $I$, der er forskelligt fra dets lokalområde.
+\\
+Moravec anvender denne definition til at opnå en matematisk formulering af hjørner ved for hvert punkt i et billede, at udregne en auto-korrelationen mellem to kvadratiske dataindsamlingsvinduer. Et hjørne lokaliseres for et område og dets indsamlingsvindue, ved at forskyde vinduet én pixel i alle principielle retninger (horisontalt, vertikalt og diagonalt) og udregne intensitetsvariationen (auto-korrelationen) af alle de forskudte vinduer.  SSD(Summed Square Difference) benyttes til at finde forskellen på de kvadrede værdier i vinduerne:
 \begin{equation}
-E(u,v)= \sum_{\forall \text{x,y i dataindsamlingsvinduet}} w(x,y)[I(x+u,y+v) - I(x,y)]^2
+\bold{E}(u,v)= \sum_{\forall \text{x,y i dataindsamlingsvinduet}} w(x,y)[I(x+u,y+v) - I(x,y)]^2
 \label{moravec}     
 \end{equation}
-hvor $(u,v)\in \lbrace -1,0,1 \rbrace$ er forskydningen af vinduet, der summere over alle pixels i dataindsamlingsvinduet $w$, der har centrum i $(x,y)$. 
-Figur \ref{fig:moravec} illustrere en udregning af $SSD$ af et diagonalt skift på en isoleret sort pixel (med en intensitet på 0) på en hvid baggrund (med en intensitet på 255) og på et idealt hjørne. Det røde vindue indikere det originale vindue og det blå indikere  vinduet forskudt med vektoren i retningen $(1,1)$. 
+hvor $(u,v)\in \lbrace -1,0,1 \rbrace$ er forskydningen af vinduet, der summere over alle pixels i dataindsamlingsvinduet $w$. $w$ er her en matrix, med samme størrelse som $I$ og indeholder 1 indenfor hvis en pixelkoordinat $(x,y)$ ligger indenfor dataindsamlingsvinduet, og 0 ellers.
+\\
+Figur \ref{fig:moravec} illustrerer et dataindsamlingsvindue i rødt, her af størrelse af (3x3). Det blå vindue viser et diagonalt skift. Det ses, at det røde vindue til højre, ligger et på et ideelt hjørne. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/25.png}
@@ -16,18 +19,19 @@ Figur \ref{fig:moravec} illustrere en udregning af $SSD$ af et diagonalt skift p
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent   
-Af de otte skift genereres otte intensitetsvariationer $E(u,v)$ ift. det originale vindue. Den mindste forskel af disse otte variationer, definere punktets \textit{hjørnestyrke} $C(x,y).$
+$E(u,v)$ beregnes otte gange for hver pixel. Den mindste forskel af de otte variationer, definere punktets hjørnestyrke $C(x,y)$.
 $$
-C(x,y)=min(E(u,v))
+C(x,y)=min(E(u,v)) \text{$ $for alle permutationer af $u,v \in [0,1]$, pånær (u,v) = (0,0)}
 $$
-En horisontal kant vil have en stor selvlighed (lav auto-korrelation) med et dataindsamlingsvindue forskudt horisontalt derfor, for at identificere hjørner, tages minimum af $E$ for at sikre en lav selvlighed (stor auto-korrelation) i alle retninger. 
+$C$ vil have et højt respons i de områder, hvor pixelintensiteter i originalvinduet ($w(x,y) = 1$), adskiller sig fra intensiteter, i de forskudte vinduer - jo større pixelintensitens forskellen er, jo højere $C$ værdi.
+Det kan udledes her, at en horizontal, eller vertikal kant ikke vil blive karakteriseret som et hjørne, da disse vil have lav auto-korrelation. 
 Der opstilles en grænseværdi $t$ for $C$, der bestemmer om punktet er et hjørne(sandt/falsk) og derved om det kan udvælges som et interessepunkt.
 \begin{equation}
 \begin{split}
-\texttt{hjørne} = 
+\text{hjørne} = 
 \begin{cases}
-\texttt{sandt}& \texttt{hvis } C(x,y)\geq t, \\
-\texttt{falsk }& \texttt{hvis } C(x,y) < t.
+\text{sandt}& \text{hvis } C(x,y)\geq t, \\
+\text{falsk }& \text{hvis } C(x,y) < t.
 \end{cases}
 \end{split}
 \label{cornerind}
