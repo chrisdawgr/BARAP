@@ -1,7 +1,5 @@
 \subsection{Blobs}
-En blob er en region i et billede, hvor intensitet er konstant, og forskellig fra intensiteten udenfor regionen. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt - altså strukturer, der står i kontrast til deres baggrund. 
-
-%Det lokale ekstrema gør blobben til en veldefineret, lav-niveau struktur og kravet om konstant intensitet gør den pr. definition distinktiv. 
+En blob er en sammenhængende region af pixels, der enten er betydeligt lysere eller mørkere end dens omgivelser, altså strukturer der står i kontrast til deres baggrund. En blob kan derfor udvælges som værende et ekstrema i billedet. blobbens omfang strækker sig til punktet hvor den møder en anden blob. Dette kan intuitivt illustreres for lyse-blobs på en mørk baggrund, ved at betragte billedets funktion som et landskab dækket af vand. Sænkes vandet vil toppe vises. Sænkes vandet yderligere vil to toppe forbindes, 'dalen' hvor de to toppe mødes vil definere deres omfang. Et sådant punkt hedder et saddle-point, som set i figur \ref{fig:lindblob} og definere et punkt der har krumninger i hver sin retning.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/11.png}
@@ -14,6 +12,18 @@ En blob er en region i et billede, hvor intensitet er konstant, og forskellig fr
   \end{figure}
        \vspace{-2.7em}
 \noindent
+En blob kan udvælges ved at identificere den geometriske krumning i om omkring et punkt ved de principielle krumninger. De to principielle krumninger i et punkt angiver hvor meget overfladen bøjer en de forskellige retninger.
+Da et ekstrema angiver en blob, ønskes der et punkt hvor de principielle krumninger er ens. For et punkt placeret på et maksima vil den principielle krumning være konkav (concave) og derfor negativ. For et punkt placeret på et minima vil den principielle krumning være konveks (convex) og derfor positiv. Hvor den for et saddle-point vil være positiv og negativ.
+<scnd order deriv test> \\
+<second order derivivative test multivar> \\
+<Hessian>\\
+<Sporret>\\
+<Determinant>\\
+Ved oprettelse af skalarum udglattes regioner i billedet, til grovere strukturer. Blev man bedt om at udpege strukturer på tværs af skalaer (bestående af grove strukturer) vil det være naturligt at udvælge lyse/mørke pletter (blobs), da de vil korrelere i placering og i struktur. 
+<Konsistente over skala>
+
+En blob er en region i et billede, hvor intensitet er konstant, og forskellig fra intensiteten udenfor regionen. Lindenberg \cite{blob} definere blobs som værende lyse regioner på sort baggrund eller omvendt - altså strukturer, der står i kontrast til deres baggrund. 
+
 %MEGA FORKERT
 %MEGA FORKERT
 %MEGA FORKERT
