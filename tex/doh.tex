@@ -74,7 +74,13 @@ For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende
 \label{detman}
 \end{equation}
 Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, ved non-maximal suppression som introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
-\subsection*{Algoritme}
+\\
+\\
+\subsubsection*{Algoritme: SURF interessepunkts detektor}
+\begin{enumerate}
+\item[Input:] Billede $I$
+\item[Output:] Matchende punkter $p \in (x,y, \theta)$
+\end{enumerate}
 \begin{enumerate}
 \item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}
 \item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder som i ligning \eqref{deerminantofhessian}.
