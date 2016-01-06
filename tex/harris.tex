@@ -75,7 +75,12 @@ Ved værdien for R, kan det defineres om et punkt er lokaliseret på et hjørne.
 \end{equation}
 }
 \end{enumerate}
-\subsection{Algoritme}
+\subsubsection*{Algoritme: Harris detektor}
+\begin{enumerate}
+\item[Input:] Billede $I$.
+\item[Output:] Interessepunkter $p \in (x,y)$
+\end{enumerate}
+
 \begin{enumerate}
 \item{ For hvert pixel i billedet $(x,y)$, udregn struktur tensoren, beskrevet i ligning \eqref{structens}, hvor $ I_x^2 = (\dfrac{\partial I}{\partial x})^2 \ast w$, og $w$ er et Gaussisk vindue.}
 \item{ Konstruer et billede bestående af hjørnestyrken 'R' udregnet ved ligning \eqref{rvalharris}}

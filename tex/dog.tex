@@ -90,9 +90,11 @@ En negativ determinant angiver et saddle-point og fjernes derved. For at fjerne 
 \label{rval}
 \end{equation}
 En grænseværdi $r$ kan opstilles for at fjerne punkter lokaliseret på en kant. Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter.
-\subsection{Algoritme}
-\textbf{Input:} \\
-\textbf{Output:}
+\subsubsection{Algoritme: Sift detektion}
+\begin{enumerate}
+\item[Input:] Billede $I$
+\item[Output:] Interessepunkter $p \in (x,y)$
+\end{enumerate}
 \begin{enumerate}
 \item{Konstruer skalarummet for de forskellige oktaver, ved iterativt at folde skalabilledet med en stigende værdi af $\sigma$: $$ L(x,y,\sigma)= G(x,y,\sigma) \ast I(x,y) $$
 og halver størrelsen af billedet for hver oktav.}
@@ -101,10 +103,10 @@ og halver størrelsen af billedet for hver oktav.}
 \item{Afvis punkter der ikke er lokaliseret på ekstremaer, og ekstremaer med lav kontrast som i ligning \eqref{xhat} og \eqref{dxhat}:
 \begin{equation}
 \begin{split}
-\texttt{indikator} = 
+\text{indikator} = 
 \begin{cases}
-\texttt{fjern}& \texttt{hvis } \hat{x}>0.5 \lor |D(\hat{x})|>0.03 \lor \bold{det} \mathcal{H}<0 , \\
-\texttt{behold}& \texttt{ellers}. 
+\text{fjern}& \text{hvis } \hat{x}>0.5 \lor |D(\hat{x})|>0.03 \lor \bold{det} \mathcal{H}<0 , \\
+\text{behold}& \text{ellers}. 
 \end{cases}
 \end{split}
 \label{maxsurp}

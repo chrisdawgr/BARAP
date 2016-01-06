@@ -33,9 +33,15 @@ Der skal nu foretages en interpolation, omkring den indgang i histogrammet, med 
      \vspace{-2.5em}
   \end{figure} \noindent
 Dette ses på figur \ref{histogramheight}, hvor et andengradspolynomium er blevet tilnærmet den største værdi af $H$. Estimering af andengradspolynomiet sker over den største værdi i $H$, og dens venstre og højre nabo.
-\subsection*{Algoritme}
-\textbf{Input} : Ét punkt og en skala, hvor punktet er lokaliseret $(x,y,\sigma)$  \\
-\textbf{Output:} En orientering af punktet $\theta$.  \\
+
+
+\subsubsection*{Algoritme: SIFT orientering af interessepunkter}
+\begin{enumerate}
+\item[Input:] Billede $I$
+\item[] Interessepunkter $p  \in (x, y)$
+\item[Output:]  Interessepunkter tildelt orientering $p \in (x,y, \theta)$
+\end{enumerate}
+
 \begin{enumerate}
 \item Placer dataindsamlingsvindue omkring  interessepunktet, på samme skalabillede som $\sigma$ foreskriver.
 \item Anvend ligning \eqref{magnitudepoint}, \eqref{orientationpoint}, på hvert punkt i dataindsamlingsvinduet, for at udregne alle størrelser af orienteringer og gradienter. Gradientbilledet foldes derefter med et Gaussisk filter: $g = G(x,y,1.5 \cdot \sigma)$.

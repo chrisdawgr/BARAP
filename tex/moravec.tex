@@ -41,7 +41,14 @@ Moravec lider af følgende problemer pga. dens simplicitet:
 \item{Det skiftende vindue er rektangulært, og metoden er derfor meget følsom overfor støj i billedet.}
 \item{Detektoren finder punkter lokaliseret på kanter. Små deformationer i kanterne som støj, vil resultere i at den mindste intensitetsvariation vil være relativt stor, og derfor detektere punktet som værende et interessepunkt.}
 \end{itemize}
-\subsection*{Algoritme}
+\subsubsection*{Algoritme: Moravec detektor}
+\begin{enumerate}
+\item[Input:] Billede $I$.
+\item[] Punkter $p \in (x, y)$
+\item[Output:] En feature vektor $F$, for hver punkt $p$.
+\end{enumerate}
+
+
 \begin{enumerate}
 \item{For hvert pixel i billedet, udregn auto-korrelationen imellem skift af $(u,v) \in \lbrace-1,0,1\rbrace$. udregnet ved ligning \ref{moravec}}
 \item{\textit{Find "Hjørnestyrken"} ved at tage $C(x,y)=min(\bold{E}_{u,v}(x,y))$}

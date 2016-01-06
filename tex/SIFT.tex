@@ -33,7 +33,12 @@ Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hv
 \end{enumerate}
 
 $F$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
-\subsection*{Algoritme}
+\subsubsection*{Algoritme: SIFT deskriptor}
+\begin{enumerate}
+\item[Input:] Billede $I$.
+\item[] Punkter $p \in (x, y, \theta)$
+\item[Output:] En feature vektor $F$, for hver punkt $p$.
+\end{enumerate}
 \begin{enumerate}
 \item Det bestemmes via $\sigma$ hvilket billede der skal udføres beregninger på
 \item $W$ roteres, ved rotationsmatricen \eqref{rotaionmatrix}, og glattes med \eqref{gradientsmooth}

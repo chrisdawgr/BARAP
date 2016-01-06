@@ -30,11 +30,11 @@ L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 Egenvektorerne for $\mathcal{H}$ beskriver retningerne for de principielle krumninger af et punkt, hvor egenværdierne beskriver størrelserne af disse krumninger. Den geometriske struktur kan derved defineres ud fra Hessian matricens egenværdier $\lambda_1 \& \lambda_2$:
 \begin{equation}
 \begin{split}
-\texttt{indikator} = 
+indikator = 
 \begin{cases}
-\text{Minima} & \texttt{hvis } \lambda_1, \lambda_2 > 0, \\
-\text{Maksima}& \texttt{hvis } \lambda_1, \lambda_2 < 0,  \\
-\text{Saddle-Point} & \texttt{hvis } \lambda_1 \cdot \lambda_2 < 0.
+\text{Minima} & \text{hvis } \lambda_1, \lambda_2 > 0, \\
+\text{Maksima}& \text{hvis } \lambda_1, \lambda_2 < 0,  \\
+\text{Saddle-Point} & \text{hvis } \lambda_1 \cdot \lambda_2 < 0.
 \end{cases}
 \end{split}
 \label{maxsurp}
@@ -47,10 +47,10 @@ En måde at estimere egenværdiernes fortegn, er ved at tage determinanten af he
 Da $\bold{det}(\mathcal{H})=\lambda_1 \cdot \lambda_2$ vil fortegnet af determinanten angive om et punkt er et ekstrema eller et saddle-point:
 \begin{equation}
 \begin{split}
-\texttt{indikator} = 
+\text{indikator} = 
 \begin{cases}
-\text{Ekstrema}& \texttt{hvis } \bold{det}(\mathcal{H}) > 0,  \\
-\text{Saddle-Point} & \texttt{hvis } \bold{det}(\mathcal{H}) < 0.
+\text{Ekstrema}& \text{hvis } \bold{det}(\mathcal{H}) > 0,  \\
+\text{Saddle-Point} & \text{hvis } \bold{det}(\mathcal{H}) < 0.
 \end{cases}
 \end{split}
 \label{detman}
@@ -75,10 +75,10 @@ $$
 Laplace operatoren svarer til sporret af Hessian matricen. Da $\bold{Tr}(\mathcal{H}) = \lambda_1 + \lambda_2$, vil responset fra laplace operatoren $\nabla^2L$, fortælle noget om egenværdierne og derved den principielle krumning omkring punktet. Et negativt respons, vil angive et maksima da egenværdierne begge vil være negative. Et positivt respons vil angive et minima da egenværdierne begge vil være positive.
 \begin{equation}
 \begin{split}
-\texttt{indikator} = 
+\text{indikator} = 
 \begin{cases}
-\text{Maksima}& \texttt{hvis } \nabla^2L < 0,  \\
-\text{Minima} & \texttt{hvis } \nabla^2L > 0.
+\text{Maksima}& \text{hvis } \nabla^2L < 0,  \\
+\text{Minima} & \text{hvis } \nabla^2L > 0.
 \end{cases}
 \end{split}
 \label{detman}
