@@ -1,6 +1,5 @@
 \subsection{Determinant of Hessian}
-Determinant of Hessian eller \textit{DoH} udgør feature detektoren i
-SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et billede:
+Determinant of Hessian(DoH) udgør feature detektoren i SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et billede:
 \begin{equation}
 \mathcal{H}(p, \sigma) = 
  \begin{bmatrix}
@@ -9,12 +8,12 @@ SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et
  \end{bmatrix}
  \label{hessianmatrix}
 \end{equation}
-hvor $\sigma$ angiver skala og $L_{xy} $, $L_{yy}$ og $L_{xx}$ (vist i ligning\eqref{lxx}), er den Gaussiske funktionen, partielt differentieret ift. $xy$, $yy$ og $xx$.
+hvor $\sigma$ angiver skala og $L_{xy} $, $L_{yy}$ og $L_{xx}$ (vist i ligning \eqref{lxx}), er den Gaussiske funktionen, partielt differentieret ift. $xy$, $yy$ og $xx$ respektivt.
 \begin{equation}
 L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 \label{lxx}
 \end{equation}
-Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som fordelagtigt, ved brug af integralbilleder, nedsætter antallet af beregninger drastisk. I denne implementering er disse boks filtre ikke anvendt, og er derved udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt.
+Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som fordelagtigt, ved brug af integralbilleder, nedsætter antallet af beregninger drastisk. I denne implementering er disse boks filtre ikke anvendt, men udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt. Denne designbeslutning skyldes, at det gjorde programmet mindre komplekst og nemmere at teste - og da $D_{xx}, ....$ er en approksimation til $L_{xx},...$ er denne løsning korrekt, men dog ikke tidseffektiv. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{fig/31.png}
@@ -36,7 +35,7 @@ I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I 
      \end{center}
      \vspace{-1.5em}
   \end{figure} \noindent
-For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav, bruges nr. 2 filterstørrelse, fra forrige oktav til starten af næste, og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
+For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav, bruges nr. 2 filterstørrelse, fra forrige oktav til startoktav (startende på størelse 9), og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
 \begin{figure}[H]
     \centering
     \begin{center}    
@@ -63,18 +62,18 @@ hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentiere
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-For blobs ønskes et lokalt ekstrema, som tidligere beskrevet er dette gældende når begge de principielle krumninger er ens og derved når hessian matricens egenværdier er af samme fortegn:
+For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende når begge de principielle krumninger er ens og derved når Hessian matricens egenværdier er af samme fortegn:
 \begin{equation}
 \begin{split}
-\texttt{indikator} = 
+\text{indikator} = 
 \begin{cases}
-\text{Ekstrema}& \texttt{hvis } \bold{det}(\mathcal{H}) > 0,  \\
-\text{Saddle-Point} & \texttt{hvis } \bold{det}(\mathcal{H}) < 0.
+\text{Ekstrema}& \text{hvis } \bold{det}(\mathcal{H}) > 0,  \\
+\text{Saddle-Point} & \text{hvis } \bold{det}(\mathcal{H}) < 0.
 \end{cases}
 \end{split}
 \label{detman}
 \end{equation}
-Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, hvilket er en metode introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
+Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, ved non-maximal suppression som introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
 \subsection*{Algoritme}
 \begin{enumerate}
 \item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}

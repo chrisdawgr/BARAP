@@ -1,5 +1,5 @@
 \section{SURF}
-SURF\footnote{SpeededUp Robust Features},introduceret af Herbert Bay et. al \cite{SURF} i 2006 er, ligesom SIFT, en samlet metode, bestående af en detektor og en deskriptor, der finder og beskriver blobs af forskellige størrelser. I forhold til SIFT, har SURF den fordel, at den beregningsmæssigt kan optimeres til at være betydeligt hurtigere end SIFT.
+SURF (SpeededUp Robust Features),introduceret af Bay et. al \cite{SURF} i 2006 er, ligesom SIFT, en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser. I forhold til SIFT, har SURF den fordel, at den beregningsmæssigt kan optimeres til at være betydeligt hurtigere end SIFT.
 \input{tex/doh.tex}
 \subsection{Orientering}
 \begin{figure}[H]
@@ -12,9 +12,9 @@ SURF\footnote{SpeededUp Robust Features},introduceret af Herbert Bay et. al \cit
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-SURF gør brug af Haar-wavelet, både i detektoren og deskriptoren. Haar-wavelet er et boks-filter, med størrelse nxn, hvor halvdelen af alle indgangene er +1 og den anden halvdel er -1.
+SURF gør brug af Haar-wavelet, både i detektoren og deskriptoren. Haar-wavelet er et boks-filter, med størrelse NxN, hvor halvdelen af alle indgangene er +1 og den anden halvdel er -1. venstre filter benævnes $dx$, og højre $dy$.
 \subsection{Deskriptor}
-SURF deskriptoren producerer features, der består af 64 indgange. Den kan beskrives stringent, ligesom (26). Som beskrevet i SURF papiret af Tuytelaars et. al[??], er tilfældet ofte, at der ikke er brug for rotationsinvarians. En variant af SURF, der ikke er rotationsinvariant, kaldes Upright-SURF (U-SURF). Tuytelaars et. al garanterer dog rotationsinvarians i U-SURF, i op til $\pm 15^{\circ}$. SURF er implementeret, fremfor U-SURF, da enkelte af billederne har stor grad (ca. $15^{\circ}$) af rotation. Rotationen forekommer i billeder, der er taget lige efter, at dronen har vendt og kan ses på figur 15.
+SURF deskriptoren producerer features, der består af 64 indgange. Som beskrevet af Tuytelaars et. al \cite{SURF}, er tilfældet ofte, at der ikke er brug for rotationsinvarians. En variant af SURF, der ikke er rotationsinvariant, kaldes Upright-SURF (U-SURF). Tuytelaars et. al garanterer dog rotationsinvarians i U-SURF, i op til $\pm 15^{\circ}$. SURF er implementeret, fremfor U-SURF, da enkelte af billederne har stor grad (ca. $15^{\circ}$) af rotation. Rotationen forekommer i billeder, der er taget lige efter, at dronen har vendt og kan ses på figur 15.
 \\
 \\
 For at gøre SURF invariant overfor rotation, skal Haar-wavelet responset findes i x og y retningen omkring punktet ($dx, dy$), respektivt. $dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $dx$ og $dy$ foldes med en cirkulær Gausskerne, med samme størrelse som Haar-wavelet responsene, og $\sigma_{Gauss} = 2.5\sigma$.
@@ -28,34 +28,36 @@ For at gøre SURF invariant overfor rotation, skal Haar-wavelet responset findes
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Et sliding vindue på $60^{\circ}$, summerer alle vektorene, der ligger indenfor dets rækkevidde. Den længste vektor, udgør retningen, som beregnes med $atan2$ (invers tangens, med 2 inputs). Dette er illustreret på figur \ref{fig:surforientation}. Der er her taget en beslutning om, at slidingvinduet udregner summerne af vektorer, indenfor seks positioner ($0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$.. $300^{\circ}-360^{\circ}$). 
+Et sliding vindue på $60^{\circ}$, summerer alle vektorene, der ligger indenfor dets rækkevidde. Af de summerede vektorer udgør den længste vektor retningen, som beregnes med $\text{atan2}$ (invers tangens, med 2 inputs). Dette er illustreret på figur \ref{fig:surforientation}. Der er her taget en beslutning om, at slidingvinduet udregner summen af vektorer, indenfor seks positioner ($0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$,..., $300^{\circ}-360^{\circ}$) - dette for at gøre beregningerne simplere. Flere positioner kunne her have været undersøgt.
+\\
+Ovenstående udregning tildeler alle interessepunkter en orientering $\theta$.
 \\
 \\
-SURF deskriptoren samler data omkring interssepunktet, med et dataindsamlingvindue der har størrelse $20 \sigma$. Vinduet skal orienters, ifht. den $\theta$ værdi, der er udregnet i detektoren. Billedet vendes, ved, at vende hele billedet, ved brug af ligning \eqref{rotaionmatrix}, og danne et integralbillede udfra det nye billede (Dette skridt er omkostningsfuldt, og der vil senere blive diskuteret optimeringer).
+SURF deskriptoren indsamler data omkring interssepunktet, med et dataindsamlingvindue der har størrelse $20 \sigma$. Vinduet skal orienters, ifht. den $\theta$ værdi, der er udregnet. Dette gøres ved, at hele billedet vendes, ved brug af ligning \eqref{rotaionmatrix}, og der dannes et integralbillede ud fra det roterede billede <(Dette skridt er omkostningsfuldt, og der vil senere blive diskuteret optimeringer)>.
 \\
 \\
-Dataindsamlingsvinduet er nu roteret og centreret omkring interessepunktet. Herefter skal vinduet deles op i 4x4 regioner, hver bestående af 5x5 punkter, der har ens afstand mellem sig - her er ikke blevet lavet subpixel-optimeringen, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
+Dataindsamlingsvinduet er nu roteret og centreret omkring interessepunktet. Herefter skal vinduet deles op i 4x4 regioner, hver bestående af 5x5 punkter, der har ens afstand mellem sig - her er ikke blevet lavet subpixel-interpolation, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
 \\
 \\
-Herefter skal Haar-wavelet responset udreges, i x og y retningen ($dx, dy$, respektivt). Haar-wavelet skal udregnes for alle punkter i 5x5 felterne. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Disse værdier skal smoothes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
+Herefter skal $dx$ og $dy$ udregnes. Haar-wavelet skal udregnes for alle punkterne i vinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet skal smoothes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
 \\
 \\
-For her af de 16 4x4 regioner, udregnes: 
+For hver af de 16 4x4 regioner, udregnes: 
 \begin{equation}
 v_i = \sum d_x, \sum d_y, \sum |d_y|, \sum |d_y|
 \label{surffeature}
 \end{equation}
-hvor $v_i$ er beregningerne, for den $i$'ende region. Der laves en vektor, hvor alle værdierne indgange i $v$ sættes efter hinanden. Dette giver en $16 \cdot 4 = 64$ indgange stor vektor. Slutteligt, laves vektoren om til en enhedsvektor.
+hvor $v_i$ er en $(4x1)$ matrix, for region nr. $i$, hvor hver region er nummeret i læseretningen. Der dannes en feature vektor $F$, ved at sammensætte alle $v_i$: $F = [v_1^T, v_2^T,..., v_16^T]^T$. Dette giver en $16 \cdot 4 = 64$ indgange stor vektor. Slutteligt, laves vektoren til en enhedsvektor.
 
 \subsubsection*{Algoritme}
 \begin{enumerate}
-\item Orienteringen findes: \begin{enumerate}
-
+\item Orienteringen findes: 
+\begin{enumerate}
 	\item Orienteringen på punktet findes, ved at beregne $dx$, $dy$ i et cirkulært område, med radius $6\sigma$, og afstand $\sigma$, mellem punkterne. 
-	\item $dx$, $dy$ foldes med en Gauss kerne, med $\sigma_{Gauss} = 2.5\sigma $
+	\item $dx$, $dy$ foldes med en Gauss kerne, med $\sigma_{Gauss} = 2.5\sigma $.
 	\item Den længste vektor, af summerede vektorer, der ligger indenfor $60^{\circ}$, bruges til at tildele orientering $\theta$ til interessepunktet.
 \end{enumerate}
 \item Et dataindsamlingsvindue roteret ifht. $\theta$, beregnet som \eqref{rotaionmatrix} med størrelse $20\sigma$ indsamler punkter, der er har afstand $\sigma$ mellem hinanden.
-\item Haar-wavelet responset, $dx$, $dy$ udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og $dx, dy$ foldes med Gauss, hvor $\sigma_{Gauss} = 3.3\sigma$
-\item For hver af det 4x4 regioner, udregnes \eqref{surffeature}. Dette sættes sammen til en vektor, der vil have 64 indgange
+\item Haar-wavelet responset, $dx$, $dy$ udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og $dx, dy$ foldes med Gauss, hvor $\sigma_{Gauss} = 3.3\sigma$.
+\item For hver af de 4x4 regioner, udregnes \eqref{surffeature}. Dette sættes sammen til en vektor, der vil have 64 indgange.
 \end{enumerate}
