@@ -1,7 +1,7 @@
 \section{Harris}\label{sec:harris}
 Harris hjørnedetektor blev introduceret af Chris Harris og Mike Stephens i 1988 \cite{harris}. Metoden refereres til som Harris hjørnedetektor, men er også kendt som Plessey detektor. Harris hjørnedetektor kan ses som en videreudvikling af Morave, ved at adressere Moravecs begrænsninger:
 \begin{enumerate}
-\item{ \textit{Anisotropisk respons:} Harris og Stephens udvider Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto-korrelationen imellem skiftende vinduer kan approksimeres ved at udvide funktionen, ved en \textit{"Taylor udvidelse"} af anden orden, og beskrives derved udefra dens afledte:
+\item{ \textit{Anisotropisk respons:} Harris og Stephens udvider Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto-korrelationen imellem skiftende vinduer kan approksimeres ved at udvide funktionen, ved en Taylor udvidelse af anden orden:
 \begin{subequations}
 \begin{align}
 E(u,v) = & \sum w(x,y)[I(x + u, y + v) - I(x,y)]^2 \\
@@ -31,9 +31,9 @@ M = w(x,y)
 \label{structens}
 \end{equation}
 Billedets afledte i x og y aksen findes ved at udføre en diskret differentiering af billedet, hvilket kan opnås
- ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
+ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
 \item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue $w(x,y)$ omkring det undersøgte pixel område. Dette tilføjer en vægt i form af en cirkel omkring punktet. Det Gaussiske vindue anvendes til at fjerne støj fra billedet, da differentiering er følsom overfor dette.}
-\item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{M} indeholder de differentieret retninger i et givet punkt og derved en beskrivelse af billedets geometriske struktur, i et punkt $(x,y)$. Egenværdierne for denne matrix, vil være proportionale med den principielle krumning i billedets flade og er derfor interessant ift. at finde hjørner. Egenværdierne vil være proportionale med de forskellige steder vinduet kan placeres:
+\item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{M} indeholder de differentierede retninger i et givet punkt og er derved en beskrivelse af billedets geometriske struktur, i et punkt $(x,y)$. Egenværdierne for denne matrix, vil være proportionale med den principielle krumning i billedets flade og er derfor interessant ift. at finde hjørner. Egenværdierne vil være proportionale med de forskellige steder vinduet kan placeres:
 <overvej autokorrelations billederne fra springer>
 \begin{enumerate}
 \item{ \textit{Homogen flade.} Billedintensiteten er konstant. Begge egenværdier vil være små og der vil ikke være nogen krumning i billedet.}
