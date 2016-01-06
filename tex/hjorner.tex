@@ -1,9 +1,6 @@
 \subsection{Hjørner}\label{subsec:corner}
-<At detektere hjørner er en udbredt teknik indenfor feature detektion, da hjørner ofte forekommer i forskellige menneskeskabte scener og fordelagtigt kan bruges i disse sammenhæng.> 
-\\
-\\
 Et hjørne kan defineres som et område i og omkring et punkt, der har to dominerede kantretninger og derved kan lokaliseres i et billede ud fra en kvantificeret fortolkning af dette. \\ 
-Udover at være lokaliserbar ved en matematisk definition, skal et interessepunkt være placeret således at det entydigt kan udvælges ift. dens omkringliggende område. I figur \ref{app} ses tre udvalgte interessepunkter, placeret på forskellige strukturer i samme scene, hvor interessepunkterne beskrives af en blå cirkel omkring punktet. For at forstå, hvorfor punkter placeret på hjørner er gode interessepunkter, er mulige korrespondancer for de givne interessepunkter illustreret.
+I figur \ref{app} ses tre udvalgte interessepunkter, placeret på forskellige strukturer i samme scene, hvor interessepunkterne beskrives af en blå cirkel omkring punktet. For at forstå, hvorfor punkter placeret på hjørner er gode interessepunkter, er mulige korrespondancer for de givne interessepunkter illustreret.
 \begin{enumerate}[label=\alph*]
 \item{Interessepunktet er placeret på et fladt området, hvor intensiteten er ens for hele området. Punktet vil have mange mulige korresponderende punkter.}
 \item{Interessepunktet er lokaliseret på en kant. Punktet vil have flere mulige korresponderende punkter på den tilsvarende kant i den anden figur.}
@@ -21,4 +18,4 @@ Udover at være lokaliserbar ved en matematisk definition, skal et interessepunk
     \vspace{-2.7em}  
   \end{figure}  
 \noindent
-Ovenstående definition viser at punkter placeret på hjørner er unikke. Hjørner kan som nævnt udvælges i billederne pga. de dominerende kantretninger i og omkring punktet, hvilket medfører store intensitetsskift i området omkring et hjørne. En af de første hjørne detektorer udviklet af Moravec \cite{Moravec} definere et hjørne som værende et område med lav "selvlighed", dvs. et område hvor der opstår store intensitetsvariationer i det omkringliggende lokalområde. Ud fra denne definition lokaliseres et hjørne ved at estimere auto-korrelationen imellem regioner af billedet, og definere hjørner, hvor der forekommer store intensitetsskift omkring et område.
+Ovenstående definition viser at punkter placeret på hjørner er unikke. Hjørner kan som nævnt udvælges i billederne pga. de dominerende kantretninger i og omkring punktet, hvilket medfører store intensitetsskift i området omkring et hjørne.
