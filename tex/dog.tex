@@ -42,18 +42,7 @@ Når skalarummet er oprettet skal DoG billederne produceres, hvilket er illustre
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent    
-LoG svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier, derfor gælder følgende:
-\begin{equation}
-\begin{split}
-\texttt{indikator} = 
-\begin{cases}
-\text{Maksima}& \text{hvis } \nabla^2L < 0,  \\
-\text{Minima} & \text{hvis } \nabla^2L > 0.
-\end{cases}
-\end{split}
-\label{detman}
-\end{equation}
-Der ønskes derved at identificere ekstremaer i DoG billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens $8+9+9=26$ naboer i de omkringliggende DoG billeder. Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt dens 26 naboer.
+LoG svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier, derfor gælder følgende ligning \eqref{laplaceblob}. Der ønskes derved at identificere ekstremaer i DoG billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Hver pixel bliver sammenlignet med dens $8+9+9=26$ naboer i de omkringliggende DoG billeder. Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt dens 26 naboer.
 \\
 \\
 Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
