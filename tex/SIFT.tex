@@ -4,7 +4,7 @@ from Scale-Invariant Keypoints} er en korrespondanceanalyse metode, introduceret
 \input{tex/dog.tex}
 \input{tex/SIFT-orientation.tex}
 \subsection{Deskriptor}
-SIFT deskriptoren skaber invarians overfor skala, belysning og vinkel. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16x16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
+SIFT deskriptoren skaber invarians overfor skala, belysning og <vinkel>. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
 \begin{equation}
 Des(I, p,\sigma,\theta) = F
 \end{equation}
@@ -20,7 +20,7 @@ W_{{mn}_{new}} = W_{mn} \cdot
 \end{pmatrix}
 \label{rotaionmatrix}
 \end{equation}
-$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
+$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i ligning \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
 \begin{equation}
 Grad_{new} = G(x,y,8) * Grad(x,y)
 \label{gradientsmooth}
