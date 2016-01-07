@@ -1,17 +1,18 @@
 \subsection{Skalarum}
 En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i refleksion mod de to drone-positioner hvorfra billederne er optaget. En god detektor skal være invariant over for sådanne forskelle. Der er bred enighed om nødvendigheden for skalainvarians hos deteketorer \cite{koen} \cite{blob} \cite{lindenscale}. Denne sektion beskriver, hvordan en sådan invarians kan opnås. \\ \\
-Objekter i virkeligheden, såvel som detaljer i et billede, optræder kun som meningsfulde enheder over et specifikt skalainterval. Et træ vil indenfor centimeters eller nanometers afstand optræde som blade eller molekyler og indenfor meters afstand som et træ. Koenderink \cite{koen} definere et objekts skalainterval som værende afgrænset af to skalaer, hvor objektet er def: den inderste og den yderste skala, f.eks. vil en trætop have en indre skala på ca. 10 cm og en ydre skala på ca. 10 m. %Da billedet indeholder en ukendt scene, 
-Det vides ikke hvilket skalainterval, der er meningsfuldt, for et givent objekt i en scene. Den inderste skala af billedet vil derfor være bundet af pixelstørrelsen og den ydre af billedets fysiske størrelse. En aksiomatisk tilgang til det ukendte skalainterval er at undersøge en bred skalarepræsentation af billedet i form af en udvidelse af billedfunktionen fra ligning \eqref{bf} med en enkelt parameter også kaldt skalaparametren $\sigma$:
+Objekter i virkeligheden, såvel som detaljer i et billede, optræder kun som meningsfulde enheder over et specifikt skalainterval. Et træ vil indenfor centimeters eller nanometers afstand optræde som blade eller molekyler og indenfor meters afstand som et træ. 
+%Koenderink \cite{koen} definere et objekts skalainterval som værende afgrænset af to skalaer, hvor objektet er def: den inderste og den yderste skala, f.eks. vil en trætop have en indre skala på ca. 10 cm og en ydre skala på ca. 10 m. %Da billedet indeholder en ukendt scene, 
+Det vides ikke hvilket skalainterval, der er meningsfuldt, for et givent objekt i en scene. 
+%Den inderste skala af billedet vil derfor være bundet af pixelstørrelsen og den ydre af billedets fysiske størrelse.
+En aksiomatisk tilgang til problem er at undersøge et bredt skalainterval af billedet i form af en udvidelse af billedfunktionen fra ligning \eqref{bf} med en enkelt parameter også kaldt skalaparametren $\sigma$:
 \begin{equation}
 \begin{split}
 &L: R^3 \rightarrow R \\
 &L(x,y,\sigma) = \lambda \hspace{0.5 cm} (x,y,\sigma)\in R^3, \lambda \in [1,256] \subset \mathbb{Z^+}
 \end{split}
 \end{equation}
-
 %\mathbb{Z^+}}^2 \rightarrow \mathbb{Z^+}
-
-For at opnå en multi-skala repræsentation af billedet, oprettes der et skalarum bestående af skalabilleder, der går fra at udtrykke finere til grovere strukturer, proportionelt med skalaparametren, som illustreret i figur \ref{fig:scalerep}. 
+For at opnå en multi-skala repræsentation af billedet, oprettes der et skalarum bestående af en stak skalabilleder, der går fra at udtrykke finere til grovere strukturer, proportionelt med skalaparametren, som illustreret i figur \ref{fig:scalerep}. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/32.png}
@@ -22,13 +23,15 @@ For at opnå en multi-skala repræsentation af billedet, oprettes der et skalaru
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Denne overgang fra finere til grovere strukturer kan opnås ved iterativt at folde billederne med et Gaussisk filter af stigende $\sigma$ værdi, hvor billedets nulskala repræsenteres ved biledet $ L(x,y,0) = I(x,y)$ og for $\sigma>0$, defineres et skalabillede ved:
+Denne overgang fra finere til grovere strukturer kan opnås ved iterativt at folde billederne med et Gaussisk filter af stigende $\sigma$ værdi, hvor det nederste billede i stakken kan repræsenteres ved biledet $ L(x,y,0) = I(x,y)$ og for $\sigma>0$, defineres et skalabillede $I_\sigma(x,y)$ ved:
 \begin{equation}
 L(x,y,\sigma) = G(x,y,\sigma)\ast I(x,y)
 \label{scalespace1}
 \end{equation}
 \\
-Der anvendes et Gaussisk filter, på grund af dens unikke egenskaber,  bl.a. at der ikke forekommer nye strukturer ved glatning, når skalaparametren stiger. Glatningen af billedet kan ses som at billedet flades ud og derved vil intensiteten i maksima falde og stige i minima.  Witkins \cite{witkins} beviste dette i tilfældet for én-dimensionselle signaler illustreret i  figur  \ref{scalespace1}, der viser resultatet af at glatte et signal med et Gaussisk filter af stigende $\sigma$ værdi. Det ses tydeligt, hvordan signalets underliggende grovere struktur bliver udtrykt og at finere strukturer undertrykkes.
+Der anvendes et Gaussisk filter, på grund af dens evne til at undertrykke finere strukturer og fremhæve grovere strukturer.
+%unikke egenskaber,  bl.a. at der ikke forekommer nye strukturer ved glatning, når skalaparametren stiger.
+Glatningen af billedet kan ses som at billedet flades ud og derved vil intensiteten i maksima falde og stige i minima.  Witkins \cite{witkins} beviste dette i tilfældet for én-dimensionselle signaler illustreret i  figur  \ref{scalespace1}, der viser resultatet af at glatte et signal med et Gaussisk filter af stigende $\sigma$ værdi. Det ses tydeligt, hvordan signalets underliggende grovere struktur bliver udtrykt og at finere strukturer undertrykkes.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/33.png}
