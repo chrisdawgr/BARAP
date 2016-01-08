@@ -4,7 +4,7 @@ Objekter i virkeligheden, såvel som detaljer i et billede, optræder kun som me
 %Koenderink \cite{koen} definere et objekts skalainterval som værende afgrænset af to skalaer, hvor objektet er def: den inderste og den yderste skala, f.eks. vil en trætop have en indre skala på ca. 10 cm og en ydre skala på ca. 10 m. %Da billedet indeholder en ukendt scene, 
 Det vides ikke hvilket skalainterval, der er meningsfuldt, for et givent objekt i en scene. 
 %Den inderste skala af billedet vil derfor være bundet af pixelstørrelsen og den ydre af billedets fysiske størrelse.
-En aksiomatisk tilgang til problem er at undersøge et bredt skalainterval af billedet i form af en udvidelse af billedfunktionen fra ligning \eqref{bf} med en enkelt parameter også kaldt skalaparametren $\sigma$:
+En aksiomatisk tilgang til dette problem er at undersøge et bredt skalainterval af billedet, i form af en udvidelse af billedfunktionen fra ligning \eqref{bf} med en enkelt parameter også kaldt skalaparametren $\sigma$:
 \begin{equation}
 \begin{split}
 &L: R^3 \rightarrow R \\
@@ -29,9 +29,7 @@ L(x,y,\sigma) = G(x,y,\sigma)\ast I(x,y)
 \label{scalespace1}
 \end{equation}
 \\
-Der anvendes et Gaussisk filter, på grund af dens evne til at undertrykke finere strukturer og fremhæve grovere strukturer.
-%unikke egenskaber,  bl.a. at der ikke forekommer nye strukturer ved glatning, når skalaparametren stiger.
-Glatningen af billedet kan ses som at billedet flades ud og derved vil intensiteten i maksima falde og stige i minima.  Witkins \cite{witkins} beviste dette i tilfældet for én-dimensionselle signaler illustreret i  figur  \ref{scalespace1}, der viser resultatet af at glatte et signal med et Gaussisk filter af stigende $\sigma$ værdi. Det ses tydeligt, hvordan signalets underliggende grovere struktur bliver udtrykt og at finere strukturer undertrykkes.
+Der anvendes et Gaussisk filter, på grund af dens evne til at undertrykke fine strukturer og fremhæve grove strukturer. Ved et Gaussisk filter vil strukturer, der eksistere på grovere skalaer være simplificeringer af strukturer fra finere skalaer. Der kan derved ikke opstå nye strukturer ud af ingenting ved anvendelse af det Gaussiske filter. Witkin \cite{witkins} beviste dette i tilfældet for én-dimensionselle signaler illustreret i figur  \ref{scalespace1}, der viser resultatet af at glatte et signal med et Gaussisk filter af stigende $\sigma$ værdi. Det ses tydeligt, hvordan signalets underliggende grovere struktur bliver udtrykt og at finere strukturer undertrykkes.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/33.png}
@@ -42,9 +40,7 @@ Glatningen af billedet kan ses som at billedet flades ud og derved vil intensite
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-%Koenderink \cite{koen} førte dette begreb videre til det to-dimensionelle tilfælde, ved at vise at foldningen af billedet med et Gaussisk filter er den generelle løsning til diffusionsligningen, som beskriver hvordan en varmefordeling $I$ udvikler sig over tid $t$.
-%$$ \partial t L = \nabla^2L $$
-%dvs. varmefordelingen kan for et givent tidspunkt udledes ved at folde den originale fordeling med et Gaussisk filter, hvor størrelsen er direkte relateret til tiden for varmefordelingen. Beskriver figur \ref{fig:scalereps}, en varme udvikling over en tid, hvor forskellige udviklinger er illustreret, vil alle dens udviklinger fra starttilstanden være dens skalarum.
+<Måske billede fra lindenscale du ved hvad jeg snakker om Chris>
 \subsubsection*{Skala Pyramide}
 En udbredt metode, hvorpå skalarummet kan repræsenteres, er ved en \textit{skalapyramide}. Ved en skalapyramide repræsentation oprettes en pyramide af kopier af det undersøgte billede, hvor der for hvert niveau i pyramiden sker en reducering af billedets størrelse. For at undgå at der opstår strukturer som ikke eksistere, som resultat af ændring i billedets opløsning, anvendes der imellem hvert niveau af pyramiden et Gaussisk filter, inden billederne reduceres. \begin{figure}[H]
     \centering
@@ -61,4 +57,4 @@ Hvis $G_0$ er det originale billede, der repræsenteres i skalapyramiden, kan de
 G_l(i,j)=\sum\limits_{m}\sum\limits_{n}w(m,n)G_{l-1}(2i+m,2j+n)
 \end{equation}
 hvor $w$ er et Gaussisk filter. Fordelene ved en pyramide repræsentation er at billedernes størrelser reduceres, hvilket reducere antallet af beregninger drastisk.
-%Måske noget konkluderende til sidst om hvordan dette hjælper på skalainvarians
+<Seperat sektion for strukturer subsection*>
