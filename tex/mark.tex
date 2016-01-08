@@ -4,10 +4,10 @@ Denne sektion har til formål at klarlægge udfordringer ved korrespondanceanaly
 Dronens overflyvning foregår ved at dronen får fire punkter, der svarer til markens fire hjørner. Dronen starter derefter i et hjørne og flyver systematisk fra side til side, med samme orientering, for at overflyve hele marken. Dronen starter på en højde af ca. 60 meter og foretager en overflyvning af marken, hvorefter den falder i højde og overflyver marken igen. Processen gentages tre gange, indtil dronen er omkring 5-10 meter over marken. 
 %I det udvalgte billedsæt er der fire overflyvninger, hvor hver overflyvning foregår på nogenlunde samme højde.
 \section{Markbilleder}
-I denne opgave er et sæt billeder fra samme overfløjede kornmark anvendt. På billedsættet ses en kornmark, der består af umiddelbare tilfældige kornstrukturer. I enkelte billeder er der traktorspor. Som illustreret i figur <Indsæt billede der viser udsnit af korn>, er kornet af relativ identisk udseende, og det kan derfor være vanskelig, for et menneske at skelne imellem korn områder. Ligheden imellem billederne og de a priori tilfældige kornstukturer, kan derfor besværliggøre korrespondanceanalysen, hvilket gør det interessant at undersøge, hvorvidt det er muligt at opnå korrespondancer.
+I denne opgave er et sæt billeder fra samme overfløjede kornmark anvendt. På billedsættet ses en kornmark, der består af umiddelbare tilfældige kornstrukturer. I enkelte billeder er der traktorspor <pløjet>. I figur \eqref{fig:korn} ses tre tilfældige udsnit af et markbillede. De forskellige udsnit er af relativ identisk udseende og det er derfor umiddelbart meget svært at udpege hvor i billedet, udsnittende er taget fra. Ligheden imellem billederne og de a priori tilfældige kornstrukturer, kan derfor besværliggøre korrespondanceanalysen. De umiddelbare udfordringer gør det interessant at undersøge, hvorvidt det er muligt at opnå korrespondancer.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{fig/20.png}
+    \includegraphics[width=0.85\textwidth]{fig/20a.png}
      %\vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{Markbillederne forstørret ind på enkelte korn.}}}
@@ -20,7 +20,7 @@ Følgende observationer er gjort af markbillederne, samt forhold omkring overfly
 \item{\textbf{Overlap:} Overlappet imellem billederne har en signifikant indflydelse på korrespondanceanalysen. Et stort overlap vil betyde at interessepunkter har større sandsynlighed for at indgå i begge billeder. Derfor, ved mindre overlap, skal der udvælges flere interessepunkter. Det er bekræftet at billederne i gennemsnit overlapper hinanden med ca. 70\%. Overlappet afhænger af hvilken højde billederne er taget på - jo længere fra jorden billedet er taget, jo større er overlappet. Figur \ref{fig:overlap} viser fire billeder, sat sammen parvist, der er taget ved to forskellige højder, hvor billedernes overlap er markeret med blåt. (a) er taget når dronen er på største højde, billederne er estimeret til at overlappe hinanden med ca. 80 $\%$. (b) er taget ved en lavere højde, billederne overlapper hinanden med ca. 35$\%$.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{fig/17.png}
+    \includegraphics[width=0.85\textwidth]{fig/17.png}
      \vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{Markbilleder taget fra forskellige højde, det blå område viser billedernes overlap.}}}
@@ -32,7 +32,7 @@ Følgende observationer er gjort af markbillederne, samt forhold omkring overfly
 Den største grad af rotation er observeret i de to billeder, hvor dronen er nået kanten og skifter flyveretning. Denne rotation er registreret til at være 10-15$^{\circ}$ og er illustreret i figur \ref{fig:rotation}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{fig/19.png}
+    \includegraphics[width=0.85\textwidth]{fig/19.png}
      \vspace{-1em}
     \begin{center} 
        \caption{\textcolor{gray}{\footnotesize \textit{Dronen skal til at ændre retning, hvilket giver rotation i billederne.}}}
@@ -44,7 +44,7 @@ Den største grad af rotation er observeret i de to billeder, hvor dronen er nå
 I et cirkulært område, hvor kamereet står 90$^{\circ}$ på marken (ca. midten af billedet), vil jorden imellem kornet være mere synligt end i resten af markbilledet.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{fig/18.png}
+    \includegraphics[width=0.85\textwidth]{fig/18.png}
      \vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{ To forkudte billeder, hvor traktorsporet er okkluderet. }}}
@@ -63,5 +63,6 @@ Ud fra ovenstående analyse er der opstillet følgende hypoteser om krav til de 
 \item{Det forventes at metoderne skal være skalainvariante da fotograferingen sker ved skiftende højde.}
 \item{ Grundet det til tider lille overlap imellem billederne, forventes det at detektoren skal tilpasses til at finde mange punkter, for at sikre en repeterbar detektion.}
 \item{Det forventes ikke at der skal tages højde for problemer ved okklusion. Dog er graden af okklusion større, ved lavere højde, og dette kan have indflydelse på antallet af korrekte korrespondancer.
-%Et overvejet tiltag var ikke at undersøge et område direkte under dronen, men det blev konkluderet at .}
+%Et overvejet tiltag var ikke at undersøge et område direkte under dronen, men det blev konkluderet at .
+}
 \end{itemize}

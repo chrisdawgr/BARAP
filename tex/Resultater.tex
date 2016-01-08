@@ -1,26 +1,28 @@
-\section{Resultater}
-
+\chapter{Resultater}
+Denne sektion har til formål at præsentere opgavens resultater. For at evaluere metoderne, er en måling for metodernes repeterbarhed opstillet, der udtrykker forholdet imellem korrekte korrespondancer og middelværdien af det samlede antal interessepunkter fundet i begge billeder \cite{eval}:
+\begin{equation}
+r_{I_1,I_2)}=\dfrac{C(I_1,I_2)}{\text{mean}(n_1,n_2)}
+\end{equation}
+hvor $C(I_1,I_2)$ angiver antallet af korrekte korrespondancer imellem to billeder og $n_1=\bold{|P|}$ og $n2=\bold{|P'|}$.
+%$\text{mean}(\bold{|P_1|},\bold{|P_2|)}$ angiver middelværdien af det samlede antal af fundne interessepunkter i det to billeder
+%<beskriv hvordan punkter fjernes>
+\\ \\ \\ 
 \begin{figure}[H]
     \centering
     \begin{center}    
     \begin{tabular}{ | l | l | l | l | l | l | l |}
     \hline
-    Filename 1 & Filename 1 & |$\bold{P_1}$| & |$\bold{P_2}$| & $\mu$ & $Match(\bold{P}, \bold{P}')$ & $Rm$ \\ \hline
-IMG\_9370.jpg &	IMG\_9371.jpg &	6311 &	8891 &	7601.0 &	133 &	0.01749\\ \hline
-IMG\_9371.jpg &	IMG\_9372.jpg &	8891 &	8000 &	8445.5 &	212 &	0.02510\\ \hline
-IMG\_9372.jpg &	IMG\_9373.jpg &	8000 &	6428 &	7214.0 &	87 &	0.01205\\ \hline
-IMG\_9373.jpg &	IMG\_9374.jpg &	6428 &	7581 &	7004.5 &	172 &	0.02455\\ \hline
-IMG\_9374.jpg &	IMG\_9375.jpg &	7581 &	8708 &	8144.5 &	98 &	0.01203\\ \hline
-IMG\_9375.jpg &	IMG\_9376.jpg &	8708 &	16856 &	12782.0 &	282 &	0.02206\\ \hline
-IMG\_9376.jpg &	IMG\_9377.jpg &	16856 &	16845 &	16850.5 &	1040 &	0.06171\\ \hline
-IMG\_9377.jpg &	IMG\_9378.jpg &	16845 &	8840 &	12842.5 &	380 &	0.02958\\ \hline
-IMG\_9378.jpg &	IMG\_9379.jpg &	8840 &	11179 &	10009.5 &	563 &	0.05624\\ \hline
-IMG\_9379.jpg &	IMG\_9380.jpg &	11179 &	11357 &	11268.0 &	691 &	0.06132\\ \hline
-IMG\_9380.jpg &	IMG\_9381.jpg &	11357 &	7478 &	9417.5 &	284 &	0.03015\\ \hline
-IMG\_9381.jpg &	IMG\_9382.jpg &	7478 &	6379 &	6928.5 &	311 &	0.04488\\ \hline
-IMG\_9382.jpg &	IMG\_9383.jpg &	6379 &	6118 &	6248.5 &	289 &	0.04625\\ \hline
-IMG\_9383.jpg &	IMG\_9384.jpg &	6118 &	10977 &	8547.5 &	244 &	0.02854\\ \hline
-
+    Filename 1 & Filename 1 & |$\bold{A}$| & |$\bold{A'}$| & $\mu$ & $Match(\bold{A}, \bold{A}')$ & $Rm$ \\ \hline
+IMG\_9370.jpg &	IMG\_9371.jpg &	12529 &	12882 &	12705.5 &	3249 &	0.255716028492\\ \hline
+IMG\_9371.jpg &	IMG\_9372.jpg &	12882 &	14700 &	13791.0 &	3422 &	0.248132840258\\ \hline
+IMG\_9372.jpg &	IMG\_9373.jpg &	14700 &	14636 &	14668.0 &	557 &	0.0379738205618\\ \hline
+IMG\_9373.jpg &	IMG\_9374.jpg &	14636 &	14352 &	14494.0 &	622 &	0.0429143093694\\ \hline
+IMG\_9374.jpg &	IMG\_9375.jpg &	14352 &	13902 &	14127.0 &	566 &	0.0400651235223\\ \hline
+IMG\_9375.jpg &	IMG\_9376.jpg &	13902 &	12200 &	13051.0 &	2575 &	0.197302888668\\ \hline
+IMG\_9376.jpg &	IMG\_9377.jpg &	12200 &	11614 &	11907.0 &	2800 &	0.235155790711\\ \hline
+IMG\_9377.jpg &	IMG\_9378.jpg &	11614 &	10028 &	10821.0 &	1005 &	0.0928749653452\\ \hline
+IMG\_9378.jpg &	IMG\_9379.jpg &	10028 &	10600 &	10314.0 &	1911 &	0.18528214078\\ \hline
+IMG\_9379.jpg &	IMG\_9380.jpg &	10600 &	9955 &	10277.5 &	1761 &	0.171345171491\\ \hline
     \end{tabular}       
     \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
     \label{fig:secderivfiltersize}
