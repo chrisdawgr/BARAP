@@ -62,7 +62,7 @@ hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentiere
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende når begge de principielle krumninger er ens og derved når Hessian matricens egenværdier er af samme fortegn:
+For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende når fortegnet for de principielle krumninger er ens og derved når Hessian matricens egenværdier er af samme fortegn:
 \begin{equation}
 \begin{split}
 \text{indikator} = 
@@ -73,7 +73,7 @@ For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende
 \end{split}
 \label{detman}
 \end{equation}
-Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, ved non-maximal suppression som introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
+Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $9\times9\times8$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, ved non-maximal suppression som introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
 \\
 \\
 \subsubsection*{Algoritme: SURF interessepunkts detektor}
