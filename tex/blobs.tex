@@ -1,19 +1,13 @@
 \subsection*{Blobs}\label{sec:blobs}
 En blob er en sammenhængende region af pixels, der enten er betydeligt lysere eller mørkere end dens omgivelser, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor udvælges som værende et lokalt ekstrema i billedet.
-<new>
-I figur ref ses 
-<newend>
-
-
-
- <Blobbens omfang strækker sig til punktet hvor den møder en anden blob. Dette kan intuitivt beskrives for lyse-blobs på en mørk baggrund, ved at betragte billedets funktion som et landskab dækket af vand. Sænkes vandet, vil toppen af billede funktionen gradvist dukke op. Sænkes vandet yderligere vil to toppe forbindes, 'dalen' hvor de to toppe mødes vil afgrænse deres omfang. Et sådant punkt hedder et saddle-point, som set i figur \ref{fig:lindblob} og definere et punkt der har geometriske krumninger i hver sin retning.>
+I figur \ref{fig:lindblob} ses tre lyse blobs, på en mørk baggrund, illustreret som bakketoppe. Der hvor bakkerne mødes, eksistere et punkt, hvor dets hældning krummer op i en retning og krummer ned i en anden. Et sådant punkt kaldes et saddle-point. Et saddle-point er derfor ikke et ekstrema, og derfor ikke en blob.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.35\textwidth]{fig/11.png}
+    \includegraphics[width=0.35\textwidth]{fig/44.png}
     \vspace{-0.5em}   
     \begin{center}
     \caption{\textcolor{gray}{\footnotesize \textit{
-    En blob visualiseret i 2-d, udefra Lindenberg's definition \cite{blob}}}}
+    Tre lyse blobs på en mørk baggrund illustreret i 2 dimensioner \cite{blob}}}}
     \label{fig:lindblob}
      \end{center}
   \end{figure}
