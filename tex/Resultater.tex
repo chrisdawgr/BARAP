@@ -3,18 +3,16 @@ Denne sektion har til formål at præsentere opgavens resultater. For at evaluer
 \begin{equation}
 r_{I_1,I_2)}=\dfrac{C(I_1,I_2)}{\text{mean}(n_1,n_2)}
 \end{equation}
-hvor $C(I_1,I_2)$ angiver antallet af korrekte korrespondancer imellem to billeder og $n_1=\bold{|A|}$ og $n2=\bold{|A'|}$.
+hvor $C(I_1,I_2)$ angiver antallet af korrekte korrespondancer imellem to billeder og $n_1=\bold{|A|}$ og $n_2=\bold{|A'|}$.
 %$\text{mean}(\bold{|P_1|},\bold{|P_2|)}$ angiver middelværdien af det samlede antal af fundne interessepunkter i det to billeder
 %<beskriv hvordan punkter fjernes>
 Moravec og Harris er blevet modificeret, for at få dem til at passe med SIFT. I begge tilfælde foldes billederne med en Gausskerne, og nedskaleres efter $\sigma$, som illustreret figur <???>, hvorefter detektionsmetoderne anvendes. 
 \\
 \\
-I nedenstående tabeller angiver Filename $x$ filnavnene på de billeder der er fundet korrespondancer mellem. $|A|$ og $|A'|$ er defineret som i afsnit 3.5. $Match(A, A')$ er antallet af fundne korresponderende punkter, givet matching algoritmen fra afsnit 5.5. Givet det store antal matchende punkter, er det her antaget, at alle punkter fundet ved $Match$ algoritmen er sande positiver - mere om dette i diskussionen af resultaterne. De 15 bedste matches, er også vedlagt som billede, for hver metode <de kan findes i fuld størrelse i..>
+I nedenstående tabeller angiver Filename $x$ filnavnene på de billeder der er fundet korrespondancer mellem. $|A|$ og $|A'|$ er defineret som i afsnit 3.5. $Match(A, A')$ er antallet af fundne korresponderende punkter, givet matching algoritmen fra afsnit 5.5. Givet det store antal matchende punkter, er det her antaget, at alle punkter fundet ved $Match$ algoritmen er sande positiver <korrekte korrespondancer> - mere om dette er omtalt i diskussionen af resultaterne. De 15 bedste matches, er også vedlagt som billede, for hver metode <de kan findes i fuld størrelse i..>
 \\
 \\
-De resultater der her er fremlagt og senere diskuteres, er fra en enkelt skala, fra en enkelt oktav. SIFT og SURF søger oprindeligt efter blobs i flere skalrum - disse udregninger indgår ikke i resultat sektionen. Denne beslutning er taget på baggrunden af rationalet, at markbilleder taget af en drone fra en bestemt kendt højde, skaber blobs af en bestemt størrelse. Det er derfor ikke nødvendigt at kigge efter blobs på andre skaler, end den, der empirisk har vist sig at give flest matches, ved en forudgående undersøgelse.
-
-
+De resultater der her er fremlagt og senere diskuteres, er fra en enkelt skala, fra en enkelt oktav. SIFT og SURF søger oprindeligt efter blobs i flere skalrum - disse udregninger indgår ikke i resultat sektionen. Denne beslutning er taget på baggrunden af rationalet, at markbilleder taget af en drone fra en bestemt kendt højde, skaber blobs af en bestemt størrelse. Det er derfor ikke nødvendigt at kigge efter blobs på andre skaler, end den, der empirisk har vist sig at give de bedste resultater  ved en forudgående undersøgelse.
 \section{Moravec}
 \section{Harris}
 
