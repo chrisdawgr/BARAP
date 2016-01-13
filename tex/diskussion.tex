@@ -1,0 +1,23 @@
+\chapter{Diskussion}
+I denne sektion, vil resultater fremført i sektion \ref{sec:resultater}, diskuteres. Derudover vil resultaterne fortolkes, for at besvare de opstillede problemstillinger. \\
+Først og fremmest var det interessant i dette projekt, at udlede hvorvidt, det var muligt at opnå en korrekt korrespondanceanalyse, dvs. at udvælge korrekte korresponderende punkter i markbillederne. Derudover omhandler opgavens hovedproblemstilling, hvilke af de udvalgte metoder, der bedst muliggør en korrekt korrespondance analyse af markbillederne. For at kunne konkludere ovenstående, iagtages to aspekter fra resultaterne: (1) hvor mange korrekte korrespondancer, hver metode har fundet. (2) hvor mange korrekte korrespondancer, hver metode har fundet, ift. mængden af de detekterede interessepunkter. Disse to aspekter er opskrevet i table \ref{table:tab}, der opsummere resultaterne fra sektion \ref{sec:resultater}.
+\begin{center}
+    \begin{tabular}{ | l | l | l | l |}
+    \hline
+    Detektor & Deskriptor & $\text{Match(A,A')}$ & $\text{mean rm}$ \\ \hline
+    $DoG$ & SURF & TBD & 0.2342 \\ \hline       
+    Harris & SIFT & TBD & 1.505 \\ \hline    
+    Moravec & SIFT & TBD & TBD \\ \hline    
+    $DoH$ & SURF & TBD & 0.0292 \\ \hline    
+    \end{tabular}
+    \label{table:tab}
+\end{center}
+Figur \ref{table:tab} viser at det var muligt for alle metoder at udvælge korrekte korrespondancer i billederne og derved opnå en korrekt korrespondanceanalyse af markbillederne. For at besvare hovedproblemstillingen, evalueres metoderne udefra deres repeatability measure $rm$. Det kan ud fra dette konkluderes at metode kombinationen $DoG$ \& SURF, bedst muliggør en korrepsondance analyse af markbillederne. \\ \\
+Det 
+%Hjørner
+%SKALA
+%ROTATION
+
+
+
+%Denne beslutning er taget på baggrunden af rationalet, at markbilleder taget af en drone fra en bestemt kendt højde, skaber blobs af en bestemt størrelse. Det er derfor ikke nødvendigt at kigge efter blobs på andre skaler, end den, der empirisk har vist sig at give de bedste resultater  ved en forudgående undersøgelse.
