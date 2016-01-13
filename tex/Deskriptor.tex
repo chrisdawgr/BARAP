@@ -1,5 +1,9 @@
 \section{Deskriptor}
-Fra en detektor genereres et sæt interessepunkter $\bold{P}$, fra to eller flere billeder som vist i ligning \eqref{detect}. For at udvælge korresponderende punkter imellem billederne, skal interessepunkterne beskrives af en deskriptor $Des$. Deskriptoren er en funktion, der tager et billede og et punkt som input. Deskriptoren beskriver et interessepunkt ud fra information i og omkring punktet, og tilegner punktet en feature $f$, der kommer i form af en n-dimensional vektor:
-$$ Des(I,p_i)=f_i $$
-$$ Des(I',p_j')=f_j' $$
-For to korresponderende punkter $i$ og $j$ ønskes det at $f_i \approx f'_j$, så punkterne korrekt kan identificeres som værende korresponderende punkter, men også for to \textit{ikke} korresponderende punkter $k$ og $l$ at $f_k \not\approx f'_l$ så de kan identificeres som ikke korresponderende.
+For at udvælge korresponderende punkter imellem billederne, skal interessepunkterne beskrives af en deskriptor $Des$. Deskriptoren er en funktion, der tager et billede og et punkt som input. Deskriptoren beskriver et interessepunkt ud fra information i og omkring punktet, og knytter punktet en feature $f$, der kommer i form af en n-dimensional vektor:
+\begin{equation}
+Des(I,p_i)=f_i
+\end{equation}
+\begin{equation}
+Des(I',p_j')=f_j'
+\end{equation}
+For to korresponderende punkter $i$ og $j$ ønskes det at $f_i \approx f'_j$, så punkterne korrekt kan identificeres som værende korresponderende punkter, men også for to \textit{ikke} korresponderende punkter $k$ og $l$ at $f_k \not\approx f'_l$ så de kan identificeres som ikke-korresponderende.
