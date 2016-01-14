@@ -1,5 +1,5 @@
 \section{SURF}
-SURF (SpeededUp Robust Features), introduceret af Bay et. al \cite{SURF} i 2006 er, ligesom SIFT, en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser. I forhold til SIFT, har SURF den fordel, at den beregningsmæssigt kan optimeres til at være betydeligt hurtigere end SIFT.
+SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} og er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
 \input{tex/doh.tex}
 \input{tex/SURF-orientation.tex}
 SURF deskriptoren producerer features, der består af 64 indgange. Som beskrevet af Tuytelaars et. al \cite{SURF}, er tilfældet ofte, at der ikke er brug for rotationsinvarians. En variant af SURF, der ikke er rotationsinvariant, kaldes Upright-SURF (U-SURF). Tuytelaars et. al garanterer dog rotationsinvarians i U-SURF, i op til $\pm 15^{\circ}$. SURF er implementeret, fremfor U-SURF, da enkelte af billederne har stor grad (ca. $15^{\circ}$) af rotation. Rotationen forekommer i billeder, der er taget lige efter, at dronen har vendt og kan ses på figur <[???]>.
