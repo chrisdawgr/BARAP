@@ -1,5 +1,5 @@
 \subsection{Determinant of Hessian}
-Determinant of Hessian(DoH) udgør feature detektoren i SURF. DoH er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et billede:
+Determinant of Hessian $DoH$ udgør feature detektoren i SURF. $DoH$ er baseret på Hessian matricen, som udregnes for hvert punkt $p$ i et billede:
 \begin{equation}
 \mathcal{H}(p, \sigma) = 
  \begin{bmatrix}
@@ -8,12 +8,13 @@ Determinant of Hessian(DoH) udgør feature detektoren i SURF. DoH er baseret på
  \end{bmatrix}
  \label{hessianmatrix}
 \end{equation}
-hvor $\sigma$ angiver skala og $L_{xy} $, $L_{yy}$ og $L_{xx}$ (vist i ligning \eqref{lxx}), er den Gaussiske funktionen, partielt differentieret ift. $xy$, $yy$ og $xx$ respektivt.
+hvor $\sigma$ angiver skala og $L_{xx}$ defineres som: 
 \begin{equation}
 L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 \label{lxx}
 \end{equation}
-Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som fordelagtigt, ved brug af integralbilleder, nedsætter antallet af beregninger drastisk. I denne implementering er disse boks filtre ikke anvendt, men udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt. Denne designbeslutning skyldes, at det gjorde programmet mindre komplekst og nemmere at teste - og da $D_{xx}, ....$ er en approksimation til $L_{xx},...$ er denne løsning korrekt, men dog ikke tidseffektiv. 
+og analogt for $L_{yy}, L_{xy}$. Bay et al. anvender approkismerede boksfiltre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som ved brug af integralbilleder nedsætter antallet af beregninger drastisk. I denne implementering er disse boksfiltre ikke anvendt, men udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt. Denne designbeslutning skyldes, at beregningerne af integralbilleder komplicerede programmet. Da 
+boksfiltrene er en approksimation til $L$ er denne tilgang korrekt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{fig/31.png}
@@ -24,18 +25,7 @@ Bay et al. anvender approkismerede boks filtre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, 
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. Dette er det samme som at anvende en stigende filterstørrelse med en fast sigma værdi. I figur \ref{fig:siftsurf} ses forholdet imellem størrelserne af den Gaussiske funktion.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{fig/34.png}
-     \vspace{-0.5em}
-    \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{Øverst ses den gaussiske funktion, hvor der ligesom i SIFT er vedligeholdt en filterstørrelse, men med stigende sigma værdi. Nederst ses den samme funktion, der ligesom i SURF vedligeholder den samme sigma værdi, men anvender stigende filterstørrelser.}}}
-    \label{fig:siftsurf}
-     \end{center}
-     \vspace{-1.5em}
-  \end{figure} \noindent
-For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav, bruges nr. 2 filterstørrelse, fra forrige oktav til startoktav (startende på størelse 9), og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
+I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav bruges nr. 2 filterstørrelse, fra forrige oktav til startoktav (startende på størelse 9), og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
 \begin{figure}[H]
     \centering
     \begin{center}    
@@ -57,23 +47,23 @@ For hvert punkt i billederne opstilles Hessian matricen, hvorefter determinanten
 \textbf{det}\mathcal{H}_{approksimeret} = D_{xx}D_{yy}-wD_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentierede Gaussiske filtre og boks filtrene. Da denne implementering ikke anvender boks filtre, udregnes determinanten som:
+hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentierede Gaussiske filtre og boksfiltrene. Da denne implementering ikke anvender boksfiltre, udregnes determinanten som:
 \begin{equation}
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-For blobs ønskes et lokalt ekstrema. Som tidligere beskrevet er dette gældende når fortegnet for de principale krumninger er ens og derved når Hessian matricens egenværdier er af samme fortegn:
+Blobs er lokaliseret på lokale ekstremaer. Når hessian matricens egenværdier har samme fortegn, indikere dette et ekstrema:
 \begin{equation}
 \begin{split}
 \text{indikator} = 
 \begin{cases}
 \text{Ekstrema}& \text{hvis } \bold{det}(\mathcal{H}) > 0,  \\
-\text{Saddle-Point} & \text{hvis } \bold{det}(\mathcal{H}) < 0.
+\text{Saddel-Punkt} & \text{hvis } \bold{det}(\mathcal{H}) < 0.
 \end{cases}
 \end{split}
 \label{detman}
 \end{equation}
-Metoden reagere derved på mørke og lyse blobs, ved positive determinanter. Derfor udvælges et lokalt maxima af et $9\times9\times8$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Herefter udvælges korrekt subpixel placering, ved non-maximal suppression som introduceret af David Lowe, også beskrevet i SIFT. Igen udføres dette skridt ved at fjerne punkter, der ikke er lokaliseret tæt nok på ekstremaer.
+Et punkt udvælges, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Non-maximal surpression anvendes ligesom i SIFT.
 \\
 \\
 \subsubsection*{Algoritme: SURF interessepunkts detektor}
