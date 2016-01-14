@@ -4,14 +4,11 @@ from Scale-Invariant Keypoints} er en korrespondanceanalyse metode, introduceret
 \input{tex/dog.tex}
 \input{tex/SIFT-orientation.tex}
 \subsection{Deskriptor}
-SIFT deskriptoren skaber invarians overfor skala, belysning og <vinkel>. Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor, med 128 indgange. Deskriptoren kan formelt beskrives:
-\begin{equation}
-Des(I, p,\sigma,\theta) = F
-\end{equation}
-Hvor $I$ er billedet, $p$ er et interessepunkt $(x,y)$, $\sigma$ er den tilhørende skalaparameter punktet er fundet på, og $\theta$ er orienteringen af $p$. $F$ er en feature vektor, tilegnet punktet $p$.
+Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor. Deskriptoren kan formelt beskrives:
+%med 128 indgange
 \\
 \\
-Skalaen for et givent punkt bestemmer, om det billede der skal foretages beregninger på, skal være subsamplet. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$. Dette opnås, ved at tage prik produktet, af hver indgang i dataindsamlingsvinduet, med rotationsmatricen:
+sigmaværdien i $DoG$ billedet, punktet er blevet fundet på, anvendes til videre beregning. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$, som fundet i forrige afsnit. Dette opnås, ved at tage prik produktet, af hver indgang i dataindsamlingsvinduet, med rotationsmatricen:
 \begin{equation}
 W_{{mn}_{new}} = W_{mn} \cdot
 \begin{pmatrix}
@@ -20,9 +17,9 @@ W_{{mn}_{new}} = W_{mn} \cdot
 \end{pmatrix}
 \label{rotaionmatrix}
 \end{equation}
-$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i ligning \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $Grad$ og $Ori$. $Grad$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($=8$):
+$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i ligning \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $g$ og $o$. $g$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($\sigma=8$):
 \begin{equation}
-Grad_{new} = G(x,y,8) * Grad(x,y)
+g_{new} = G(x,y,8) * g(x,y)
 \label{gradientsmooth}
 \end{equation}
 Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse $4\times4$, som set i figur(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er $F_i$ repræsenteret ved 16 vinduer, hver med 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
@@ -42,6 +39,6 @@ $F$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ 
 \begin{enumerate}
 \item Det bestemmes via $\sigma$ hvilket billede der skal udføres beregninger på
 \item $W$ roteres, ved rotationsmatricen \eqref{rotaionmatrix}, og glattes med \eqref{gradientsmooth}
-\item $R_{ij}$ oprettes, ved at dele $Grad_{new}$ op i 16 regioner, hver med størrelse $4\times4$
+\item $R_{ij}$ oprettes, ved at dele $g_{new}$ op i 16 regioner, hver med størrelse $4\times4$
 \item Alle punkter, i alle regioner af $R_{ij}$, skal nu bruges til at opdatere $F$, som beskrevet de 3 skridt ovenfor
 \end{enumerate}
