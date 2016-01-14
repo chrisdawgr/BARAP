@@ -61,7 +61,7 @@ Når skalarummet er oprettet skal $DoG$ billederne produceres, hvilket er illust
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent    
-$LoG$ svarer til sporret af hessian matricen som angiver summen af hessian matricens egenværdier. Derfor, som angivet i ligning \eqref{laplaceblob}, resultere et minima i et positivt respons og et maxima i et negativt respons. Der ønskes derved at identificere ekstremaer i $DoG$ billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt dens 26 naboer.
+Da $LoG$ svare til sporret af hessian matricen, som angiver summen af hessian matricens egenværdier. vil et positivt filtersvar, angive et minima, hvor et negativt filtersvar vil angive et maxima, som angivet i ligning \eqref{laplaceblob}. Der ønskes at identificere ekstremaer i $DoG$ billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område, som vist figur \ref{fig:difference} (b). Et punkt udvælges som værende et ekstrema, hvis det er det største/mindste iblandt dens 26 naboer.
 \\
 \\
 Når lokale ekstremaer er udvalgt fravælges dårligt lokaliserede punkter, f.eks. ekstremaer med lav kontrast, men også punkter, hvor ekstremaer ligger imellem pixels. Ligeledes bliver punkters placering fundet, med subpixel nøjagtighed. Dette gøres, ved non-maximal suppression, som foreslået af Lowe \cite{nonmaximalsuppression}:
@@ -83,7 +83,7 @@ Punkter med lav kontrast fjernes, ved at sætte grænseværdi, for $D(\hat{x})$:
 D(\hat{x})=D+\dfrac{1}{2}\dfrac{\partial D^T}{\partial x}\hat{x}
 \label{dxhat}
 \end{equation}
-Lowe foreslår at værdier af $D(\hat{x})$ under 0.03 fjernes. Metoden vil også have et positivt respons overfor kanter, da to meget forskellige egenværdier, vil resultere i et stærkt respons.
+Lowe foreslår at værdier af $D(\hat{x})$ under 0.03 fjernes. Metoden vil også have et positivt svar overfor kanter, da to meget forskellige egenværdier, vil resultere i et stærkt svar.
 For at undgå dette anvendes metoder lånt fra Harris og Stephens \cite{harris}. Hessian matricen opstilles som:
 \begin{equation}
 \mathcal{H} =
