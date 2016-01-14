@@ -1,7 +1,8 @@
+SURF gør brug af Haar-wavelet filter, når en orientering for interessepunkter skal bestemmes og i deskriptoren. Haar-wavelet er et boksfilter, med størrelse ($N\times N$), hvor halvdelen af alle indgangene er 1 og den anden halvdel er -1. Filtret i figur \ref{fig:haarwavelet} kaldes $dx$ (venstre) og $dy$ (højre).
 \subsection{SURF orientering}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{fig/haarwavelet.png}
+    \includegraphics[width=0.55\textwidth]{fig/haarwavelet.png}
      \vspace{-1em}
     \begin{center}    
        \caption{\textcolor{gray}{\footnotesize \textit{ }}}
@@ -9,10 +10,9 @@
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-SURF gør brug af Haar-wavelet filter, både til tildeling af orientering til interessepunkter og i deskriptoren. Haar-wavelet er et boks-filter, med størrelse ($NxN$), hvor halvdelen af alle indgangene er +1 og den anden halvdel er -1. venstre filter illustration \ref{fig:haarwavelet} benævnes $dx$, og højre $dy$.
 \\
 \\
-For at gøre de fundne punkter invariant overfor rotation, skal Haar-wavelet responset findes i x og y retningen omkring punktet ($dx, dy$), respektivt. $dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $dx$ og $dy$ foldes med en cirkulær Gausskerne, med samme størrelse som Haar-wavelet responsene, og $\sigma_{Gauss} = 2.5\sigma$.
+$dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et dataindsamlingsvindue $D_x$ og $D_y$, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $\sigma$ er et udtryk for filterstørrelsen. $D_x$ og $D_y$ foldes med en Gausskerne, med samme størrelse som Haar-wavelet responsene, og $\sigma_{Gauss} = 2.5\sigma$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{fig/surforientation.jpg}
