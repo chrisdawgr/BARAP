@@ -2,16 +2,18 @@
 SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} og er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
 \input{tex/doh.tex}
 \input{tex/SURF-orientation.tex}
-SURF deskriptoren producerer features, der består af 64 indgange. Som beskrevet af Tuytelaars et. al \cite{SURF}, er tilfældet ofte, at der ikke er brug for rotationsinvarians. En variant af SURF, der ikke er rotationsinvariant, kaldes Upright-SURF (U-SURF). Tuytelaars et. al garanterer dog rotationsinvarians i U-SURF, i op til $\pm 15^{\circ}$. SURF er implementeret, fremfor U-SURF, da enkelte af billederne har stor grad (ca. $15^{\circ}$) af rotation. Rotationen forekommer i billeder, der er taget lige efter, at dronen har vendt og kan ses på figur <[???]>.
+
+\section{Deskriptor}
+Tuytelaars et. al \cite{SURF} beskriver, at der ofte ikke er brug for rotationsinvarians. Upright-SURF (U-SURF) er en variant af SURF, der ikke er rotationsinvariant. Tuytelaars et. al garanterer rotationsinvarians i U-SURF, i op til $15^{\circ}$. Både SURF og U-SURF er implementeret.
 \\
 \\
-SURF deskriptoren indsamler data omkring interssepunktet, med et dataindsamlingvindue der har størrelse $20 \sigma$. Vinduet skal orienters, ifht. den $\theta$ værdi, der er udregnet. Dette gøres ved, at hele billedet vendes, ved brug af ligning \eqref{rotaionmatrix}, og der dannes et integralbillede ud fra det roterede billede <(Dette skridt er omkostningsfuldt, og der vil senere blive diskuteret optimeringer)>.
+SURF deskriptoren indsamler data omkring interssepunktet, med et dataindsamlingvindue der har størrelse $20 \sigma_{punkt}$. Vinduet skal orienters, ifht. den udregnede $\theta$, fra forrige skridt. Dette udføres ved, at hele billedet roteres, ved brug af rotationsmatricen opstillet ligning \eqref{rotaionmatrix}, og der dannes et billede, hvor hver pixelværdi er summen af området afgrænset af alle pixels der ligger til venstre for og over, inklusiv - et såkaldt integralbillede. 
 \\
 \\
-Dataindsamlingsvinduet er nu roteret og centreret omkring interessepunktet. Herefter skal vinduet deles op i 4x4 regioner, hver bestående af 5x5 punkter, der har ens afstand mellem sig - her er ikke blevet lavet subpixel-interpolation, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
+Billedet er nu roteret og et dataindsamlingsvinduet centreres omkring interessepunktet. Herefter skal vinduet deles op i 16 ($4 \times 4$) regioner, hver af størrelse($5\times 5$) bestående af pixelintensiteter, der har afstand $\sigma_{point}$ mellem sig - her er ikke blevet lavet subpixel-interpolation, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
 \\
 \\
-Herefter skal $dx$ og $dy$ udregnes. Haar-wavelet skal udregnes for alle punkterne i vinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet skal smoothes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
+Herefter foldes Haar-wavelet med dataindsamlingsvinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet foldes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
 \\
 \\
 For hver af de 16 4x4 regioner, udregnes: 
@@ -19,7 +21,7 @@ For hver af de 16 4x4 regioner, udregnes:
 v_i = \sum d_x, \sum d_y, \sum |d_y|, \sum |d_y|
 \label{surffeature}
 \end{equation}
-hvor $v_i$ er en $(4x1)$ matrix, for region nr. $i$, hvor hver region er nummeret i læseretningen. Der dannes en feature vektor $F$, ved at sammensætte alle $v_i$: $F = [v_1^T, v_2^T,..., v_16^T]^T$. Dette giver en $16 \cdot 4 = 64$ indgange stor vektor. Slutteligt, laves vektoren til en enhedsvektor.
+$v_i$ er en $(4\times 1)$ matrix, for region nr. $i$, hvor hver region er nummeret efter læseretningen. Der dannes en feature vektor $F$, ved at sammensætte alle $v_i$: $F = [v_1^T, v_2^T,..., v_{16}^T]^T$. Dette giver en $16 \cdot 4 = 64$ dimensional vektor. Slutteligt, laves vektoren til en enhedsvektor.
 \subsubsection*{Algoritme: SURF Deskriptor}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
@@ -27,7 +29,7 @@ $\text{ }$ \> : \> Punkter $p \in (x, y, \theta)$ \\
 Output \text{ } \> : \> En feature vektor $F$, for hver punkt $p$.
 \end{tabbing}
 \begin{enumerate}
-\item Et dataindsamlingsvindue roteret ifht. $\theta$, beregnet som \eqref{rotaionmatrix} med størrelse $20\sigma$ indsamler punkter, der er har afstand $\sigma$ mellem hinanden.
-\item Haar-wavelet responset, $dx$, $dy$ udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og $dx, dy$ foldes med Gauss, hvor $\sigma_{Gauss} = 3.3\sigma$.
-\item For hver af de 4x4 regioner, udregnes \eqref{surffeature}. Dette sættes sammen til en vektor, der vil have 64 indgange.
+\item Et dataindsamlingsvindue roteret ifht. $\theta$, beregnet ved ligning \eqref{rotaionmatrix} med størrelse $20\sigma$ indsamler punkter, der er har afstand $\sigma$ mellem hinanden.
+\item Haar-wavelet svaret udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og filtersvarene foldes med et Gaussisk filter, hvor $\sigma_{Gauss} = 3.3\sigma$.
+\item For hver af de 4x4 regioner, udregnes ligning \eqref{surffeature}.
 \end{enumerate}

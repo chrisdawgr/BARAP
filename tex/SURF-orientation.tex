@@ -1,5 +1,5 @@
-SURF gør brug af Haar-wavelet filter, når en orientering for interessepunkter skal bestemmes og i deskriptoren. Haar-wavelet er et boksfilter, med størrelse ($N\times N$), hvor halvdelen af alle indgangene er 1 og den anden halvdel er -1. Filtret i figur \ref{fig:haarwavelet} kaldes $dx$ (venstre) og $dy$ (højre).
 \subsection{SURF orientering}
+SURF gør brug af Haar-wavelet filter, når en orientering for interessepunkter skal bestemmes og i deskriptoren. Haar-wavelet er et boksfilter, med størrelse ($N\times N$), hvor halvdelen af alle indgangene er 1 og den anden halvdel er -1. Filtret i figur \ref{fig:haarwavelet} kaldes $dx$ (venstre) og $dy$ (højre).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/haarwavelet.png}
@@ -10,9 +10,7 @@ SURF gør brug af Haar-wavelet filter, når en orientering for interessepunkter 
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-\\
-\\
-$dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et dataindsamlingsvindue $D_x$ og $D_y$, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $\sigma$ er et udtryk for filterstørrelsen. $D_x$ og $D_y$ foldes med en Gausskerne, med samme størrelse som Haar-wavelet responsene, og $\sigma_{Gauss} = 2.5\sigma$.
+$dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et dataindsamlingsvindue $D_x$ og $D_y$, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $D_x$ og $D_y$ foldes med en Gausskerne, hvor $\sigma_{Gauss} = 2.5\sigma$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{fig/surforientation.jpg}
@@ -23,17 +21,17 @@ $dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et datain
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Et sliding vindue på $60^{\circ}$, summerer alle vektorene, der ligger indenfor dets rækkevidde. Af de summerede vektorer udgør den længste vektor retningen, som beregnes med $\text{atan2}$ (invers tangens, med 2 inputs). Dette er illustreret på figur \ref{fig:surforientation}. Der er her taget en beslutning om, at slidingvinduet udregner summen af vektorer, indenfor seks positioner ($0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$,..., $300^{\circ}-360^{\circ}$) - dette for at gøre beregningerne simplere. Flere positioner kunne her have været undersøgt.
+$D_x$ og $D_y$ udgør et sæt af punkter, der kan plottes som illustreret figur \ref{fig:surforientation}. Hver punkt udgør en vektor. Et vindue på $60^{\circ}$, summerer alle vektorene, der ligger indenfor dets rækkevidde (grå markering). Af de summerede vektorer udgør den længste vektor, punktets orientering. Dette er illustreret på figur \ref{fig:surforientation}. Der er her taget en beslutning om, at slidingvinduet udregner summen af vektorer, indenfor seks positioner ($0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$,..., $300^{\circ}-360^{\circ}$).
 \\
 Ovenstående udregning tildeler alle interessepunkter en orientering $\theta$.
 \subsubsection*{Algoritme: SURF Orientering}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
-$\text{ }$ \> : \>  Interessepunkter $p \in (x, y, \theta)$ \\
+$\text{ }$ \> : \>  Interessepunkter $p \in (x, y)$ \\
 Output \text{ } \> : \> Interessepunkter med orientering $p \in (x, y, \theta)$
 \end{tabbing}
 \begin{enumerate}
-\item Orienteringen på punktet findes, ved at beregne $dx$, $dy$ i et cirkulært område, med radius $6\sigma$, og afstand $\sigma$, mellem punkterne. 
-\item $dx$, $dy$ foldes med en Gauss kerne, med $\sigma_{Gauss} = 2.5\sigma $.
+\item Orienteringen på punktet findes, ved at beregne $D_x$, $D_y$ i et cirkulært område, med radius $6\sigma$, og afstand $\sigma$, mellem punkterne. 
+\item $D_x$, $D_y$ foldes med en Gausskerne, med $\sigma_{Gauss} = 2.5\sigma $.
 \item Den længste vektor, af summerede vektorer, der ligger indenfor $60^{\circ}$, bruges til at tildele orientering $\theta$ til interessepunktet.
 \end{enumerate}
