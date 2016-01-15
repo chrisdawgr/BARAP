@@ -20,7 +20,7 @@ boksfiltrene er en approksimation til $L$ er denne tilgang korrekt.
     \includegraphics[width=0.75\textwidth]{fig/31.png}
      \vspace{-0.5em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+       \caption{{\footnotesize \textit{De anvendte Gaussiske filtre, partielt differentieret i $xy,x^2$ og $y^2$.}}}
     \label{fig:lxxlyylxy}
      \end{center}
      \vspace{-2.5em}
@@ -37,7 +37,7 @@ I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I 
   	3 & 27 & 51 & 75 & 99 \\ \hline
   	4 & 51 & 99 & 147 & 195 \\ \hline
     \end{tabular}       
-    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
+    \caption{{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
     \label{fig:secderivfiltersize}
      \end{center}
      \vspace{-2.5em}
@@ -64,13 +64,11 @@ Blobs er lokaliseret på lokale ekstremaer. Når hessian matricens egenværdier 
 \label{detman}
 \end{equation}
 Et punkt udvælges, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Non-maximal surpression anvendes ligesom i SIFT.
-\\
-\\
-\subsubsection*{Algoritme: SURF interessepunkts detektor}
-\begin{enumerate}
-\item[Input:] Billede $I$
-\item[Output:] Interessepunkter $p \in (x,y)$
-\end{enumerate}
+\subsubsection*{Algoritme: SURF Detektor}
+\begin{tabbing}
+Input\quad \= : \= Billede $I$\\
+Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
+\end{tabbing}
 \begin{enumerate}
 \item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}
 \item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder som i ligning \eqref{deerminantofhessian}.

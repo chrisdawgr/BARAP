@@ -26,12 +26,12 @@ $dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et datain
 Et sliding vindue på $60^{\circ}$, summerer alle vektorene, der ligger indenfor dets rækkevidde. Af de summerede vektorer udgør den længste vektor retningen, som beregnes med $\text{atan2}$ (invers tangens, med 2 inputs). Dette er illustreret på figur \ref{fig:surforientation}. Der er her taget en beslutning om, at slidingvinduet udregner summen af vektorer, indenfor seks positioner ($0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$,..., $300^{\circ}-360^{\circ}$) - dette for at gøre beregningerne simplere. Flere positioner kunne her have været undersøgt.
 \\
 Ovenstående udregning tildeler alle interessepunkter en orientering $\theta$.
-\subsubsection*{Algoritme: SURF tildeling af orientering til interesepunker}
-\begin{enumerate}
-\item[Input:] Billede $I$
-\item[] Interessepunkter $p \in (x, y, \theta)$
-\item[Output:] Interessepunkter med orientering $p \in (x, y, \theta)$
-\end{enumerate}
+\subsubsection*{Algoritme: SURF Orientering}
+\begin{tabbing}
+Input\quad \= : \= Billede $I$\\
+$\text{ }$ \> : \>  Interessepunkter $p \in (x, y, \theta)$ \\
+Output \text{ } \> : \> Interessepunkter med orientering $p \in (x, y, \theta)$
+\end{tabbing}
 \begin{enumerate}
 \item Orienteringen på punktet findes, ved at beregne $dx$, $dy$ i et cirkulært område, med radius $6\sigma$, og afstand $\sigma$, mellem punkterne. 
 \item $dx$, $dy$ foldes med en Gauss kerne, med $\sigma_{Gauss} = 2.5\sigma $.

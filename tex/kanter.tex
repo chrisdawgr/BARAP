@@ -32,8 +32,8 @@ Diskontinuitet i billeder markerer kanter: Hvis et billede beskues i 3D, kan en 
     \includegraphics[width=0.55\textwidth]{fig/7.png}
      \vspace{-1em}
     \begin{center}        
-     \caption{\textcolor{gray}{\footnotesize \textit{
-En 1-dimensional fortolkning af intensiteten i et billede. Intensitetsskiftet i midten (ved x $approx$ 1000, er en kant.}}}
+     \caption{{\footnotesize \textit{
+En 1-dimensional fortolkning af intensiteten i et billede. Intensitetsskiftet i midten (ved x $\approx$ 1000, er en kant.)}}}
     \label{fig:kant}
      \end{center}
        \vspace{-2.5em}
@@ -44,8 +44,6 @@ En differentiering af funktionen fra figur \ref{fig:kant} vil fremhæve dens uds
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
 \end{equation}
-\\
-\\
 <beskriv hvorfor foldning er nyttigt>
 Foldning af $I$ af størrelse $(M \times N)$, med en kerne $K$ der har størrelse $(k \times l)$, hvor $M > k, N > l$:
 \begin{equation}
@@ -78,24 +76,23 @@ Foldes et differentieret 1-dimensionelt Gaussfilter med signalet fra figur \ref{
     \includegraphics[width=0.55\textwidth]{fig/8.png}
     \vspace{-1em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
+    \caption{{\footnotesize \textit{
      Resultatet af at folde et dobbelt differentieret Gaussisk filter med funktionen}}}
     \label{fig:deriv}
      \end{center}
     \vspace{-2.5em}  
   \end{figure}
 \noindent
-
+I de anvendte metoder er der blevet gjort brug af et dataindsamlingsvindue. Med dette menes et udsnit af et billede, omkring et punkt. Figur \ref{fig:dataindvin} illustrerer et dataindsamlingsvindue omkring $I(3,4)$, der har størrelsen $(3 \times 3)$. Det skal bemærkes, at et dataindsamlingsvindue i denne opgave også kan bestå af andre værdier end pixelintensiteter. Det indeholder også gradient størrelse og gradient retninger.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/dataindsamlingsvinduepic.png}
     \vspace{-1em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
+    \caption{{\footnotesize \textit{
      Resultatet af at folde et dobbelt differentieret Gaussisk filter med funktionen}}}
     \label{fig:dataindvin}
      \end{center}
     \vspace{-2.5em}  
   \end{figure}
 \noindent
-I de anvendte metoder er der blevet gjort brug af et dataindsamlingsvindue. Med dette menes et udsnit af et billede, omkring et punkt. I figur \ref{fig:dataindvin} er illustreret et dataindsamlingsvindue omkring $I(3,4)$, der har størrelse $(3 \times 3)$. Det skal bemærkes, at et dataindsamlingsvindue i denne opgave også kan bestå af andre værdier end pixelintensiteter. Det indeholder også gradient størrelse og gradient retninger.

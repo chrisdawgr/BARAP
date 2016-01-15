@@ -35,30 +35,23 @@ IMG\_9377.jpg &	IMG\_9378.jpg &	4036 &	2760 &	3398.0 &	455 &	0.1339\\ \hline
 IMG\_9378.jpg &	IMG\_9379.jpg &	2760 &	688 &	1724.0 &	376 &	0.2180\\ \hline
 IMG\_9379.jpg &	IMG\_9380.jpg &	688 &	1154 &	921.0  &	212 &	0.2301\\ \hline
     \end{tabular}       
-    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
+    \caption{{\footnotesize \textit{Resultater fra Harris SIFT.}}}
     \label{tab:HARRISOCTAVE2}
      \end{center}
      \vspace{-2.5em}
 \end{figure} \noindent
 Middelværdi af repeatability mesaure  = 0.1505
-
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.11\textwidth]{fig/10best-HarrisSift-octave1.jpg}
     \vspace{-0.5em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
-    Tre lyse blobs på en mørk baggrund illustreret i 2 dimensioner \cite{blob}}}}
-    \label{fig:lindblob}
+    \caption{{\footnotesize \textit{ De 10 bedste korrespondancer, fra Harris SIFT.}}}
+    \label{fig:harsift}
      \end{center}
   \end{figure}
        \vspace{-2.7em}
 \noindent
-
-
-
-
 
 \section{SIFT}
 \begin{figure}[H]
@@ -78,29 +71,24 @@ IMG\_9377.jpg &	IMG\_9378.jpg &	10455 &	9026 &	9740.5 &	271 &	0.0278\\ \hline
 IMG\_9378.jpg &	IMG\_9379.jpg &	9026 &	9095 &	9060.5 &	567 &	0.0625\\ \hline
 IMG\_9379.jpg &	IMG\_9380.jpg &	9095 &	7545 &	8320.0 &	509 &	0.0611\\ \hline
     \end{tabular}       
-    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
+    \caption{{\footnotesize \textit{Resultater fra $DoG$ SIFT.}}}
     \label{tab:SURFOCTAVE2}
      \end{center}
      \vspace{-2.5em}
 \end{figure} \noindent
 Middelværdi af repeatability mesaure = 0.0292
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.11\textwidth]{fig/10best-SIFT-octave2.jpg}
     \vspace{-0.5em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
-    Tre lyse blobs på en mørk baggrund illustreret i 2 dimensioner \cite{blob}}}}
-    \label{fig:lindblob}
+    \caption{{\footnotesize \textit{
+    De 10 bedste korrespondancer fra $DoG$ SIFT}}}
+    \label{fig:sifsif}
      \end{center}
   \end{figure}
        \vspace{-2.7em}
 \noindent
-
-
-
-
 
 \section{SURF}
 \begin{figure}[H]
@@ -120,33 +108,21 @@ IMG\_9377.jpg &	IMG\_9378.jpg &	11614 &	10028 &	10821.0 &	1005 &	0.0928\\ \hline
 IMG\_9378.jpg &	IMG\_9379.jpg &	10028 &	10600 &	10314.0 &	1911 &	0.1852\\ \hline
 IMG\_9379.jpg &	IMG\_9380.jpg &	10600 &	9955 &	10277.5 &	1761 &	0.1713\\ \hline
     \end{tabular}       
-    \caption{\textcolor{gray}{\footnotesize \textit{Fire forskellige oktaver, og filterstørrelse, for et andenafledt filter}}}
-    \label{tab:SIFTOCTAVE3}
+    \caption{{\footnotesize \textit{Resultater fra $DoG$ SURF.}}}
+    \label{tab:SURFOCTAVE3}
      \end{center}
      \vspace{-2.5em}
 \end{figure} \noindent
 Middelværdi af repeatability mesaure = 0.2342
-
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.11\textwidth]{fig/10best-SURF-octave3.jpg}
     \vspace{-0.5em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
-    Tre lyse blobs på en mørk baggrund illustreret i 2 dimensioner \cite{blob}}}}
+    \caption{{\footnotesize \textit{
+    De 10 bedste korrespondancer fra $DoG$ SURF}}}
     \label{fig:lindblob}
      \end{center}
   \end{figure}
        \vspace{-2.7em}
 \noindent
-
-
-
-\section{Diskussion}
-
-
-Denne beslutning er taget på baggrunden af rationalet, at markbilleder taget af en drone fra en bestemt kendt højde, skaber blobs af en bestemt størrelse. Det er derfor ikke nødvendigt at kigge efter blobs på andre skaler, end den, der empirisk har vist sig at give de bedste resultater  ved en forudgående undersøgelse.
-
-
-\input{tex/forbedringer.tex}

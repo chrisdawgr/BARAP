@@ -31,7 +31,7 @@ Omskrivning af ligning \eqref{omskriv} giver:
 (k-1)\sigma^2LoG &\approx DoG
 \end{split}
 \end{equation}
-Metoden anvender et skalarum, der deles op i oktaver, hver bestående af skalabilleder. Skalabillederne opnås ved at folde billedet iterativt med et Gaussisk filter, af stigende sigmaværdi. Sigmaværdien for første skalabillede, for en given oktav $l$ er dobbelt så stor som forrige: $\texttt{Start} \sigma_l = 2 \cdot \texttt{Start} \sigma_{l-1}$. Sigmaværdien for et nærliggende skalabillede på samme oktav, opnås ved at multiplicere sigma værdien med en konstant $k$, dvs. $\sigma_n = \sigma_{n-1} \cdot k$. Lowe anbefaler at bruge fire oktaver, hver med syv skalabilleder. I denne implementering er der brugt fire oktaver, med fem skalabilleder pr. oktav.
+Metoden anvender et skalarum, der deles op i oktaver, hver bestående af skalabilleder. Skalabillederne opnås ved at folde billedet iterativt med et Gaussisk filter, af stigende sigmaværdi. Sigmaværdien for første skalabillede, for en given oktav $l$ er dobbelt så stor som forrige: $\text{Start} \sigma_l = 2 \cdot \text{Start} \sigma_{l-1}$. Sigmaværdien for et nærliggende skalabillede på samme oktav, opnås ved at multiplicere sigma værdien med en konstant $k$, dvs. $\sigma_n = \sigma_{n-1} \cdot k$. Lowe anbefaler at bruge fire oktaver, hver med syv skalabilleder. I denne implementering er der brugt fire oktaver, med fem skalabilleder pr. oktav.
 
 \begin{figure}[H]
     \centering
@@ -44,19 +44,18 @@ Metoden anvender et skalarum, der deles op i oktaver, hver bestående af skalabi
   	3 & $1.6 \cdot k^3$ & $1.6 \cdot k^4$ & $1.6 \cdot k^5$ & $1.6 \cdot k^6$ & $1.6 \cdot k^3$ \\ \hline
   	4 & $1.6 \cdot k^5$ & $1.6 \cdot k^6$ & $1.6 \cdot k^7$ & $1.6 \cdot k^8$ & $1.6 \cdot k^9$ \\ \hline
     \end{tabular}       
-    \caption{\textcolor{gray}{\footnotesize \textit{Sigma værdierne anvendt i oprettelsen af skalrummet}}}
+    \caption{{\footnotesize \textit{Sigma værdierne anvendt i oprettelsen af skalrummet}}}
     \label{fig:secderivfiltersize}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I den udførte implementering er $k=\sqrt{2}$.  Metoden anvender en skalapyramide og billedet formindskes derfor til halv størrelse for hver oktav. \\ 
-Når skalarummet er oprettet skal $DoG$ billederne produceres, hvilket er illustreret i figur \ref{fig:difference}(a), hvor naboliggende skalabilleder i samme oktav subtraheres. 
+I den udførte implementering er $k=\sqrt{2}$.  Metoden anvender en skalapyramide og billedet formindskes derfor til halv størrelse for hver oktav. Når skalarummet er oprettet skal $DoG$ billederne produceres, hvilket er illustreret i figur \ref{fig:difference}(a), hvor naboliggende skalabilleder i samme oktav subtraheres. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.90\textwidth]{fig/30.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{(a) Nærliggende skalabilleder for hver oktav trækkes fra og producere $DoG$ billederne. (b) I  $DoG$ billederne udvælges ekstremaer blandt 27 nabo pixels.}}}
+       \caption{{\footnotesize \textit{(a) Nærliggende skalabilleder for hver oktav subtraheres og producere $DoG$ billederne. (b) I  $DoG$ billederne udvælges ekstremaer blandt 27 nabo pixels.}}}
     \label{fig:difference}
      \end{center}
      \vspace{-2.5em}
@@ -99,10 +98,10 @@ En negativ determinant angiver et saddel-punkt og fjernes. For at fjerne punkter
 \end{equation}
 En grænseværdi $r$ kan opstilles for at fjerne punkter lokaliseret på en kant. Punkter der tilfredsstiller denne grænseværdi udvælges som interessepunkter.
 \subsubsection{Algoritme: Sift detektion}
-\begin{enumerate}
-\item[Input:] Billede $I$
-\item[Output:] Interessepunkter $p \in (x,y)$
-\end{enumerate}
+\begin{tabbing}
+Input\quad \= : \= Billede $I$\\
+Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
+\end{tabbing}
 \begin{enumerate}
 \item{Skalarummet konstrueres for de forskellige oktaver, ved iterativt at folde skalabilledet med en stigende værdi af $\sigma$, hvor størrelsen af billedet halveres for hver oktav.}
 \item{$DoG$ billederne udregnes,ved at subtrahere skalabillederne, som i ligning \eqref{dog}.}
@@ -112,7 +111,7 @@ En grænseværdi $r$ kan opstilles for at fjerne punkter lokaliseret på en kant
 \begin{split}
 \text{indikator} = 
 \begin{cases}
-\text{fjern}& \text{hvis } |\hat{x}>0.5| \lor ||D(\hat{x})>0.03 \lor \bold{det} \mathcal{H}<0 , \\
+\text{fjern}& \text{hvis } |\hat{x}|>0.5 \lor |D(\hat{x})|>0.03 \lor \bold{det} \mathcal{H}<0 , \\
 \text{behold}& \text{ellers}. 
 \end{cases}
 \end{split}
