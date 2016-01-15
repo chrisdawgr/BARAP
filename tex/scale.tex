@@ -1,4 +1,5 @@
 \subsection{Skalarum}
+\label{sec:scale}
 En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i refleksion mod de to drone-positioner hvorfra billederne er optaget. En god detektor skal være invariant over for sådanne forskelle. Der er bred enighed om nødvendigheden for skalainvarians hos deteketorer \cite{koen} \cite{blob} \cite{lindenscale}. Dette afsnit beskriver, hvordan en sådan invarians kan opnås. \\ \\
 Objekter i virkeligheden, såvel som  af-billedet, optræder kun som meningsfulde enheder over et specifikt skalainterval. Et træ vil indenfor centimeters eller nanometers afstand optræde som blade eller molekyler og indenfor meters afstand som et træ. 
 %Koenderink \cite{koen} definere et objekts skalainterval som værende afgrænset af to skalaer, hvor objektet er def: den inderste og den yderste skala, f.eks. vil en trætop have en indre skala på ca. 10 cm og en ydre skala på ca. 10 m. %Da billedet indeholder en ukendt scene, 
@@ -31,13 +32,13 @@ L(x,y,\sigma) = G(x,y,\sigma)\ast I(x,y)
 \\
 Filteret der bruges til at oprette en skalarumsrepræsentation, skal opfylde følgende egenskaber:
 \begin{itemize}
-\item{Et lokalt ekstrema må ikke forøges når skala parametren stiger. Dvs. at intensiteten hos et maksima eller minima ikke må respektivt forøges eller formindskes. Dette medfører at nye detaljer ikke må tilføjes, når skalaparametren stiger \cite{lindkth}.}
+\item{Et lokalt ekstrema må ikke forøges når skala parametren stiger. Dvs. at intensiteten hos et maksima eller minima ikke må respektivt forøges eller formindskes. Dette medfører at nye detaljer i billedet ikke må tilføjes, når skalaparametren stiger \cite{lindkth}.}
 \item{Hvis hver udglatnings kerne er tilknyttet en skalaparameter, og to kerner foldes med hinanden, ønskes det at den resulterende kerne har en skalaparameter, lig med summen af de foregående skalaparametre \cite{springer}.
 \begin{equation}
 g(\cdot;\sigma_1) \ast g(\cdot;\sigma_2)=g(\cdot;\sigma_1+\sigma_2)
 \label{semi}
 \end{equation}
-Ovenstående definere at alle skalarums transformationer er af samme familie. En skalarums repræsentation ved en grov skala $\sigma_2$, kan derved udledes ved en repræsentation fra en finere skala:
+Ovenstående definere at alle skalarums transformationer er af samme familie. En skalarums repræsentation ved en grov skala $\sigma_2$, kan derved udledes, ved en repræsentation fra en finere skala:
 \begin{equation}
 g(\cdot;\sigma_2) = g(\cdot;\sigma_2-\sigma_1)\ast g(;\sigma_1)\text{     hvor     }\sigma_2>\sigma_1
 \end{equation}}
@@ -56,7 +57,7 @@ Der anvendes et Gaussisk filter da den imødekommer begge ovenstående egenskabe
 <Måske billede fra lindenscale du ved hvad jeg snakker om Chris>
 \subsubsection*{Skala Pyramide}
 En udbredt metode, hvorpå skalarummet kan repræsenteres, er ved en \textit{skalapyramide}. Ved en skalapyramide repræsentation oprettes en pyramide af kopier af det undersøgte billede, hvor der for hvert niveau i pyramiden sker en reduktion af billedets størrelse, med en faktor af to. 
-Når billedets størrelse skal halveres, er det ikke nok bare at fjerne, hver anden række og hver anden kolonne, da dette vil resultere i store tab af billedets informationer. For at imødekomme dette problem, foldes billedet med et Gaussisk filter, inden billedet reduceres. <Et gaussisk filter anvendes da det flader billedet ud, hvilket formindsker tabet af information>. <Generelt ønskes det at sigma værdien for et Gaussiske filter er fordoblet for hver reduktion af billedet.>
+Når billedets størrelse skal halveres, er det ikke nok bare at fjerne, hver anden række og hver anden kolonne, da dette vil resultere i store tab af billedets informationer. For at imødekomme dette problem, foldes billedet med et Gaussisk filter, inden billedet reduceres. Et gaussisk filter anvendes da det beskriver hver pixel ud fra et lokalt gennemsnit af de omkringliggende pixelværdier og derved formindsker tabet af information ved reduktion af billedet. Skridtet imellem, hvert niveau i pyramiden defineres ved en oktav, hvor sigmaværdien skal fordobles fra hver oktav.
  \begin{figure}[H]
     \centering
     \includegraphics[width=0.40\textwidth]{fig/40.png}

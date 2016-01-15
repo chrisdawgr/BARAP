@@ -73,7 +73,7 @@ Da laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal
 \end{split}
 \label{laplaceblob}
 \end{equation}
-Anvendes Laplace operatoren på Gaussfunktionen (ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne, der kan foldes med et billede for identifere forekomster af blobs.
+Anvendes Laplace operatoren på Gaussfunktionen (opskrevet i ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne, der kan foldes med et billede for identifere forekomster af blobs.
 \begin{equation}
 LoG= \nabla^2 G
 \label{lap}
@@ -92,5 +92,5 @@ Skal strukturer udpeges på tværs af skalaer, vil det være naturligt at udvæl
   \end{figure}
        \vspace{-2.7em}
 \noindent
-En egenskab ved skalapræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering ske ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
+En egenskab ved skalapræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
 $$\sigma^2 \nabla^2G = \sigma^2(L_{xx}+L_{yy})$$
