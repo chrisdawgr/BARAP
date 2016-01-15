@@ -6,7 +6,7 @@ I figur \ref{fig:lindblob} ses tre lyse blobs, på en mørk baggrund, illustrere
     \includegraphics[width=0.35\textwidth]{fig/44.png}
     \vspace{-0.5em}   
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
+    \caption{{\footnotesize \textit{
     Tre lyse blobs på en mørk baggrund illustreret i 2 dimensioner \cite{blob}}}}
     \label{fig:lindblob}
      \end{center}
@@ -51,8 +51,8 @@ Da $\bold{det}(\mathcal{H})=\lambda_1 \lambda_2$ vil fortegnet af determinanten 
     \includegraphics[width=0.50\textwidth]{fig/41.png}
     \vspace{-0.5em}
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{
-d   }}}
+    \caption{{\footnotesize \textit{venstre: Et punkt placeret på et makisma. Højre: Et punkt placeret på et saddel-punkt. Nedestående tilsvarende figurer, viser hvordan hessian matricen approksimere billedet, med et andengradspolynomium. 
+}}}
     \label{fig:makssad}
      \end{center}
   \end{figure}
@@ -73,7 +73,7 @@ Da laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal
 \end{split}
 \label{laplaceblob}
 \end{equation}
-Anvendes Laplace operatoren på Gaussfunktionen (ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne, der kan foldes med et billede for identifere forekomster af blobs.
+Anvendes Laplace operatoren på Gaussfunktionen (opskrevet i ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne, der kan foldes med et billede for identifere forekomster af blobs.
 \begin{equation}
 LoG= \nabla^2 G
 \label{lap}
@@ -83,14 +83,14 @@ Skal strukturer udpeges på tværs af skalaer, vil det være naturligt at udvæl
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.80\textwidth]{fig/42.jpg}
-    \vspace{-0.5em}
+    \vspace{-0.75em}
     \begin{center}
-    \caption{\textcolor{gray}{\footnotesize \textit{En blob (den lysseblå firkant) udsat for et Laplace Gauss filter af stigende filterstørrelser.
+    \caption{{\footnotesize \textit{En blob (den lysseblå firkant) udsat for et Laplace Gauss filter af stigende sigmaværdi.
 }}}
     \label{fig:laprespons}
      \end{center}
   \end{figure}
        \vspace{-2.7em}
 \noindent
-En egenskab ved skalapræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering ske ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
-$$\sigma^2 \nabla^2G = \sigma^2(L_{xx}+L_{yy})$$ 
+En egenskab ved skalapræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
+$$\sigma^2 \nabla^2G = \sigma^2(L_{xx}+L_{yy})$$

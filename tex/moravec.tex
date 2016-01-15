@@ -13,15 +13,15 @@ Figur \ref{fig:moravec} illustrere et dataindsamlingsvindue af størrelse $3\tim
     \includegraphics[width=0.55\textwidth]{fig/25.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{SSD udregninger for to forskellige scener. (venstre) et dataindsamlingsvindue placeret på en mørk pixel. (højre) et dataindsamlingsvindue placeret et hjørne. }}}
+       \caption{{\footnotesize \textit{SSD udregninger for to forskellige scener. (venstre) et dataindsamlingsvindue placeret på en mørk pixel. (højre) et dataindsamlingsvindue placeret et hjørne. }}}
     \label{fig:moravec}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent   
 Hvert skift af $(u,v)$ fra ligning \eqref{moravec} returnere en intensitetsvariation. Den mindste af de otte variationer, definere punktets hjørnestyrke $C(x,y)$.
-$$
+\begin{equation}
 C(x,y)=min(\bold{E}_{u,v}(x,y)),\text{ }\forall S_{(u,v)} \in \lbrace-1,0,1\rbrace \backslash \lbrace0,0\rbrace
-$$
+\end{equation}
 En horisontal kant vil resultere i en lav intensitetsvariation med et dataindsamlingsvindue forskudt horisontalt derfor, for at identificere hjørner, tages minimum af $\bold{E}$ for at sikre en stor auto-korrelation i alle retninger.
 %<vil have et højt respons i de områder, hvor pixelintensiteter i originalvinduet ($w(x,y) = 1$) <?>, adskiller sig fra intensiteter, i de forskudte vinduer - jo større pixelintensitens forskellen er, jo højere $C$ værdi.
 Det kan udledes her, at en kant placeret langs en de principielle retninger, ikke vil blive karakteriseret som et hjørne da disse vil have  en lav auto-korrelation. Der opstilles en grænseværdi $t$ for $C$, der bestemmer om punktet er et hjørne(sandt/falsk) og derved om det kan udvælges som et interessepunkt.
@@ -35,16 +35,15 @@ Det kan udledes her, at en kant placeret langs en de principielle retninger, ikk
 \end{split}
 \label{cornerind}
 \end{equation}
-\subsubsection*{Algoritme: Moravec detektor}
+\subsubsection*{Algoritme: Moravec Detektor}
+\begin{tabbing}
+Input\quad \= : \= Billede $I$\\
+Output \text{ } \> : \> Interessepunkter $p \in (x,y)$.
+\end{tabbing}
 \begin{enumerate}
-\item[Input:] Billede $I$.
-\item[] Punkter $p \in (x, y)$
-\item[Output:] En feature vektor $F$, for hver punkt $p$.
-\end{enumerate}
-\begin{enumerate}
-\item{For hvert pixel i billedet, udregn auto-korrelationen imellem skift af $(u,v) \in \lbrace-1,0,1\rbrace$. udregnet ved ligning \ref{moravec}}
-\item{\textit{Find "Hjørnestyrken"} ved at tage $C(x,y)=min(\bold{E}_{u,v}(x,y))$}
-\item{Fjern punkter der ikke overholder en sat grænseværdi for $C(x,y)$.}
+\item{For hvert pixel i billedet, udregnes auto-korrelationen imellem hvert skift af $(u,v) \in \lbrace-1,0,1\rbrace$, udregnet ved ligning \ref{moravec}.}
+\item{Hjørnestyrken udledes, ved at tage $C(x,y)=min(\bold{E}_{u,v}(x,y))$}
+\item{Punkter der ikke overholder en opstillet grænseværdi for $C(x,y)$ fjernes.}
 \end{enumerate}
 \subsection*{Konklusion}
 Moravec er en simpel algoritme, med mange udfordringer, og anvendes derfor ikke udbredt i praksis. Dette skyldes Moravecs antagelser om billedets natur:

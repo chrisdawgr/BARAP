@@ -20,8 +20,12 @@ v_i = \sum d_x, \sum d_y, \sum |d_y|, \sum |d_y|
 \label{surffeature}
 \end{equation}
 hvor $v_i$ er en $(4x1)$ matrix, for region nr. $i$, hvor hver region er nummeret i læseretningen. Der dannes en feature vektor $F$, ved at sammensætte alle $v_i$: $F = [v_1^T, v_2^T,..., v_16^T]^T$. Dette giver en $16 \cdot 4 = 64$ indgange stor vektor. Slutteligt, laves vektoren til en enhedsvektor.
-
-\subsubsection*{Algoritme: SURF-detektion}
+\subsubsection*{Algoritme: SURF Deskriptor}
+\begin{tabbing}
+Input\quad \= : \= Billede $I$\\
+$\text{ }$ \> : \> Punkter $p \in (x, y, \theta)$ \\
+Output \text{ } \> : \> En feature vektor $F$, for hver punkt $p$.
+\end{tabbing}
 \begin{enumerate}
 \item Et dataindsamlingsvindue roteret ifht. $\theta$, beregnet som \eqref{rotaionmatrix} med størrelse $20\sigma$ indsamler punkter, der er har afstand $\sigma$ mellem hinanden.
 \item Haar-wavelet responset, $dx$, $dy$ udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og $dx, dy$ foldes med Gauss, hvor $\sigma_{Gauss} = 3.3\sigma$.
