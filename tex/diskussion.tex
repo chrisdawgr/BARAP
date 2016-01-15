@@ -16,8 +16,17 @@ Tabellen viser at det var muligt for alle metoder at udvælge korrekte korrespon
 \\ \\
 For metoderne viste det sig at størstedelen af de brugbare punkter, i et stort omfang, blev udvalgt på én specifik oktav. Derfor viser resultaterne kun metoderne anvendt på den oktav, der gav de bedste resultater. Denne beslutning er yderligere beggrundet ved at dronen tager billederne fra én bestemt højde, der forekommer altså ikke højdeændringer i mellem de afprøvede billeder. Derfor kan det konkluderes at selvom størstedelen af de brugbare punkter blev udvalgt på samme oktav, var der behov for en skalarums repræsentation af markbillederne, for at kunne udvælge hvilken oktav, der gav de bedste resultater.
 \\ \\
-Som set i figur <>, er den ikke-rotationsinvariante deskriptor U-SURF, ikke i stand til at etablere korrekte korrespondancer, når billederne er roteret ift. hinanden. Dette lykkedes dog for den rotationsinvariante deskriptor SURF. For de to billeder er det derfor nødvendigt at anvende en rotationsinvariant deskriptor, for at opnå en korrekt korrespondanceanalyse. De to udvalgte billeder repræsentere dog ikke resten af billedsættet, da der ikke forekommer en så markant rotation imellem de andre billeder. Derfor er det kun et isoleret tilfælde at deskriptoren skal være rotationsinvariant. Denne påstand er yderligere beggrundet ved at det også har været muligt at etablere et stort antal korrekte korrespondancer ved brug af U-SURF.
-\\ \\
+Som set i figur \ref{fig:rota} (øverst) er den ikke-rotationsinvariante deskriptor U-SURF, kun i stand til at etablere meget få korrekte korrespondancer, når billederne er roteret ift. hinanden. (Nederst) Den rotationsinvariante deskriptor SURF er i stand til at udvælge alle korresponderende punkter korrekt. For de to billeder er det derfor nødvendigt at anvende en rotationsinvariant deskriptor, for at opnå en korrekt korrespondanceanalyse. De to udvalgte billeder repræsentere dog ikke resten af billedsættet, da der ikke forekommer en så markant rotation imellem de andre billeder. Derfor er det kun et isoleret tilfælde at deskriptoren skal være rotationsinvariant. Denne påstand er yderligere beggrundet ved at det også har været muligt at etablere et stort antal korrekte korrespondancer ved brug af U-
+SURF.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{fig/rot2.png}
+     \vspace{-1em}
+    \begin{center} 
+       \caption{{\footnotesize \textit{Øverst: De 10 bedste matches fra $DoH$, U-SURF er illustreret. Nederst: De 10 bedste matches fra $DoH$ SURF er illustreret. }}}
+    \label{fig:rota}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
 Resultaterne viser også at både hjørner og blobs succesfuldt kan anvendes i udvælgelsen af interessepunkter.
-%Hjørner
 \input{tex/forbedringer.tex}
