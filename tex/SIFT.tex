@@ -21,11 +21,24 @@ $W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienterin
 g_{new} = G(x,y,8) * g(x,y)
 \label{gradientsmooth}
 \end{equation}
-Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{ij} \subseteq (G_{new}$), hver med størrelse $4\times4$, som set i figur(???). Der skal foretages trilineær interpolation, og alle de kontinuerte orienteringer i $O$, skal vægtes som beskrevet nedenfor, og værdierne i figur (???, b), der svarer til $F_i$, skal opdateres - her er $F_i$ repræsenteret ved 16 vinduer, hver med 8 retninger (svarede til 45 grader). Dette sker i 3 skridt:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.70\textwidth]{fig/tilsift.jpg}
+     \vspace{-1em}
+    \begin{center}    
+       \caption{<??> mangler }
+    \label{trilinear}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{i} \subseteq (G_{new}$) hver bestånde af et $(4\times 4)$ område, som vist figur \ref{trilinear} (a). Alle værdier i regionerne $R_i$, skal tilføjes til $F$, som udgør en feature vektor.
+\\
+$F$ består af $128$ indgange og kan ses, som inddelt i 16 regioner. Hver region $F_i$, består af 8 værdier, der symboliserer 8 retninger, med $45^\circ$ imellem. Der skal foretages trilineær interpolation, for at tilføje værdierne i $R$, til værdierne i $F$, som beskrevet:
 \begin{enumerate}
-\item{ alle punkter i $R_{ij}$ skal vægtes efter, hvor langt de ligger fra centrum af $R_{ij}$. Det er vedtaget, at der eksisterer tre længder (beskriv v. billede!!!)}
-\item{ 4 indgange i $F_i$ opdateres efter punkterne i $R_{ij}$'s orientering. Punkterne i $R_{ij}$ skal fordeles på de 4 af de 8 orienteringer, der ligger tættest orienteringen af $R_{ij}$. Disse skal vægtes med $G_{new}$ og værdien fundet i 1. }
-\item{ De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen)}
+\item{Alle punkter i $R_{i}$ skal tildeles en vægt alt efter, hvor langt de ligger fra centrum af $R_{i}$. Det er vedtaget, at der eksisterer tre vægtninger. Dette ses på (b), hvor et punkt der ligger på  1, har vægt: 0.214, 2: 0.414 og 3: 0.738.}
+\item{For hvert punkt i $R$ opdateres 4 værdier i $F$, vægtet med værdien fra 1. På illustration (c) ses en grøn streg som udgør den orientering, der føjes til $F$. $F$ er her orienteringer, der ligger i midten af af alle regionerne. Det ses hvordan en værdi i $R$ opdaterer 4 indange i $F$}
+\item{De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen), som ses i (c). Her er de 3 tilstødende naboområder til orinteringen(den grønne streg) også blevet opdateret efter, hvor langt de er fra orienteringen.}
 \end{enumerate}
 
 $F$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
