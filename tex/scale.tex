@@ -49,7 +49,6 @@ Der anvendes et Gaussisk filter da den imødekommer begge ovenstående egenskabe
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-<Måske billede fra lindenscale du ved hvad jeg snakker om Chris>
 \subsubsection*{Skala Pyramide}
 En udbredt metode, hvorpå skalarummet kan repræsenteres, er ved en \textit{skalapyramide}. Ved en skalapyramide repræsentation oprettes en pyramide af kopier af det undersøgte billede, hvor der for hvert niveau i pyramiden sker en reduktion af billedets størrelse, med en faktor af to. 
 Når billedets størrelse skal halveres, er det ikke nok bare at fjerne, hver anden række og hver anden kolonne, da dette vil resultere i store tab af billedets informationer. For at imødekomme dette problem, foldes billedet med et Gaussisk filter, inden billedet reduceres. Et gaussisk filter anvendes da det beskriver hver pixel ud fra et lokalt gennemsnit af de omkringliggende pixelværdier og derved formindsker tabet af information ved reduktion af billedet. Skridtet imellem, hvert niveau i pyramiden defineres ved en oktav, hvor sigmaværdien skal fordobles fra hver oktav.
