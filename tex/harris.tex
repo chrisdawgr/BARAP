@@ -84,5 +84,5 @@ Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
 \item{For hver pixel i billedet $(x,y)$, udregnes struktur tensoren, beskrevet i ligning \eqref{structens}}
 \item{For hvert pixel i billedet udregnes hjørnestyrken ved ligning \eqref{rvalharris}.  Hvis den udregnede hjørnestyrke opfylder ligning \ref{cornerhar}, for en given grænseværdi, udvælges punktet som værende et hjørne.}
 \end{enumerate}
-\subsection{Konklusion}
+\subsection*{Konklusion}
 Metoden anvendes som en repeterbar detektor og bruges i høj grad i dag. Detektoren er rotationsinvariant pga. dens brug af egenværdier, men er ifølge \cite{eval} stadig delvis anisotropisk, hvilket skyldes differentierings filtrene, der kun udledes i $x$ og $y$ retningen. Mikolajczyk og Schmid \cite{eval1} konkludere at detektoren er særlig følsom over for rotation omkring 45 grader. De konkludere også at detektorens repeterbarhed falder drastisk ved skalaændringer.

@@ -12,7 +12,20 @@ Først og fremmest var det interessant for dette projekt, at udlede hvorvidt det
     \end{tabular}
     \label{table:tab}
 \end{center}
-Tabellen viser at det var muligt for alle metoder at udvælge korrekte korrespondancer i billederne, og derved opnå en korrekt korrespondanceanalyse af markbillederne. For at besvare hovedproblemstillingen, evalueres metoderne ud fra deres repeatability measure $rm$. Det kan ud fra dette ses at metode kombinationen $DoG$ \& SURF, bedst muliggør en korrespondanceanalyse af markbillederne. Derudover kan det ses at den samlede metode SIFT, gav de dårligste resultater. Dette var overraskende, da SIFT er en metode der i høj grad er anerkendt og bredt anvendt. Denne opgaves implementering af SIFT er diskuteret i afsnit <forbedringer>. Resultaterne for hjørnedetektorene: Harris og Moravec, var overraskende gode og derfor kan det udledes at både hjørne - og blobdetektorer kan anvendes til korrespondanceanalyse af markbilleder.
+Tabellen viser at det var muligt for alle metoder at udvælge korrekte korrespondancer i billederne, og derved opnå en korrekt korrespondanceanalyse af markbillederne. For at besvare hovedproblemstillingen, evalueres metoderne ud fra deres repeatability measure $rm$. Det kan ud fra dette ses at metode kombinationen $DoG$ \& SURF, bedst muliggør en korrespondanceanalyse af markbillederne. Figur \ref{fig:graf} viser hver metodes repeatability measure, pr. billede.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{fig/repeatabilitygraph.png}
+     \vspace{-1em}
+    \begin{center}        
+     \caption{{\footnotesize \textit{
+De implementerede metoders repeatability measure, over de forskellige )}}}
+    \label{fig:graf}
+     \end{center}
+       \vspace{-2.5em}
+  \end{figure}
+\noindent
+Det ses at den samlede metode SIFT, gav de dårligste resultater. Dette var overraskende, da SIFT er en metode der i høj grad er anerkendt og bredt anvendt. Denne opgaves implementering af SIFT er diskuteret i afsnit <forbedringer>. Resultaterne for hjørnedetektorene: Harris og Moravec, var overraskende gode og derfor kan det udledes at både hjørne - og blobdetektorer kan anvendes til korrespondanceanalyse af markbilleder.
 \\ \\
 For metoderne viste det sig at størstedelen af de brugbare punkter, i et stort omfang, blev udvalgt på én specifik oktav. Derfor viser resultaterne kun metoderne anvendt på den oktav, der gav de bedste resultater. Denne beslutning er yderligere beggrundet ved at dronen tager billederne fra én bestemt højde, der forekommer altså ikke højdeændringer i mellem de afprøvede billeder. Derfor kan det konkluderes at selvom størstedelen af de brugbare punkter blev udvalgt på samme oktav, var der behov for en skalarums repræsentation af markbillederne, for at kunne udvælge hvilken oktav, der gav de bedste resultater.
 \\ \\
