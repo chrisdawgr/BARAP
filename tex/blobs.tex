@@ -1,6 +1,6 @@
 \subsection*{Blobs}\label{sec:blobs}
 En blob er en sammenhængende region af pixels, der enten er betydeligt lysere eller mørkere end dens omgivelser, altså strukturer, der står i kontrast til deres baggrund. En blob kan derfor udvælges som værende et lokalt ekstrema i billedet.
-I figur \ref{fig:lindblob} ses tre lyse blobs, på en mørk baggrund, illustreret som bakketoppe. Der hvor bakkerne mødes, eksistere et punkt, hvor dets hældning krummer op i en retning og krummer ned i en anden. Et sådant punkt kaldes et sadel-punkt. Et sadel-punkt er derfor ikke et ekstrema, og derfor ikke en blob.
+I figur \ref{fig:lindblob} ses tre lyse blobs, på en mørk baggrund, illustreret som bakketoppe. Der hvor bakkerne mødes, eksisterer et punkt, hvor dets hældning krummer op i en retning og krummer ned i en anden. Et sådant punkt kaldes et sadel-punkt. Et sadel-punkt er derfor ikke et ekstrema, og derfor ikke en blob.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.35\textwidth]{fig/44.png}
@@ -13,8 +13,8 @@ I figur \ref{fig:lindblob} ses tre lyse blobs, på en mørk baggrund, illustrere
   \end{figure}
        \vspace{-2.7em}
 \noindent
-En blob kan udvælges ved at identificere den geometriske struktur i om omkring et punkt. De to principale krumninger i et punkt angiver, hvor meget overfladen bøjer i de forskellige retninger. Da et ekstrema angiver en blob, vil fortegnet for de to principale krumninger være ens. For et punkt placeret på et maksima vil de principale krumninger være konkave (nedadgående) og for et punkt placeret på et minima vil de principielle krumninger være konvekse (opadgående). For et punkt placeret på et saddle-point, vi den ene krumning være konkav og den anden konveks. \\ 
-Om et punkt i billedet er placeret på et maksima, minima eller saddle-point, kan determineres ved en 'to variabel, anden-afledte-test'. Dette udføres ved at opstille en matrice, for et givent punkt, der indeholder dens dobbeltafledte i $x, y \text{ og } xy$ retningen også kaldet Hessian matricen $\mathcal{H}$.
+En blob kan udvælges ved at identificere den geometriske struktur i om omkring et punkt. De to principale krumninger i et punkt angiver, hvor meget overfladen bøjer i de forskellige retninger. Da et ekstrema angiver en blob, vil fortegnet for de to principale krumninger være ens. For et punkt placeret på et maksima vil de principale krumninger være konkave (nedadgående) og for et punkt placeret på et minima vil de principielle krumninger være konvekse (opadgående). For et punkt placeret på et sadel-punkt, vil den ene krumning være konkav og den anden konveks. \\ 
+Om et punkt i billedet er placeret på et maksima, minima eller sadel-punkt, kan determineres ved en 'to variabel, anden-afledte-test'. Dette udføres ved at opstille en matrice, for et givent punkt, der indeholder dens dobbeltafledte i $x, y \text{ og } xy$ retningen også kaldet Hessian matricen $\mathcal{H}$.
 \begin{equation}
 \mathcal{H} = 
  \begin{bmatrix}
@@ -45,13 +45,13 @@ En måde at estimere egenværdiernes fortegn, er ved at tage determinanten af he
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{detofhessian}
 \end{equation}
-Da $\bold{det}(\mathcal{H})=\lambda_1 \lambda_2$ vil fortegnet af determinanten angive om et punkt er et ekstrema eller et sadel-punkt. Figur \ref{fig:makssad} illustrere, hvordan Hessian matricen approksimere den geometriske struktur i billedet med et andengradspolynomium. Figuren viser approksimeringen, med et punkt lokaliseret på et maksima og et saddle-point.
+Da $\bold{det}(\mathcal{H})=\lambda_1 \lambda_2$ vil fortegnet af determinanten angive om et punkt er et ekstrema eller et sadel-punkt. Figur \ref{fig:makssad} illustrere, hvordan Hessian matricen approksimere den geometriske struktur i billedet med et andengradspolynomium. Figuren viser approksimeringen, med et punkt lokaliseret på et maksima og et sadel-punkt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.50\textwidth]{fig/41.png}
     \vspace{-0.5em}
     \begin{center}
-    \caption{{\footnotesize \textit{venstre: Et punkt placeret på et makisma. Højre: Et punkt placeret på et saddel-punkt. Nedestående tilsvarende figurer, viser hvordan hessian matricen approksimere billedet, med et andengradspolynomium. 
+    \caption{{\footnotesize \textit{venstre: Et punkt placeret på et makisma. Højre: Et punkt placeret på et sadel-punkt. Nedestående tilsvarende figurer, viser hvordan hessian matricen approksimere billedet, med et andengradspolynomium. 
 }}}
     \label{fig:makssad}
      \end{center}
@@ -62,7 +62,7 @@ En anden metode at detektere blobs er ved Laplace operatoren, som giver et stær
 $$
 \nabla^2L(x,y) = L_{xx}+L_{yy}
 $$
-Da laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal{H}) = \lambda_1 + \lambda_2$, vil filtersvaret fra laplace operatoren $\nabla^2L$ fortælle noget om egenværdierne. Et negativt respons, vil angive et maksima da egenværdierne begge vil være negative. Et positivt respons vil angive et minima da egenværdierne begge vil være positive.
+Da laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal{H}) = \lambda_1 + \lambda_2$, vil filtersvaret fra laplace operatoren $\nabla^2L$ fortælle noget om egenværdierne. Et negativt filtersvar, vil angive et maksima da egenværdierne begge vil være negative. Et positivt respons vil angive et minima da egenværdierne begge vil være positive.
 \begin{equation}
 \begin{split}
 \text{indikator} = 
@@ -79,7 +79,7 @@ LoG= \nabla^2 G
 \label{lap}
 \end{equation}
 Ved oprettelse af et skalarum udglattes billedet til grovere strukturer. 
-Skal strukturer udpeges på tværs af skalaer, vil det være naturligt at udvælge lyse/mørke pletter (blobs), da de vil korrelere nogenlunde i placering og struktur. Dette skyldes blobbens sammenhængende struktur, der gør dem stabile over et større skalainterval. Som nævnt vil et stort filtersvar (postivit eller negativt) til Laplace operatoren definere en blob. Dette er dog kun tilfældet, hvis størrelsen af Laplace Gauss filteret svarer til størrelsen af blobben. En tilgang er at systematisk forøge størrelsen af Laplace Guass filteret for det eksisterende skalarum, og udvælge skalaen, hvor der afgives et maksimalt respons. Figur \ref{fig:laprespons} illustrere et filtersvar for en blob af konstant størrelse, udsat for stigende størrelser af et Laplace Gauss filter. Det ses at når blobben er betydeligt større en filteret, opfattes blobben som to kanter. Når størrelsen på filteret forøges, afgives et stort filtersvar, hvorefter når filterstørrelsen forøges yderligere, flades filtersvaret ud.
+Skal strukturer udpeges på tværs af skalaer, vil det være naturligt at udvælge lyse/mørke pletter (blobs), da de vil korrelere nogenlunde i placering og struktur. Dette skyldes blobbens sammenhængende struktur, der gør dem stabile over et større skalainterval. Som nævnt vil et stort filtersvar (postivit eller negativt) til Laplace operatoren definere en blob. Dette er dog kun tilfældet, hvis størrelsen af Laplace Gauss filteret svarer til størrelsen af blobben. En tilgang til dette er at systematisk forøge størrelsen af Laplace Guass filteret for det eksisterende skalarum, og udvælge skalaen, hvor der afgives et maksimalt respons. Figur \ref{fig:laprespons} illustrere et filtersvar for en blob af konstant størrelse, udsat for stigende størrelser af et Laplace Gauss filter. Det ses at når blobben er betydeligt større en filteret, opfattes blobben som to kanter. Når størrelsen på filteret forøges, afgives et stort filtersvar, hvorefter når filterstørrelsen forøges yderligere, flades filtersvaret ud.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.80\textwidth]{fig/42.jpg}
@@ -92,5 +92,5 @@ Skal strukturer udpeges på tværs af skalaer, vil det være naturligt at udvæl
   \end{figure}
        \vspace{-2.7em}
 \noindent
-En egenskab ved skalapræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
+En egenskab ved skalarums-repræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og at minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resultere i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
 $$\sigma^2 \nabla^2G = \sigma^2(L_{xx}+L_{yy})$$

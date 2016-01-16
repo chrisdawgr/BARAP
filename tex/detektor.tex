@@ -1,18 +1,19 @@
 \section{Detektor}\label{sec:detect}
-Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$ bestemmer, om punktet er et interessepunkt. Denne kan beskrives ved:
+Feature detektion er en metode indenfor billedbehandling, der for hvert punkt $p = (x,y)$ i et billede $I$, bestemmer om punktet er et interessepunkt. Denne kan beskrives ved:
 \begin{equation}
 Detect(I)= \bold{P}
 \label{detect}
 \end{equation}
-hvor $\bold{P} = {p_1, p_2,..., p_n}$ er et sæt punkter i billedet $I$ udvalgt til at være interessepunkter. Moravec \cite{moravec} definerer, som en af de første, et interessepunkt(feature) således: "A
+hvor $\bold{P} = \lbrace p_1, p_2,..., p_n \rbrace$ er et sæt punkter i billedet $I$ udvalgt til at være interessepunkter. Moravec \cite{moravec} definerer, som en af de første, et interessepunkt(feature) således: "A
 feature is good if it can be located unambiguously in different views of a scene. A
 uniformly colored region or a simple edge does not make for good features because
-its parts are indistinguishable". Iflg. Moravec skal et interessepunkt have egenskaber der gør det utvetydigt lokaliserbart. Denne definition, sammen med Lindebergs \cite{pointsurvey} er her blevet adopteret, og et interessepunkt karakteriseres her ved:
+its parts are indistinguishable". Iflg. Moravec skal et interessepunkt have egenskaber, der gør det utvetydigt lokaliserbart. Denne definition, sammen med Lindebergs \cite{pointsurvey} er blevet adopteret, og et interessepunkt karakteriseres her ved:
 \begin{itemize}
-\item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation}
+\item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation.}
 \item{\emph{Informationsrigt:}
-Intensiteten i og omkring interessepunktet skal være unikt, da dette muliggør en mere detaljeret beskrivelse af punktet. Et punkt placeret på et område af samme intensitet, vil ikke kunne skelnes fra andre punkter placeret i samme i område..}
+Intensiteten i og omkring interessepunktet skal være unikt, da dette muliggør en mere detaljeret beskrivelse af punktet. Et punkt placeret på et område af samme intensitet, vil ikke kunne skelnes fra andre punkter placeret i samme i område.}
 \item{\textit{Definerbar struktur:} Punktet skal indgå i en struktur, der er matematisk definerbar. Dette er nødvendigt da punkterne skal kunne identificeres uafhængigt i begge billeder.}
 \end{itemize}
+En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i refleksion mod de to drone-positioner hvorfra billederne er taget. En god detektor skal være invariant over for sådanne forskelle. Der er bred enighed om nødvendigheden for skalainvarians hos deteketorer \cite{koen} \cite{blob} \cite{lindenscale}. Følgende afsnit beskriver, hvordan en sådan invarians kan opnås.
 \raggedbottom\input{tex/scale.tex}
 \raggedbottom\input{tex/strukturer.tex}
