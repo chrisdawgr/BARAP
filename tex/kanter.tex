@@ -21,12 +21,12 @@ En kort bemærkning bør gøres om det anvendte billedformatet. De undersøgte b
 Lum(\Lambda_{x,y}) = \lceil	 256 \cdot [0.299, 0.587, 0.114] \Lambda_{x,y} \rfloor	 = \lambda_{x,y}
 \label{lumosity}
 \end{equation}  
-Hver gang pixelværdi eller billedintensitet benævnes, er det underforstået, at de har undergået den lineære transformation, ligning \eqref{lumosity}. <ct I denne opgave håndteres kun gråtonebilleder derfor /ct> <I implementeringerne kapitel 5,> er ligning \eqref{lumosity} brugt til at transformere RGB billeder til gråtone billeder \footnote{I Python er biblioteket cv2 anvendt. Transformationen fra RGB til gråtone dokumenteret her %\url{<http://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html>}. 
+Hver gang pixelværdi eller billedintensitet benævnes, er det underforstået, at de har undergået den lineære transformation, ligning \eqref{lumosity}. I denne opgave håndteres kun gråtonebilleder, derfor er ligning \eqref{lumosity} brugt til at transformere RGB billeder til gråtone billeder \footnote{I Python er biblioteket cv2 anvendt. Transformationen fra RGB til gråtone dokumenteret her %\url{<http://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html>}. 
 Denne transformation bliver nærmere beskrevet i \cite{lumosity}. en uddybning og alternativer kan læses i afsnit 7.6} 
 \\
 \\
-<ct Ofte i billedbehandlings situationer betragtes diskontiniuteter i billedet, f.eks. kanter /ct>
-<Diskontinuitet i billeder markerer kanter:> Hvis et billede beskues i 3D, kan en kant illustreres i 1D, ved et snit af et billede vinkelret på fladen i gradientens retning, illustreret i figur \ref{fig:kant}. En kant er en lokal ændring i det afledte signal $f$.
+Ofte i billedbehandlings situationer betragtes diskontiniuteter i billedet, f.eks. kanter.
+Hvis et billede beskues i 3D, kan en kant illustreres i 1D, ved et snit af et billede vinkelret på fladen i gradientens retning, illustreret i figur \ref{fig:kant}. En kant er en lokal ændring i det afledte signal $f$.
 \noindent
 \begin{figure}[H]
     \centering
@@ -40,7 +40,7 @@ En 1-dimensional fortolkning af intensiteten i et billede. Intensitetsskiftet i 
        \vspace{-2.5em}
   \end{figure}
 \noindent
-En differentiering af funktionen fra figur \ref{fig:kant} <ct vil angive stigningstakten af pixelintensiteten pr. pixel /ct> <vil fremhæve dens udsving> og derved angive hvor der forekommer kanter. Differentiering af billeder kan f.eks. approsikmeres ved følgende ligning:
+En differentiering af funktionen fra figur \ref{fig:kant} en stigning i pixelintensiteten  og derved angive hvor der forekommer kanter. Differentiering af billeder kan f.eks. approsikmeres ved følgende ligning:
 \begin{equation}
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
