@@ -25,7 +25,22 @@ indikator =
 \end{split}
 \label{indikator}
 \end{equation}
-Ovenstående bliver gentaget, indtil en grænseværdi for standardafvigelsen er nået. Processen er illustreret, i figur \eqref{indikator}. Her ses, hvordan hver iteration fjerner forkerte korrespondancer, og bevæger sig tættere på en klynge af punkter, der må formodes at være inliers.
+
+
+Ovenstående bliver gentaget, indtil en grænseværdi for standardafvigelsen er nået. Processen er illustreret, i figur \ref{fig:tilmatching}. Her ses, hvordan hver iteration fjerner forkerte korrespondancer, og bevæger sig tættere på en klynge af punkter, der må formodes at være inliers.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.99\textwidth]{fig/tilmatching.jpg}
+     \vspace{-0.5em}
+    \begin{center}    
+       \caption{{\footnotesize \textit{Den røde cirkel medtager alle punkter, hvor ligning \eqref{indikator} gælder. Iterativt, bliver der fjernet punktet, indtil en grænseværdi er nået}}}
+    \label{fig:tilmatching}
+     \end{center}
+     \vspace{-2.5em}
+  \end{figure} \noindent
+
 \subsection*{Algoritme}
 \begin{enumerate}
 \item{For hvert element i $\bold{P}$, udregnes den Euklidiske afstand som i ligning \eqref{euc}. Der bliver dannet par, af features i $\bold{P}'$, der har mindst euklidiske afstand til features i $\bold{P}$. Dette sæt kaldes $M$}
