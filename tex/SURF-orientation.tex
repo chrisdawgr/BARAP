@@ -5,18 +5,18 @@ SURF gør brug af Haar-wavelet filter, når en orientering for interessepunkter 
     \includegraphics[width=0.55\textwidth]{fig/haarwavelet.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+       \caption{Haar-wavelet filter. venstre kaldes $d_x$ og højre $d_y$.}
     \label{fig:haarwavelet}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-$dx$ og $dy$ beregnes i en cirkel omkring interessepunktet, som udgør et dataindsamlingsvindue $D_x$ og $D_y$, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $D_x$ og $D_y$ foldes med en Gausskerne, hvor $\sigma_{Gauss} = 2.5\sigma$.
+$dx$ og $dy$ foldes med et punkter der ligger i et cirkulært område omkring interessepunktet. Dette to dataindsamlingsvinduer $D_x$ og $D_y$, med radius $6\sigma$, og en afstand mellem punkterne, på $\sigma$. $D_x$ og $D_y$ foldes med en Gausskerne, hvor $\sigma_{Gauss} = 2.5\sigma$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.2\textwidth]{fig/surforientation.jpg}
      \vspace{-1em}
     \begin{center}    
-       \caption{\textcolor{gray}{\footnotesize \textit{ }}}
+       \caption{Hver punkt svarer til en vektor. Dataindsamlingsvinduet(gråt) på $60^{\circ}$, summerer vektorer, der ligger indenfor $0^{\circ}-60^{\circ}$, $60^{\circ}-120^{\circ}$,..., $300^{\circ}-360^{\circ}$. Den af de summerede vektorer der er længst, udgør punktets retning}
     \label{fig:surforientation}
      \end{center}
      \vspace{-2.5em}
