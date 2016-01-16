@@ -45,7 +45,7 @@ En differentiering af funktionen fra figur \ref{fig:kant} en stigning i pixelint
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
 \end{equation}
-<ct Foldning er en operation, der indenfor billedbehandling bruges til modificere et billede. Modificeringen kan f.eks. være sløring, fokusering eller fremhævning af visse strukturer </ct>. Foldning af $I$ af størrelse $(M \times N)$, med en kerne $K$, der har størrelse $(k \times l)$, hvor $M > k, N > l$, angives ved:
+Foldning er en operation, der indenfor billedbehandling bruges til modificere et billede. Modificeringen kan f.eks. være sløring, fokusering eller fremhævning af visse strukturer. Foldning af $I$ af størrelse $(M \times N)$, med en kerne $K$, der har størrelse $(k \times l)$, hvor $M > k, N > l$, angives ved:
 \begin{equation}
 O(i,j) = \sum_{k} \sum_{l} I(i-k, j-l) K(k,l)
 \label{foldning}
@@ -67,14 +67,27 @@ For at undgå først at glatte billedet ved at folde med et Gaussisk filter, og 
 \end{equation}
 Her er $G$ er det Gaussiske filter, men kunne være en vilkårlig anden kerne, og $f$ et signal. 
 \\
-Foldes et differentieret 1-dimensionelt Gaussfilter med signalet fra figur \ref{fig:kant}, vil det resultere i et bakkeformet signal, hvor bakken indikere en kant \\ <ct billede /ct> \\ . For en mere lokaliserbar kant, kan den dobbelt afledte tages, som set i figur \ref{fig:deriv}. I sidstnævnte tilfælde, kan kanten lokaliseres, hvor funktionen krydser nul.
+Foldes et differentieret 1-dimensionelt Gaussfilter med signalet fra figur \ref{fig:kant}, vil det resultere i et bakkeformet signal, hvor maksima af bakken indikere en kant, dette er illustreret i figur \ref{fig:firstd}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{fig/8.png}
+    \includegraphics[width=0.55\textwidth]{fig/100.png}
+     \vspace{-1em}
+    \begin{center}        
+     \caption{{\footnotesize \textit{
+Signalet fra figur \ref{fig:kant} foldet med et første afledt Gaussisk filter.)}}}
+    \label{fig:firstd}
+     \end{center}
+       \vspace{-2.5em}
+  \end{figure}
+\noindent
+For en mere lokaliserbar kant, kan den dobbelt afledte tages, som set i figur \ref{fig:deriv}. I sidstnævnte tilfælde, kan kanten lokaliseres, hvor funktionen krydser nul.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{fig/101.png}
     \vspace{-1em}   
     \begin{center}
     \caption{{\footnotesize \textit{
-     Resultatet af at folde et dobbelt differentieret Gaussisk filter med funktionen}}}
+     Resultatet af at folde et dobbelt differentieret Gaussisk filter med funktionen fra figur \ref{fig:kant}.}}}
     \label{fig:deriv}
      \end{center}
     \vspace{-2.5em}  
