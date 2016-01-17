@@ -3,20 +3,21 @@ Scale Invariant Feature Transform (SIFT) er en metode til at finde og beskrive i
 \input{tex/dog.tex}
 \input{tex/SIFT-orientation.tex}
 \subsection{Deskriptor}
-Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor. Deskriptoren kan formelt beskrives:
+Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, til at indsamle information omkring et interessepunkt, og denne information udtrykkes som en vektor.
 %med 128 indgange
 \\
 \\
-sigmaværdien i $DoG$ billedet, punktet er blevet fundet på, anvendes til videre beregning. For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$, som fundet i forrige afsnit. Dette opnås, ved at tage prik produktet, af hver indgang i dataindsamlingsvinduet, med rotationsmatricen:
+For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$, som fundet i forrige afsnit. Dette opnås, ved at prikke hvert koordinat i $W$, med rotationsmatricen:
 \begin{equation}
-W_{{mn}_{new}} = W_{mn} \cdot
+W_{coordinates_new} = W_{coordinates_{mn}} \cdot
 \begin{pmatrix}
   \cos \theta & -\sin \theta \\
   \sin \theta & \cos \theta  \\
 \end{pmatrix}
 \label{rotaionmatrix}
 \end{equation}
-$W_{{mn}_{new}}$ bruges til at indsamle information om størrelsen og orienteringen af gradienten i det $i$'ende punkt, som i ligning \eqref{magnitudepoint} og \eqref{orientationpoint} respektivt - gradienten og orienteringen bliver gemt i to separate matricer af størrelse $16\times16$, hhv $g$ og $o$. $g$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($\sigma=8$):
+Ovenstående ligning roterer dataindsamlingsvinduet $W$, så det ikke nødevendigvis er parallet med randen af billedet.
+gradienten $g$ og orienteringen $v$ bliver gemt i to separate matricer af størrelse $16\times16$. $g$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($\sigma=8$):
 \begin{equation}
 g_{new} = G(x,y,8) * g(x,y)
 \label{gradientsmooth}
@@ -32,7 +33,7 @@ g_{new} = G(x,y,8) * g(x,y)
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Herefter skal $G_{new}$ inddeles i 16 regioner ($R_{i} \subseteq (G_{new}$) hver bestånde af et $(4\times 4)$ område, som vist figur \ref{trilinear} (a). Alle værdier i regionerne $R_i$, skal tilføjes til $F$, som udgør en feature vektor.
+Herefter skal $g_{new}$ inddeles i 16 regioner ($R_{i} \subseteq (G_{new}$) hver bestånde af et $(4\times 4)$ område, som vist figur \ref{trilinear} (a). Alle værdier i regionerne $R_i$, skal tilføjes til $F$, som udgør en feature vektor.
 \\
 $F$ består af $128$ indgange og kan ses, som inddelt i 16 regioner. Hver region $F_i$, består af 8 værdier, der symboliserer 8 retninger, med $45^\circ$ imellem. Der skal foretages trilineær interpolation, for at tilføje værdierne i $R$, til værdierne i $F$, som beskrevet:
 \begin{enumerate}

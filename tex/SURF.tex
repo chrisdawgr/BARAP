@@ -1,5 +1,5 @@
 \section{SURF}
-SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} og er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
+SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
 \input{tex/doh.tex}
 \input{tex/SURF-orientation.tex}
 
@@ -7,13 +7,15 @@ SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} og er l
 Tuytelaars et. al \cite{SURF} beskriver, at der ofte ikke er brug for rotationsinvarians. Upright-SURF (U-SURF) er en variant af SURF, der ikke er rotationsinvariant. Tuytelaars et. al garanterer rotationsinvarians i U-SURF, i op til $15^{\circ}$. Både SURF og U-SURF er implementeret.
 \\
 \\
-SURF deskriptoren indsamler data omkring interssepunktet, med et dataindsamlingvindue der har størrelse $20 \sigma_{punkt}$. Vinduet skal orienters, ifht. den udregnede $\theta$, fra forrige skridt. Dette udføres ved, at hele billedet roteres, ved brug af rotationsmatricen opstillet ligning \eqref{rotaionmatrix}, og der dannes et billede, hvor hver pixelværdi er summen af området afgrænset af alle pixels der ligger til venstre for og over, inklusiv - et såkaldt integralbillede. 
+Der palceres et dataindsamlingsvindue, der har størrelse $20 \sigma_{punkt}$, omkring et interessepunkt. Vinduet skal orienters, ifht. den udregnede $\theta$, fra forrige skridt. Dette udføres ved, at hele billedet roteres, ved brug af rotationsmatricen opstillet ligning \eqref{rotaionmatrix}, og der dannes et billede, hvor hver pixelværdi er summen af området afgrænset af alle pixels der ligger til venstre for og over, inklusiv - et såkaldt integralbillede. 
+\\
+I stedet for at rotere dataindsamlingsvinduet som i SIFT, roteres hele billedet - dette er for at kunne bruge integralbilleder - integralbilleder dannes, når billedet er roteret.
 \\
 \\
-Billedet er nu roteret og et dataindsamlingsvinduet centreres omkring interessepunktet. Herefter skal vinduet deles op i 16 ($4 \times 4$) regioner, hver af størrelse($5\times 5$) bestående af pixelintensiteter, der har afstand $\sigma_{point}$ mellem sig - her er ikke blevet lavet subpixel-interpolation, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
+Billedet er nu roteret og et dataindsamlingsvinduet centreres omkring interessepunktet. Herefter skal vinduet deles op i 16 ($4 \times 4$) regioner, hver af størrelse($5\times 5$) bestående af pixelintensiteter, der har afstand $\sigma_{point}$ mellem sig - her er ikke blevet lavet subpixel-interpolation ifht. intensitet, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
 \\
 \\
-Herefter foldes Haar-wavelet med dataindsamlingsvinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet foldes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
+Herefter foldes $dx$ og $dy$ med dataindsamlingsvinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet foldes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
 \\
 \\
 For hver af de 16 4x4 regioner, udregnes: 
