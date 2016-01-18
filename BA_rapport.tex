@@ -8,6 +8,9 @@
 \usepackage{color,colortbl}
 \usepackage{amsfonts}
 %new
+\usepackage[procnames]{listings}
+\usepackage{color}
+%newend
 \usepackage{enumitem}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -37,6 +40,18 @@
 \author{Christoffer Thrysøe, Andreas Borgstad}
 \date{} % set date
 \begin{document}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python, 
+        basicstyle=\ttfamily\small, 
+        keywordstyle=\color{keywords},
+        commentstyle=\color{comments},
+        stringstyle=\color{red},
+        showstringspaces=false,
+        identifierstyle=\color{green},
+        procnamekeys={def,class}}
 \maketitle % Insert title etc.
 \pagenumbering{roman}
 \newpage

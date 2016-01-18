@@ -38,8 +38,8 @@ Herefter skal $g_{new}$ inddeles i 16 regioner ($R_{i} \subseteq G_{new}$) hver 
 $f$ består af $128$ indgange og kan ses, som inddelt i 16 regioner. Hver region $F_i$, består af 8 værdier, der symboliserer 8 retninger, med $45^\circ$ imellem. Der skal foretages trilineær interpolation, for at tilføje værdierne i $R$, til værdierne i $f$. Dette udføres i følgende trin:
 \begin{enumerate}
 \item{Alle punkter i $R_{i}$ skal tildeles en vægt alt efter, hvor langt de ligger fra centrum af $R_{i}$. Det er vedtaget, at der eksisterer tre vægtninger. Dette ses på (b), hvor et punkt der ligger på  1, har vægt: 0.214, 2: 0.414 og 3: 0.738.}
-\item{For hvert punkt i $R$ opdateres 4 værdier i $f$, vægtet med værdien fra første skridt. På illustration (c) ses en grøn streg som udgør den orientering, der føjes til $f$. $f$ er her orienteringer, der ligger i midten af af alle regionerne. Det ses hvordan en værdi i $R$ opdaterer 4 indange i $f$}
-\item{De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen), som ses i (c). Her er de 3 tilstødende naboområder til orinteringen(den grønne streg) også blevet opdateret efter, hvor langt de er fra orienteringen.}
+\item{For hvert punkt i $R$ opdateres 4 værdier i $f$, vægtet med værdien fra første skridt. På illustration (c) ses en grøn streg som udgør den orientering, der føjes til $f$. $f$ er her afbilledet som røde vektorer, der ligger i midten af af alle regionerne. Det ses hvordan en værdi i $R$ opdaterer 4 indange i $f$}
+\item{De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $f_i$ (hvis der eksisterer nogen), som ses i (c). Her er de 3 tilstødende naboområder til orinteringen(den grønne streg) også blevet opdateret efter, hvor langt de er fra orienteringen.}
 \end{enumerate}
 
 $f$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $f$ skal normaliseres igen.

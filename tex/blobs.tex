@@ -28,7 +28,7 @@ hvor den andenafledte i $x$ retningen defineres ved:
 L_{xx}(x,y,\sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 \label{lxx}
 \end{equation}
-Egenvektorerne for Hessian matricen beskriver retningerne af de principale krumninger af et punkt, hvor egenværdierne beskriver størrelserne af disse krumninger. Hessian matricens egenværdier $\lambda_1,\lambda$, kan bruges til at lokalisere blobs.
+Egenvektorerne for Hessian matricen beskriver retningerne af de principale krumninger af et punkt, hvor egenværdierne beskriver størrelserne af disse krumninger. Hessian matricens egenværdier $\lambda_1,\lambda_2$, kan bruges til at lokalisere blobs.
 \begin{equation}
 \begin{split}
 indikator = 
@@ -62,7 +62,7 @@ En anden metode at detektere blobs er ved Laplace operatoren, som giver et stær
 \begin{equation}
 \nabla^2L(x,y) = L_{xx}+L_{yy}
 \end{equation}
-Da Laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal{H}) = \lambda_1 + \lambda_2$, vil filtersvaret fra Laplace operatoren $\nabla^2L$ fortælle noget om egenværdierne. Et stort negativt filtersvar, vil angive et maksima, da egenværdierne begge vil være negative. Et stort positivt filtersvar vil angive et minima, da egenværdierne begge vil være positive. Et stort respons vil dog ikke altid angive et ekstrema, og derfor ikke en blob. En egenværdi med en stor absolut værdi og den anden med en lille værdi vil angive en kant, men stadig resultere i et stort filtersvar.
+Da Laplace operatoren svarer til sporret af Hessian matricen $\bold{Tr}(\mathcal{H}) = \lambda_1 + \lambda_2$, vil filtersvaret fra Laplace operatoren $\nabla^2L$ fortælle noget om egenværdierne. Et stort negativt filtersvar, vil angive et maksima, da egenværdierne begge vil være negative. Et stort positivt filtersvar vil angive et minima, da egenværdierne begge vil være positive. Et stort filtersvar vil dog ikke altid angive et ekstrema, og derfor ikke en blob. En egenværdi med en stor absolut værdi og den anden med en lille værdi vil angive en kant, men stadig resultere i et stort filtersvar.
 \label{laplaceblob}
 %\end{equation}
 Anvendes Laplace operatoren på Gaussfunktionen (opskrevet i ligning \eqref{2dgaussian}), kan resultatet diskretiseres og anvendes som en kerne, der kan foldes med et billede for identifere forekomster af blobs.
@@ -70,7 +70,7 @@ Anvendes Laplace operatoren på Gaussfunktionen (opskrevet i ligning \eqref{2dga
 LoG= \nabla^2 G
 \label{lap}
 \end{equation}
-Som nævnt vil et stort filtersvar (postivit eller negativt) til Laplace Gauss filteret definere en blob. Dette er dog kun tilfældet, hvis størrelsen af Laplace Gauss filteret, svarer til størrelsen af blobben. En tilgang til dette er systematisk at forøge størrelsen af Laplace Gauss filteret, for det eksisterende skalarum, og udvælge skalaen, hvor der afgives et maksimalt respons. Figur \ref{fig:laprespons} illustrere et filtersvar for en blob, udsat et Laplace Gauss filter med stigende sigmaværdier. Det ses at når blobben er betydeligt større end sigmaværdien af filteret, vil filtrersvaret være småt. Når sigmaværdien på filteret forøges, afgives et stort filtersvar. Når sigmværdien forøges yderligere, flades filtersvaret ud, som set i nederste billede i figur \ref{fig:laprespons}. Næstsidste billede viser en sigmastørrelse, der giver et maksimalt filtersvar til blobstørrelsen.
+Som nævnt vil et stort filtersvar (postivit eller negativt) til Laplace Gauss filteret definere en blob. Dette er dog kun tilfældet, hvis størrelsen af Laplace Gauss filteret, svarer til størrelsen af blobben. En tilgang til dette er systematisk at forøge størrelsen af Laplace Gauss filteret, for det eksisterende skalarum, og udvælge skalaen, hvor der afgives et maksimalt filtersvar. Figur \ref{fig:laprespons} illustrere et filtersvar for en blob, der er foldet, med et et Laplace Gauss filter af stigende sigmaværdi. Det ses at når blobben er betydeligt større end sigmaværdien af filteret, vil filtrersvaret være småt. Når sigmaværdien på filteret forøges, afgives et stort filtersvar. Når sigmværdien forøges yderligere, flades filtersvaret ud, som set i nederste billede i figur \ref{fig:laprespons}. Næstsidste billede viser en sigmastørrelse, der giver et maksimalt filtersvar til blobstørrelsen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.80\textwidth]{fig/42.jpg}
@@ -83,7 +83,7 @@ Som nævnt vil et stort filtersvar (postivit eller negativt) til Laplace Gauss f
   \end{figure}
        \vspace{-2.7em}
 \noindent
-En egenskab ved skalarums-repræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i sektion \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og at minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resulterer i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala, normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres responset med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
+En egenskab ved skalarums-repræsentationen er at amplituden af de rumlige afledte vil falde. Dette er, som nævnt i afsnit \ref{sec:scale}, grundet at maksima over skala ikke vil forøges og at minima ikke formindskes. Amplituden af ekstremaer vil derfor altid formindskes over skala \cite{phdlind}. Dette resulterer i at filtersvaret for $LoG$, vil formindskes når skalaparametren øges. For at muliggøre en sammenligning af filtersvaret over skala, normaliseres filtersvaret ift. skala.  Lindenberg \cite{lindenscale} viser at ved anvendelse af billedets afledte af orden $p$, skal skalanormalisering udføres ved at multiplicere filtersvaret med $\sigma^p$. Da $LoG$ anvender de andenafledte af et Gauss filter, multipliceres filtersvaret med $\sigma^2$. En skalanormaliseret Laplacian of Gauss, kan derfor opskrives som:
 \begin{equation}
 \sigma^2 \nabla^2G = \sigma^2(L_{xx}+L_{yy})
 \end{equation}

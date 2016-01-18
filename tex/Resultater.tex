@@ -1,16 +1,16 @@
 \chapter{Resultater}
 \label{sec:resultater}
-Dette afsnit har til formål at præsentere opgavens resultater. For at evaluere metoderne, er en måling for metodernes repeterbarhed opstillet, der udtrykker forholdet imellem korrekte korrespondancer og middelværdien af det samlede antal interessepunkter, fundet i begge billeder \cite{eval}:
+Dette afsnit har til formål at præsentere opgavens resultater. For at evaluere metoderne, er en måling for metodernes repeterbarhed opstillet, der udtrykker forholdet imellem antallet af korrespondancer og middelværdien af det samlede antal interessepunkter, fundet i begge billeder \cite{eval}:
 \begin{equation}
 r_{I_1,I_2)}=\dfrac{C(I_1,I_2)}{\text{mean}(n_1,n_2)}
 \end{equation}
-hvor $C(I_1,I_2)$ angiver antallet af korrekte korrespondancer imellem to billeder og $n_1=\bold{|A|}$ og $n_2=\bold{|A'|}$.
+hvor $C(I_1,I_2)$ angiver antallet af korrespondancer imellem to billeder og $n_1=\bold{|A|}$ og $n_2=\bold{|A'|}$.
 %$\text{mean}(\bold{|P_1|},\bold{|P_2|)}$ angiver middelværdien af det samlede antal af fundne interessepunkter i det to billeder
 %<beskriv hvordan punkter fjernes>
-Moravec og Harris er blevet modificeret, for tipasse dem SIFT. I begge tilfælde foldes billederne med en Gausskerne af samme sigmaværdi som i $DoG$ billederne, og nedskaleres efter samme princip, hvorefter detektionsmetoderne anvendes. 
+Moravec og Harris er blevet modificeret, for tilpasse dem SIFT. I begge tilfælde foldes billederne med en Gausskerne af samme sigmaværdi som i $DoG$ billederne, og nedskaleres efter samme princip, hvorefter detektionsmetoderne anvendes. 
 \\
 \\
-I nedenstående tabeller angiver 'Filename $x$' filnavnene på de billeder der er fundet korrespondancer mellem. $|A|$ og $|A'|$, der består af punkter og tilknyttede features. $Match(A, A')$ er antallet af fundne korresponderende punkter, givet matching algoritmen fra afsnit 5.5. Givet det store antal matchende punkter, er det her antaget, at alle punkter fundet ved $Match$ algoritmen er korresponderende punkter - mere om dette er omtalt i diskussionen af resultaterne. De 15 bedste matches, er også vedlagt som billede, for hver metode. I appendiks B, er vedlagt billeder, der viser alle fundne korrespondancer for forskellige metoder.
+I nedenstående tabeller angiver 'Filename $x$' filnavnene på de billeder der er fundet korrespondancer mellem. $|\bold{A}|$ og $|\bold{A'}|$, der består af punkter og tilknyttede features. $Match(\bold{A}, \bold{A'})$ er antallet af fundne korresponderende punkter, givet matching algoritmen fra afsnit 5.5. Givet det store antal matchende punkter, er det her antaget, at alle punkter fundet ved $Match$ algoritmen er korresponderende punkter - mere om dette er omtalt i diskussionen af resultaterne. De 15 bedste matches, er også vedlagt som billede, for hver metode. I appendiks B, er vedlagt billeder, der viser alle fundne korrespondancer for forskellige metoder.
 \\
 \\
 De resultater der her er fremlagt og senere diskuteres, er fra en enkelt skala, fra en enkelt oktav. SIFT og SURF søger oprindeligt efter blobs i flere skalrum - disse udregninger indgår ikke i resultat sektionen. En indledende undersøgelse af korresponderende punkter over flere oktaver fundet med SURF viste, at der for hver højde eksisterer højst to skalaer, der finder langt størstedelen, af de korresponderende punkter.

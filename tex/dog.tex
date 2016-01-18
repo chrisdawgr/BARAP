@@ -51,18 +51,18 @@ Metoden anvender et skalarum, der deles op i oktaver, hver bestående af skalabi
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I den udførte implementering er $k=\sqrt{2}$.  Metoden anvender en skalapyramide og reduceres derfor med en faktor af 2, for hver oktav. Når skalarummet er oprettet skal $DoG$ billederne produceres, hvilket er illustreret i figur \ref{fig:difference}(a), hvor naboliggende skalabilleder i samme oktav subtraheres. 
+I den udførte implementering er $k=\sqrt{2}$.  Metoden anvender en skalapyramide og reduceres derfor med en faktor af 2, for hver oktav. Når skalarummet er oprettet skal $DoG$ billederne produceres, hvilket er illustreret i figur \ref{fig:1difference}(a), hvor naboliggende skalabilleder i samme oktav subtraheres. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.90\textwidth]{fig/30.png}
      \vspace{-1em}
     \begin{center}    
        \caption{{\footnotesize \textit{(a) Nærliggende skalabilleder for hver oktav subtraheres og producere $DoG$ billederne. (b) I  $DoG$ billederne udvælges ekstremaer blandt 27 nabo pixels.}}}
-    \label{fig:difference}
+    \label{fig:1difference}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent    
-Da $LoG$ svarer til, summen af hessian matricens egenværdier, vil et positivt filtersvar, angive et minima, hvor et negativt filtersvar vil angive et maxima, som angivet i ligning \eqref{laplaceblob}. Derfor identificeres ekstremaer i $DoG$ billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område i $DoG$ billederne, som vist figur \ref{fig:difference} (b). Et punkt udvælges som værende et ekstrema, hvis det er den største absolutte værdi, iblandt dens 26 naboer.
+Da $LoG$ svarer til, summen af hessian matricens egenværdier, vil et positivt filtersvar, angive et minima, hvor et negativt filtersvar vil angive et maxima. Derfor identificeres ekstremaer i $DoG$ billederne, da de vil angive forekomster af blobs. For hver pixel, sammenlignes et $3\times3\times3$ område i $DoG$ billederne, som vist figur \ref{fig:1difference} (b). Et punkt udvælges som værende et ekstrema, hvis det er den største absolutte værdi, iblandt dens 26 naboer.
 \\
 \\
 Herefter anvender Lowe non-maximal suppression, som giver en nøjagtig placering af ekstremaer. \cite{nonmaximalsuppression}:
@@ -73,7 +73,7 @@ D(x)=D+\dfrac{\partial D^T}{\partial x}x\dfrac{1}{2}x^T\dfrac{\partial^2D}{\part
 Ovenstående kan forstås som en Taylor udvidelse af punket D.
 Placeringen af ekstremaet $|\hat{x}|$ findes ved at tage den afledte af den ovenstående funktion ift. $x$ og sætte den til 0:
 \begin{equation}
-\|hat{x}|= -\dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
+\hat{x}= -\dfrac{\partial^2 D^{-1}}{\partial x^2}\dfrac{\partial D}{\partial x}
 \label{xhat}
 \end{equation}
 Non-maximal suppression er i denne implementering anvendt anderledes end i SIFT: Lowe foreslår, at hvis et punkt er et ekstrema, som fundet i $DoG$ billedet og $|\hat{x}| > 0.5$ i en retning, skal ligning \eqref{nonmax} udregnes omkring det nye punkt $(x+\hat{x})$ og dette gentages, indtil $|\hat{x}| < 0.5$, eller indtil udregning er udført et max antal gange. I denne implementering er ligning \eqref{xhat}, brugt til at udvælge punkter, som er placeret på et ekstrema - dvs. hvis $|\hat{x}|$ > 0.5 i en given retning, er punktet ikke et interessepunkt.  Rationalet bag denne beslutning, vil blive diskuteret i afsnit 9.1.
@@ -100,7 +100,7 @@ Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
 \begin{enumerate}
 \item{Skalarummet konstrueres for de forskellige oktaver, ved iterativt at folde billedet med en stigende sigmaværdi, hvor størrelsen af billedet halveres for hver oktav.}
 \item{$DoG$ billederne udregnes,ved at subtrahere skalabillederne, som i ligning \eqref{dog}.}
-\item{Ekstremaer lokaliseres for hvert punkt i $DoG$ billeder, ved at sammenligne punktet med dens 26 naboer som illustreret i figur \ref{fig:difference}.}
+\item{Ekstremaer lokaliseres for hvert punkt i $DoG$ billeder, ved at sammenligne punktet med dens 26 naboer som illustreret i figur \ref{fig:1difference}.}
 \item{Punkter der ikke er lokaliseret på ekstremaer, og ekstremaer med lav kontrast som i ligning \eqref{xhat} og \eqref{dxhat} afvises:
 \begin{equation}
 \begin{split}

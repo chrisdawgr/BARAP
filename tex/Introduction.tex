@@ -1,6 +1,6 @@
 \chapter{Introduktion} \label{sec:intro}
 "Droner til monitorering af flerårigt ukrudt i korn"$ $ er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab, har til formål at automatisere detektionen af ukrudt i marker.
-Ukrudt er hidtil bekæmpet, ved at sprøjte hele marken med pesticider uanset, hvor ukrudtet er placeret. Projektet har til formål at nedsætte forbruget af pesticider, ved hjælp af en drone\footnote{UAV (eng. unmanned aerial vehicle)} udstyret med et kamera. Dronen tager et antal overlappende luftbilleder af en mark. Disse billeder analyseres af en algoritme, der identificere, hvor ukrudtet befinder sig i de enkelte billeder. Resultatet af denne analyse overføres til et globalt koordinatsystem af hele marken, hvilket kan opnås ved at bestemme de geometriske relationer imellem billederne. Det samlede ukrudtskort, vil angive ukrudtets placering og derved, hvor der er behov for pesticider \cite{drone}.
+Ukrudt er hidtil bekæmpet, ved at sprøjte hele marken med pesticider uanset, hvor ukrudtet er placeret. Projektet har til formål at nedsætte forbruget af pesticider, ved hjælp af en drone\footnote{UAV (eng. unmanned aerial vehicle)}, udstyret med et kamera. Dronen tager et antal overlappende luftbilleder af en mark. Disse billeder analyseres af en algoritme, der identificere, hvor ukrudtet befinder sig i de enkelte billeder. Resultatet af denne analyse overføres til et globalt koordinatsystem af hele marken, hvilket kan opnås ved at bestemme de geometriske relationer imellem billederne. Det samlede ukrudtskort, vil angive ukrudtets placering og derved, hvor der er behov for pesticider \cite{drone}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/drone4.jpg}
@@ -11,7 +11,7 @@ Ukrudt er hidtil bekæmpet, ved at sprøjte hele marken med pesticider uanset, h
      \vspace{-3em}
   \end{figure} \noindent
 \section{Opgavens problemfelt} \label{subsec:felt}
-Opgavens afsæt i projektet er etablering af korrespondancer, hvilket kan bruges til at estimere de geometriske relationer imellem billederne, igennem homografier. Estimering af de geometriske relationer imellem billederne tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process, der er benyttet til at etablere korrespondancer imellem to billeder, hvilket i denne opgave betegnes som korrespondanceanalyse:
+Opgavens afsæt i projektet er etablering af korrespondancer imellem markbillederne, hvilket kan bruges til at estimere de geometriske relationer imellem billederne, igennem homografier. Estimering af de geometriske relationer imellem billederne, tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process, der er benyttet til at etablere korrespondancer imellem to billeder, hvilket i denne opgave betegnes som korrespondanceanalyse:
 \begin{enumerate}
 \item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Punkter i begge billeder, der repræsentere projektioner af de samme fysiske scenepunkter udvælges. Markbillederne overlapper i gennemsnit hinanden med ca. 70 \%, hvilket gør korrespondanceanalysen mulig.}
 \item{For hvert interessepunkt oprettes en vektor, der beskriver den lokale billedstruktur i og omkring interessepunktet.}
@@ -20,10 +20,10 @@ Opgavens afsæt i projektet er etablering af korrespondancer, hvilket kan bruges
 Korrespondanceanalysens trin, er nærmere beskrevet i afsnit 4.
 \section{Problemformulering} \label{subsec:form}
 Med udgangspunkt i litteraturen indenfor
-korrespondanceanalyse samt implementering af
-flere eksisterende metoder er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder.
+korrespondanceanalyse, samt implementering af
+flere eksisterende metoder, er spørgsmålet, hvilke metoder, der teoretisk og praktisk, bedst anvendes til korrespondanceanalyse af markbilleder.
 \subsection{Udvidelse af problemformuleringen}
-Der opstilles en beskrivelse af forskellige korrespondanceanalytiske metoder og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at løse korrespondanceproblemet ved markbilleder (afsnit \ref{sec:mark}). Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for, hvilke forudsætninger metoderne skal besidde, for at kunne etablere korrespondancer. 
+Der opstilles en beskrivelse af forskellige korrespondanceanalytiske metoder og foretages korrespondanceanalyse af markbillederne, ved implementering af disse metoder. Udvælgelsen af metoder er baseret på hypoteser om, hvad der kræves af metoderne, for at løse korrespondanceproblemet ved markbilleder. Disse hypoteser vil eksperimentelt be - eller afkræftes, og derved give en empirisk forståelse for, hvilke forudsætninger metoderne skal besidde, for at kunne etablere korrespondancer. 
 Det undersøges, hvilke metoder der muliggør en løsning af korrespondanceproblemet, samt en komparativ analyse af metodernes præstation.
 \subsection{Afgrænsning} \label{subsec:afg}
 Projektet sigter på at afprøve allerede eksisterende metoder på markbilleder og ikke at skabe nye metoder. Programmellet konstrueres mht. afklaring af de nævnte problemstillinger

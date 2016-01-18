@@ -47,7 +47,7 @@ For hvert punkt i billederne opstilles Hessian matricen, hvorefter determinanten
 \textbf{det}\mathcal{H}_{approksimeret} = D_{xx}D_{yy}-wD_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentierede Gaussiske filtre og boksfiltrene. Da denne implementering ikke anvender boksfiltre, udregnes determinanten som:
+hvor $w$ er en vægt, tilføjet for at balancere de approksimerede, differentierede Gaussiske filtre og boksfiltrene. Da denne implementering ikke anvender boksfiltre, udregnes determinanten som:
 \begin{equation}
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
@@ -63,7 +63,7 @@ Når hessian matricens egenværdier har samme fortegn, indikere dette et ekstrem
 \end{split}
 \label{detman}
 \end{equation}
-Et punkt udvælges derfor, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Non-maximal surpression anvendes ligesom i SIFT.
+Et punkt udvælges derfor, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:1difference}. Dette udføres for alle oktaver. Non-maximal suppression anvendes ligesom i SIFT.
 \subsubsection*{Algoritme: SURF Detektor}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
