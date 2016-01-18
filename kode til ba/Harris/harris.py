@@ -123,37 +123,4 @@ def test_corner_methods(filename,thresh1,thresh2,thresh3):
   harris(filename,0,thresh3,3)
 
 #test_corner_methods('erimitage2.jpg', 200000000, 8400, 6400)
-"""
 harris('IMG_9370.jpg', 0.04, 100000000, 1)
-harris('IMG_9371.jpg', 0.04, 210000000, 1)
-harris('IMG_9372.jpg', 0.04, 170000000, 1)
-harris('IMG_9373.jpg', 0.04, 80000000, 1)
-harris('IMG_9374.jpg', 0.04, 110000000, 1)
-harris('IMG_9375.jpg', 0.04, 150000000, 1)
-harris('IMG_9376.jpg', 0.04, 130000000, 1)
-harris('IMG_9377.jpg', 0.04, 75000000, 1)
-harris('IMG_9378.jpg', 0.04, 85000000, 1)
-harris('IMG_9379.jpg', 0.04, 170000000, 1)
-harris('IMG_9380.jpg', 0.04, 140000000, 1)
-harris('IMG_9427.jpg', 0.04, 140000000, 1)
-harris('IMG_9428.jpg', 0.04, 140000000, 1)
-"""
-harris('IMG_9455.jpg', 0.04, 140000000, 1)
-harris('IMG_9456.jpg', 0.04, 140000000, 1)
-
-"""
-harris('IMG_9487.jpg', 0.04, 140000000, 1)
-harris('IMG_9488.jpg', 0.04, 140000000, 1)
-harris('IMG_9491.jpg', 0.04, 140000000, 1)
-harris('IMG_9492.jpg', 0.04, 140000000, 1)
-harris('IMG_9370.jpg', 0.04, 170000000, 1)
-harris('IMG_9371.jpg', 0.04, 170000000, 1)
-harris('IMG_9372.jpg', 0.04, 170000000, 1)
-harris('IMG_9373.jpg', 0.04, 170000000, 1)
-harris('IMG_9374.jpg', 0.04, 170000000, 1)
-harris('IMG_9375.jpg', 0.04, 170000000, 1)
-harris('IMG_9376.jpg', 0.04, 170000000, 1)
-harris('IMG_9377.jpg', 0.04, 170000000, 1)
-harris('IMG_9378.jpg', 0.04, 170000000, 1)
-harris('IMG_9379.jpg', 0.04, 170000000, 1)
-"""
