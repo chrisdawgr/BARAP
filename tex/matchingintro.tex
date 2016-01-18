@@ -1,6 +1,6 @@
 \section{Matching}
-Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved et sæt af tilhørende features $\bold{F}$, således at hver punkter $p_i$ i $\bold{P}$, har en tilhørende feature $f_i$ i $\bold{F}$; $a = (p_i, f_i) \in \bold{A} \subseteq (\bold{P}, \bold{F})$. En matching funktion $Match$ tager som input to sæt $(\bold{A},\bold{A'})$ og returnere et sæt parvise punkter vurderet til at korrespondere. Matching funktionen kan beskrives som:
+Fra deskriptoren er et sæt interessepunkter $\bold{P}$ beskrevet ved et sæt af tilhørende features $\bold{F}$, således at hvert punkter $p_i$ i $\bold{P}$, har en tilhørende feature $f_i$ i $\bold{F}$; $a = (p_i, f_i) \in \bold{A} \subseteq (\bold{P}, \bold{F})$. En matching funktion $Match$ tager som input to sæt $(\bold{A},\bold{A'})$ og returnere et sæt parvise punkter, vurderet til at korrespondere. Matching funktionen kan beskrives som:
 \begin{equation}
 Match(\bold{A}, \bold{A}') = \bold{M}
 \end{equation}
-Hvor alle indgange i $\bold{M}$ består af parvise koordinater, e.g. $(p_i, p'_j)$. Pga. ændringer i billederne vil korresponderende features ikke være identiske, og der skal derfor defineres metoder, der kan afgøre, hvornår to features er ens nok til at konkludere, at de korrespondere.
+Hvor alle indgange i $\bold{M}$ består af parvise koordinater, e.g. $(p_i, p'_j)$, der er vurderet til at korrespondere. Pga. ændringer i billederne vil korresponderende features ikke være identiske, og der skal derfor defineres metoder, der kan afgøre, hvornår to features er ens nok til korrespondere.

@@ -1,5 +1,6 @@
 \chapter{Introduktion} \label{sec:intro}
-"Droner til monitorering af flerårigt ukrudt i korn"$ $ er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab, har til formål at automatisere detektionen af ukrudt i marker. I dag bekæmpes ukrudt, ved at sprøjte hele marken med pesticider uanset, hvor ukrudtet er placeret. Projektet har til formål at nedsætte forbruget af pesticider, ved hjælp af en drone\footnote{UAV (eng. unmanned aerial vehicle)} udstyret med et kamera. Dronen tager et antal overlappende luftbilleder af en mark. Disse billeder analyseres af en algoritme, der identificere, hvor ukrudtet befinder sig i de enkelte billeder. Resultatet af denne analyse overføres til et globalt koordinatsystem af hele marken, hvilket kan opnås ved at bestemme de geometriske relationer imellem billederne. Det samlede ukrudtskort, vil angive ukrudtets placering og derved, hvor der er behov for pesticider \cite{drone}.
+"Droner til monitorering af flerårigt ukrudt i korn"$ $ er et forsknings projekt, oprettet af Miljøstyrelsen, der i samarbejde med Datalogisk institut og institut for Plante- og Miljøvidenskab, har til formål at automatisere detektionen af ukrudt i marker.
+Ukrudt er hidtil bekæmpet, ved at sprøjte hele marken med pesticider uanset, hvor ukrudtet er placeret. Projektet har til formål at nedsætte forbruget af pesticider, ved hjælp af en drone\footnote{UAV (eng. unmanned aerial vehicle)} udstyret med et kamera. Dronen tager et antal overlappende luftbilleder af en mark. Disse billeder analyseres af en algoritme, der identificere, hvor ukrudtet befinder sig i de enkelte billeder. Resultatet af denne analyse overføres til et globalt koordinatsystem af hele marken, hvilket kan opnås ved at bestemme de geometriske relationer imellem billederne. Det samlede ukrudtskort, vil angive ukrudtets placering og derved, hvor der er behov for pesticider \cite{drone}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/drone4.jpg}
@@ -10,13 +11,13 @@
      \vspace{-3em}
   \end{figure} \noindent
 \section{Opgavens problemfelt} \label{subsec:felt}
-Opgavens afsæt i projektet er etablering af korrespondancer, hvilket kan bruges til at estimere de geometriske relationer imellem billederne, igennem homografier. Estimering af de geometriske relationer imellem billederne tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process der er benyttet til at etablere korrespondancer imellem to billeder, hvilket i denne opgave betegnes som korrespondanceanalyse:
+Opgavens afsæt i projektet er etablering af korrespondancer, hvilket kan bruges til at estimere de geometriske relationer imellem billederne, igennem homografier. Estimering af de geometriske relationer imellem billederne tillader oprettelsen af ukrudtskortet. Følgende trin beskriver den process, der er benyttet til at etablere korrespondancer imellem to billeder, hvilket i denne opgave betegnes som korrespondanceanalyse:
 \begin{enumerate}
-\item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Formålet ved dette stadie er at udvælge  punkter i begge billeder, der repræsentere projektioner af de samme fysiske scenepunkter. Markbillederne overlapper i gennemsnit hinanden med ca. 70 \%, hvilket gør korrespondanceanalysen mulig}
-\item{For hvert interessepunkt oprettes en vektor, der beskriver den lokale billedstruktur omkring interessepunktet.}
-\item{Beskrivelserne af interessepunkterne i de to billeder, sammenlignes for bestemme, hvilke punkter der korresponderer.}
+\item{Interessante punkter udvælges i begge billeder, som resultat af at anvende en række matematiske modeller på billederne. Punkter i begge billeder, der repræsentere projektioner af de samme fysiske scenepunkter udvælges. Markbillederne overlapper i gennemsnit hinanden med ca. 70 \%, hvilket gør korrespondanceanalysen mulig.}
+\item{For hvert interessepunkt oprettes en vektor, der beskriver den lokale billedstruktur i og omkring interessepunktet.}
+\item{Beskrivelserne af interessepunkterne i de to billeder, sammenlignes for at bestemme, hvilke punkter, der korresponderer.}
 \end{enumerate}
-En nærmere definition af korrespondancebegrebet er givet i sektion \ref{sec:detect}.
+Korrespondanceanalysens trin, er nærmere beskrevet i afsnit 4.
 \section{Problemformulering} \label{subsec:form}
 Med udgangspunkt i litteraturen indenfor
 korrespondanceanalyse samt implementering af
@@ -30,4 +31,4 @@ og ikke mhp. efterfølgende at blive anvendt i praksis. De udvalgte metoder impl
 \section{Implementering}
 Alt programmel er skrevet i Python version 2.7. Til det er biblioteket OpenCV anvendt til billedbehandlingsoperationer, som b.la. at læse, vise og gemme billeder. NumPy er anvendt til datarepræsentation, og Matplotlib er brugt til at lave grafer.
 \section{Rapportens Opbygning}
-Før projektets anvendte metoder og resultater præsenteres, gives der en kort introduktion af relevante billedbehandlings teknikker, anvendt igennem denne opgave, samt en introduktion til  korrespondanceanalyse. Derefter vil overvejelser, gjort om projektets udfordringer, præsenteres. Til sidst vil anvendte metoder gennemgås, efterfulgt af en præsentation og diskussion af opgavens resultater.
+Før projektets anvendte metoder og resultater præsenteres, gives der en kort introduktion af relevante billedbehandlings teknikker, anvendt igennem denne opgave, samt en introduktion til  korrespondanceanalyse. Derefter vil overvejelser gjort om projektets udfordringer, præsenteres. Til sidst vil anvendte metoder gennemgås, efterfulgt af en præsentation og diskussion af opgavens resultater.

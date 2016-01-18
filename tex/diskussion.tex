@@ -1,6 +1,6 @@
 \chapter{Diskussion}
 I denne sektion vil resultater, fremført i afsnit \ref{sec:resultater}, fortolkes og kommenteres, for at besvare de opstillede problemstillinger. \\ \\
-Først og fremmest var det interessant for dette projekt, at udlede hvorvidt det var muligt at opnå en korrekt korrespondanceanalyse af markbillederne, dvs. at udvælge korrekte korresponderende punkter. Opgavens hovedproblemstilling omhandler bestemmelsen af, hvilke af de udvalgte metoder, der bedst muliggør en korrekt korrespondanceanalyse af markbillederne. For at kunne konkludere ovenstående, iagttages to aspekter fra resultaterne: (1) Hvor mange korrekte korrespondancer, hver metode har fundet. (2) Hvor mange korrekte korrespondancer, hver metode har fundet, ift. mængden af de detekterede interessepunkter. Disse to aspekter er opstillet i nedenstående tabel og opsummere opgavens resultater.
+Først og fremmest var det interessant, for dette projekt, at udlede hvorvidt det var muligt at udvælge korresponderende punkter i markbillederne. Opgavens hovedproblemstilling omhandler, hvilke af de udvalgte metoder, der bedst anvendes til korrespondanceanalysen af markbillederne. For at kunne konkludere ovenstående, iagttages to aspekter fra resultaterne: (1) Hvor mange korrespondancer, hver metode har fundet. (2) Hvor mange korrespondancer, hver metode har fundet, ift. mængden af de detekterede interessepunkter. Disse to aspekter er opstillet i nedenstående tabel og opsummere opgavens resultater.
 \begin{center}
     \begin{tabular}{ | l | l | l | l |}
     \hline
@@ -12,7 +12,7 @@ Først og fremmest var det interessant for dette projekt, at udlede hvorvidt det
     \end{tabular}
     \label{table:tab}
 \end{center}
-Tabellen viser at det var muligt for alle metoder at udvælge korrekte korrespondancer i billederne, og derved opnå en korrekt korrespondanceanalyse af markbillederne. For at besvare hovedproblemstillingen, evalueres metoderne ud fra deres repeatability measure $rm$. Det kan ud fra dette ses at metode kombinationen $DoG$ \& SURF, bedst muliggør en korrespondanceanalyse af markbillederne. Figur \ref{fig:graf} viser hver metodes repeatability measure, pr. billede.
+Tabellen viser at det var muligt for alle metoder at udvælge korrespondancer i billederne. For at besvare hovedproblemstillingen, evalueres metoderne ud fra deres repeatability measure $rm$. Det kan ud fra dette ses at metode kombinationen $DoH$ \& SURF, bedst anvendes til korrespondanceanalyse af markbillederne. Figur \ref{fig:graf} viser hver metodes repeatability measure, pr. billede.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\textwidth]{fig/repeatabilitygraph.png}
@@ -25,11 +25,11 @@ De implementerede metoders repeatability measure, over de forskellige )}}}
        \vspace{-2.5em}
   \end{figure}
 \noindent
-Det ses at den samlede metode SIFT, gav de dårligste resultater. Dette var overraskende, da SIFT er en metode der i høj grad er anerkendt og bredt anvendt. Denne opgaves implementering af SIFT er diskuteret i afsnit <forbedringer>. Resultaterne for hjørnedetektorene: Harris og Moravec, var overraskende gode og derfor kan det udledes at både hjørne - og blobdetektorer kan anvendes til korrespondanceanalyse af markbilleder.
+Det ses at den samlede metode SIFT, gav de dårligste resultater. Dette var overraskende, da SIFT er en metode der i høj grad er anerkendt og bredt anvendt. Denne opgaves implementering af SIFT er diskuteret i afsnit 9.1. Resultaterne for hjørnedetektorene: Harris og Moravec, havde en overraskende høj repeatability measure, og det kan derfor konkluderes at både hjørne- og blobdetektorer, kan anvendes til korrespondanceanalyse af markbilleder - i mod forventning.
 \\ \\
-For metoderne viste det sig at størstedelen af de brugbare punkter, i et stort omfang, blev udvalgt på én specifik oktav. Derfor viser resultaterne kun metoderne anvendt på den oktav, der gav de bedste resultater. Denne beslutning er yderligere beggrundet ved at dronen tager billederne fra én bestemt højde, der forekommer altså ikke højdeændringer i mellem de afprøvede billeder. Derfor kan det konkluderes at selvom størstedelen af de brugbare punkter blev udvalgt på samme oktav, var der behov for en skalarums repræsentation af markbillederne, for at kunne udvælge hvilken oktav, der gav de bedste resultater.
+For metoderne viste det sig at størstedelen af de brugbare punkter, blev udvalgt på én specifik oktav. Derfor viser resultaterne kun metoderne anvendt på den oktav, der gav de bedste resultater. Denne beslutning er yderligere beggrundet ved at dronen tager billederne fra én bestemt højde, der forekommer altså ikke højdeændringer i mellem de afprøvede billeder. Derfor kan det konkluderes at selvom størstedelen af de brugbare punkter blev udvalgt på samme oktav, var der behov for en skalarums repræsentation af markbillederne, for at kunne udvælge hvilken oktav, der gav de bedste resultater.
 \\ \\
-I figur \ref{fig:rota} ses en korrespondance analyse med (øverst) $DoH$, U-SURF og (neders) $DoH$, SURF. De ti bedste korrespondancer er udvalgt, dvs. de ti korrespondancer med lavest euklidisk afstand ift. hinanden. Det ses at ved den ikke-rotationsinvariante deskriptor U-SURF er kun meget få af korrespondancerne korrekte, når billederne er roteret ift. hinanden. For den rotationsinvariante deskriptor SURF, er alle korrespondancer korrekte. For de to billeder er det derfor nødvendigt at anvende en rotationsinvariant deskriptor, for at opnå en korrekt korrespondanceanalyse. De to udvalgte billeder repræsentere dog ikke resten af billedsættet, da der ikke forekommer en så markant rotation imellem de andre billeder. Derfor er det kun et isoleret tilfælde at deskriptoren skal være rotationsinvariant. Denne påstand er yderligere beggrundet ved at det også har været muligt at etablere et stort antal korrekte korrespondancer ved brug af U-SURF.
+I figur \ref{fig:rota} ses en korrespondance analyse med (øverst) $DoH$, U-SURF og (neders) $DoH$, SURF. De ti bedste korrespondancer er udvalgt. Det ses at ved den ikke-rotationsinvariante deskriptor U-SURF er kun meget få af korrespondancerne korrekte, når billederne er roteret ift. hinanden. For den rotationsinvariante deskriptor SURF, er alle korrespondancer korrekte. For de to billeder er det derfor nødvendigt at anvende en rotationsinvariant deskriptor, for at opnå en korrekt korrespondanceanalyse. De to udvalgte billeder repræsentere dog ikke resten af billedsættet, da der ikke forekommer en så markant rotation imellem de andre billeder. Derfor er det kun et isoleret tilfælde at deskriptoren skal være rotationsinvariant. Denne påstand er yderligere beggrundet ved at det også har været muligt at etablere et stort antal korrekte korrespondancer ved brug af U-SURF.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{fig/rot2.png}
@@ -40,6 +40,8 @@ I figur \ref{fig:rota} ses en korrespondance analyse med (øverst) $DoH$, U-SURF
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I ovenstående eksempel er der ikke gjort brug af den implementerede matching metode, beskrevet i afsnit \ref{sec:match}, der fjerner forkerte korrespondancer. Metoden bestemmer om opstillede korrespondancer er korrekte eller forkerte ved at observere de ti bedste korrespondancer, og gange gennemsnittet af de euklidiske afstande for disse korrespondancer, med fem og fjerne alle korrespondancer, der har en euklidisk afstand over denne. Der er en vis usikkerhed ved denne tilgang, da det ikke vides præcis, hvilken euklidisk afstand der skelner korrekte og forkerte korrespondancer.  Alternativet til dette var at manuelt udvælge korrekte korrespondancer, men da metoderne ofte resulterede i flere hundrede korrekte korrespondancer var dette ikke muligt.
+I ovenstående eksempel er der ikke gjort brug af den implementerede matching metode, beskrevet i afsnit \ref{sec:match}, der fjerner ikke-korresponderende punkter.
+ Der er en vis usikkerhed ved denne tilgang. 
+Jo mere ensartede motion-vektorene er, jo flere korrespondancer vil identificeres. I tilfælde af rotation, eller store forskelle af perspektiv, vil algoritmen give forkerte resultater.
 \input{tex/forbedringer.tex}
 \input{tex/konklusion.tex}

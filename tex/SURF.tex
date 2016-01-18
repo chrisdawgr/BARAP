@@ -1,37 +1,35 @@
 \section{SURF}
-SpeededUp Robust Features (SURF), introduceret af Bay et. al \cite{SURF} er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
+Speeded Up Robust Features (SURF), introduceret af Bay et. al \cite{SURF} er ligesom SIFT en samlet metode, bestående af en detektor og en deskriptor, der lokalisere og beskriver blobs af forskellige størrelser.
 \input{tex/doh.tex}
 \input{tex/SURF-orientation.tex}
 
 \section{Deskriptor}
-Tuytelaars et. al \cite{SURF} beskriver, at der ofte ikke er brug for rotationsinvarians. Upright-SURF (U-SURF) er en variant af SURF, der ikke er rotationsinvariant. Tuytelaars et. al garanterer rotationsinvarians i U-SURF, i op til $15^{\circ}$. Både SURF og U-SURF er implementeret.
+Tuytelaars et. al \cite{SURF} beskriver, at der ofte ikke er behov for rotationsinvarians. Upright-SURF (U-SURF) er en variant af SURF, der ikke er rotationsinvariant. Tuytelaars et. al garanterer rotationsinvarians i U-SURF, i op til $15^{\circ}$. Både SURF og U-SURF er implementeret.
 \\
 \\
-Der palceres et dataindsamlingsvindue, der har størrelse $20 \sigma_{punkt}$, omkring et interessepunkt. Vinduet skal orienters, ifht. den udregnede $\theta$, fra forrige skridt. Dette udføres ved, at hele billedet roteres, ved brug af rotationsmatricen opstillet ligning \eqref{rotaionmatrix}, og der dannes et billede, hvor hver pixelværdi er summen af området afgrænset af alle pixels der ligger til venstre for og over, inklusiv - et såkaldt integralbillede. 
-\\
-I stedet for at rotere dataindsamlingsvinduet som i SIFT, roteres hele billedet - dette er for at kunne bruge integralbilleder - integralbilleder dannes, når billedet er roteret.
+Der palceres et dataindsamlingsvindue, der har størrelse $20 \sigma_{punkt}$, omkring et interessepunkt. dataindsamlingsvinduet skal orienters, ifht. den udregnede $\theta$, fra forrige afsnit. Dette udføres ved, at hele billedet roteres, ved brug af rotationsmatricen opstillet i ligning \eqref{rotaionmatrix}. Der dannes et billede, hvor hver pixelværdi er summen af området afgrænset af alle pixels, der ligger til venstre for og over, inklusiv - et såkaldt integralbillede. I stedet for at rotere dataindsamlingsvinduet som i SIFT, roteres hele billedet - dette er for at kunne bruge integralbilleder - integralbilleder dannes, når billedet er roteret.
 \\
 \\
-Billedet er nu roteret og et dataindsamlingsvinduet centreres omkring interessepunktet. Herefter skal vinduet deles op i 16 ($4 \times 4$) regioner, hver af størrelse($5\times 5$) bestående af pixelintensiteter, der har afstand $\sigma_{point}$ mellem sig - her er ikke blevet lavet subpixel-interpolation ifht. intensitet, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned.
+Billedet er nu roteret og et dataindsamlingsvindue centreres omkring interessepunktet. Herefter skal vinduet deles op i 16 ($4 \times 4$) regioner, hver af størrelse($5\times 5$), bestående af pixelintensiteter, der har afstand $\sigma$ mellem sig. Her er ikke blevet lavet subpixel-interpolation ifht. intensitet, så hvis $\frac{20\sigma}{4}$ ikke er deleligt med 5, bliver der rundet ned. Dette betyder altså at dataindsamlingsvinduet er $20\sigma \times 20 \sigma$ stort og de værdier der udføres beregninger på er separeret af en afstand på $\sigma$.
 \\
 \\
-Herefter foldes $dx$ og $dy$ med dataindsamlingsvinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet foldes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma_{point}$.
+Herefter foldes $dx$ og $dy$ med dataindsamlingsvinduet. Størrelsen på Haar-wavelet filteret, er $2\sigma$. Vinduet foldes med et Gaussfilter, hvor $\sigma_{Gauss} = 3.3\sigma$.
 \\
 \\
 For hver af de 16 4x4 regioner, udregnes: 
 \begin{equation}
-v_i = \sum d_x, \sum d_y, \sum |d_y|, \sum |d_y|
+v_i = \sum D_x, \sum D_y, \sum |D_x|, \sum |D_y|
 \label{surffeature}
 \end{equation}
-$v_i$ er en $(4\times 1)$ matrix, for region nr. $i$, hvor hver region er nummeret efter læseretningen. Der dannes en feature vektor $F$, ved at sammensætte alle $v_i$: $F = [v_1^T, v_2^T,..., v_{16}^T]^T$. Dette giver en $16 \cdot 4 = 64$ dimensional vektor. Slutteligt, laves vektoren til en enhedsvektor.
+$v_i$ er en $(4\times 1)$ matrix, for region nr. $i$, hvor hver region er nummeret efter læseretningen. Der dannes en feature vektor $f$, ved at sammensætte alle $v_i$: $f = [v_1^T, v_2^T,..., v_{16}^T]^T$. Dette giver en $16 \cdot 4 = 64$ dimensional vektor. Slutteligt, laves vektoren til en enhedsvektor.
 \subsubsection*{Algoritme: SURF Deskriptor}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
 $\text{ }$ \> : \> Punkter $p \in (x, y, \theta)$ \\
-Output \text{ } \> : \> En feature vektor $F$, for hver punkt $p$.
+Output \text{ } \> : \> En feature vektor $f$, for hver punkt $p$.
 \end{tabbing}
 \begin{enumerate}
 \item Et dataindsamlingsvindue roteret ifht. $\theta$, beregnet ved ligning \eqref{rotaionmatrix} med størrelse $20\sigma$ indsamler punkter, der er har afstand $\sigma$ mellem hinanden.
-\item Haar-wavelet svaret udregnes for de indsamlede punkter, med en filterstørrelse på $2\sigma$, og filtersvarene foldes med et Gaussisk filter, hvor $\sigma_{Gauss} = 3.3\sigma$.
+\item Haar-wavelet svaret udregnes for punkter i dataindsamlingsvinduet, med en filterstørrelse på $2\sigma$, og filtersvarene foldes med et Gaussisk filter, hvor $\sigma_{Gauss} = 3.3\sigma$.
 \item For hver af de 4x4 regioner, udregnes ligning \eqref{surffeature}.
 \end{enumerate}

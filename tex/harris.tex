@@ -1,7 +1,7 @@
 \section{Harris}\label{sec:harris}
-Harris hjørnedetektor blev introduceret af Chris Harris og Mike Stephens i 1988 \cite{harris}. Detektoren kan ses som en videreudvikling af Moravec, da den adresserer Moravecs begrænsninger:
+Harris hjørnedetektor er introduceret af Chris Harris og Mike Stephens \cite{harris}. Detektoren kan ses som en videreudvikling af Moravec, da den adresserer Moravecs begrænsninger:
 \begin{enumerate}
-\item{ \textit{Anisotropisk respons:} Harris og Stephens udvider Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto-korrelationen imellem skiftende vinduer kan approksimeres ved at udvide funktionen, ved en Taylor udvidelse af anden orden, og beskrives derved udefra dens afledte:
+\item{ \textit{Anisotropisk respons:} Harris og Stephens udvider Moravecs udregning af auto-korrelation til at måle intensitetsvariationer i alle retninger. Auto-korrelationen imellem skiftende vinduer kan approksimeres ved en Taylor udvidelse af anden orden:
 \begin{subequations}
 \begin{align}
 E(u,v) = & \sum w(x,y)[I(x + u, y + v) - I(x,y)]^2 \\
@@ -21,7 +21,7 @@ M
         v
      \end{bmatrix}
 \end{equation} 
-Hvor $M$ er auto-korrelations matricen (også kaldt struktur-tensoren), med $w(x,y)$ ganget på:
+Hvor $M$ er auto-korrelations matricen (også kaldt strukturtensoren), hvor $w(x,y)$  er et Gaussisk filter:
 \begin{equation}
 M = w(x,y) 
 \begin{bmatrix}
@@ -30,14 +30,14 @@ M = w(x,y)
 \end{bmatrix}
 \label{structens}
 \end{equation}
-Billedets afledte i $x$ og $y$ aksen findes ved at udføre en diskret differentiering af billedet, hvilket kan opnås
+Billedets afledte i $x$ og $y$ retning findes ved at udføre en differentiering af billedet, hvilket kan opnås
  ved at folde billedet, med henholdsvis $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]$ og $[-1 \hspace{0.1cm} 0 \hspace{0.1cm} 1]^T$. }
 \item{\textit{Støj sensitiv:} Harris detektoren anvender et Gaussisk vindue $w(x,y)$ omkring det undersøgte pixelområde. Det Gaussiske vindue anvendes til at fjerne støj fra billedet.}
-\item{\textit{Højt kant respons} Struktur-tensoren 'M' opskrevet i \eqref{structens} indeholder de kvadrerede differentierede retninger i et givet punkt og derved en beskrivelse af billedets geometriske struktur, i et punkt $(x,y)$. Egenværdierne for denne matrix, vil være proportionale med de forskellige steder vinduet kan placeres:
+\item{\textit{Højt kant respons} Strukturtensoren 'M' opskrevet i \eqref{structens} indeholder de kvadrerede differentierede retninger i et givet punkt. Egenværdierne for denne matrix, vil være proportionale med de forskellige steder vinduet kan placeres:
 \begin{itemize}
 \item{ \textit{Homogen flade.} Billedintensiteten er konstant. Begge egenværdier vil være små.}
-\item{\textit{Kant.} For punkter placeret på en kant, vil der være en stor krumning på tværs af kanten, men ingen når kanten følges. Derfor vil én egenværdi være stor, mens den anden vil være lille}
-\item{\textit{Hjørne.} Et punkt placeret på et hjørne, vil have en stor krumning, i hver retning og derved bestå af to store egenværdier.}
+\item{\textit{Kant.} For punkter placeret på en kant, vil én egenværdi være stor, mens den anden vil være lille}
+\item{\textit{Hjørne.} Et punkt placeret på et hjørne, vil have to store egenværdier.}
 \end{itemize}
 Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er store. Egenværdierne kan defineres ud fra determinanten og sporet af M:
 \begin{subequations}
@@ -46,23 +46,23 @@ Det ønskes derfor, for at identificere hjørner, at begge egenværdier for M er
 \textbf{trace}M & = \lambda_1+\lambda_2
 \end{align}
 \end{subequations}
-Harris og Stephens foreslår et mål for hjørnestyrken, baseret på forholdet imellem de to egenværdier. En høj værdi for hjørnestyrken angiver to store egenværdier. Forholdet mellem egenværdierne kan defineres således:
+Harris og Stephens foreslår et mål for hjørnestyrken, baseret på forholdet imellem de to egenværdier. En høj værdi for hjørnestyrken angiver to store egenværdier. Forholdet mellem egenværdierne kan defineres ved:
 \begin{equation}
 R = \textbf{det}M-k(\textbf{trace}M)^2
 \label{rvalharris}
 \end{equation}
-hvor \textit{k} er en empirisk defineret konstant udledt af Harris og Stephens som ligger i intervallet $[0.04,0.06]$. I figur \ref{fig:egen} ses sammenhængen mellem værdien $R$, egenværdierne og hvordan de korrespondere med hjørner, kanter og homogene områder, igen kan det ses at for et hjørne ønskes to store egenværdier.
+hvor \textit{k} er en empirisk defineret konstant udledt af Harris og Stephens som ligger i intervallet $[0.04,0.06]$. I figur \ref{fig:egen} ses sammenhængen mellem værdien $R$, egenværdierne og hvordan de relatere sig til hjørner, kanter og homogene områder, igen kan det ses at for et hjørne ønskes to store egenværdier.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\textwidth]{fig/26.png}
      \vspace{-1em}
     \begin{center}    
-       \caption{{\footnotesize \textit{Sammenhængen imellem struktur tensorens egenværdier og forskellige strukturer.}}}
+       \caption{{\footnotesize \textit{Sammenhængen imellem strukturtensorens egenværdier.}}}
     \label{fig:egen}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Ved værdien for R, kan det defineres om et punkt er lokaliseret på et hjørne. De interessante hjørne, er hvor der opstår en stor hjørnestyrke, hvilket kan findes ved at sætte en grænseværdi $t$, der definere om et hjørne er lokaliseret(sandt/falsk).
+Ved værdien for R, kan det defineres om et punkt er lokaliseret på et hjørne. De interessante punkter, er hvor der opstår en stor hjørnestyrke, hvilket kan findes ved at sætte en grænseværdi $t$, der definere om et hjørne er lokaliseret(sandt/falsk).
 \begin{equation}
 \begin{split}
 \texttt{hjørne} = 
@@ -81,8 +81,8 @@ Input\quad \= : \= Billede $I$\\
 Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
 \end{tabbing}
 \begin{enumerate}
-\item{For hver pixel i billedet $(x,y)$, udregnes struktur tensoren, beskrevet i ligning \eqref{structens}}
-\item{For hvert pixel i billedet udregnes hjørnestyrken ved ligning \eqref{rvalharris}.  Hvis den udregnede hjørnestyrke opfylder ligning \ref{cornerhar}, for en given grænseværdi, udvælges punktet som værende et hjørne.}
+\item{For hver pixel i billedet $(x,y)$, udregnes strukturtensoren, beskrevet i ligning \eqref{structens}.}
+\item{For hvert pixel i billedet udregnes hjørnestyrken ved ligning \eqref{rvalharris}.  Hvis den udregnede hjørnestyrke opfylder ligning \ref{cornerhar}, for en given grænseværdi, udvælges punktet som værende et interessepunkt.}
 \end{enumerate}
 \subsection*{Konklusion}
-Metoden anvendes som en repeterbar detektor og bruges i høj grad i dag. Detektoren er rotationsinvariant pga. dens brug af egenværdier, men er ifølge \cite{eval} stadig delvis anisotropisk, hvilket skyldes differentierings filtrene, der kun udledes i $x$ og $y$ retningen. Mikolajczyk og Schmid \cite{eval1} konkludere at detektoren er særlig følsom over for rotation omkring 45 grader. De konkludere også at detektorens repeterbarhed falder drastisk ved skalaændringer.
+Metoden bruges i høj grad i dag. Detektoren er rotationsinvariant pga. dens brug af egenværdier, men er ifølge Mikolajczyk og Schmid \cite{eval}, stadig delvis anisotropisk, hvilket skyldes differentierings filtrene, der kun udledes i $x$ og $y$ retningen. Mikolajczyk og Schmid \cite{eval1} konkludere at detektoren er særlig følsom overfor rotation på omkring 45 grader. De konkludere også at detektorens repeterbarhed falder drastisk ved skalaændringer.
