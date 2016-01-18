@@ -9,7 +9,7 @@ Der benyttes et datainsamlingsvindue $W$, der har størrelsen $16 \times 16$, ti
 \\
 For at opnå rotationsinvarians, bliver dataindsamlingsvinduet $W$ roteret i forhold til $\theta$, som fundet i forrige afsnit. Dette opnås, ved at prikke hvert koordinat i $W$, med rotationsmatricen:
 \begin{equation}
-W_{coordinates_new} = W_{coordinates_{mn}} \cdot
+W_{coordinates_{new}} = W_{coordinates} \cdot
 \begin{pmatrix}
   \cos \theta & -\sin \theta \\
   \sin \theta & \cos \theta  \\
@@ -17,7 +17,7 @@ W_{coordinates_new} = W_{coordinates_{mn}} \cdot
 \label{rotaionmatrix}
 \end{equation}
 Ovenstående ligning roterer dataindsamlingsvinduet $W$, så det ikke nødevendigvis er parallet med randen af billedet.
-gradienten $g$ og orienteringen $v$ bliver gemt i to separate matricer af størrelse $16\times16$. $g$ bliver herefter foldet med et Gaussisk filter størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($\sigma=8$):
+Gradienten $g$ og orienteringen $v$ bliver gemt i to separate matricer af størrelse $16\times16$. $g$ bliver herefter foldet med et Gaussisk filter af størrelse $16\times16$, hvor sigmaværdien er halv så stor, som størrelsen af vinduet ($\sigma=8$):
 \begin{equation}
 g_{new} = G(x,y,8) * g(x,y)
 \label{gradientsmooth}
@@ -28,30 +28,30 @@ g_{new} = G(x,y,8) * g(x,y)
     \includegraphics[width=0.70\textwidth]{fig/tilsift.jpg}
      \vspace{-1em}
     \begin{center}    
-       \caption{{\footnotesize \textit{(a) her ses hvordan $R$ er inddelt i 16 regioner. På (b) ses, hvordan værdier tilføjet til $F$ bliver vægtet afhængigt af, hvor tæt de er på midten af en given region. Værdier der ligger hvor der står 1 i figuren er vægtet med: 0.214, 2: 0.414, og 3:0.738. På (c) ses, hvordan en gradient (den grønne streg), opdaterer 4 indgange i en region. Samtidigt opdateres 3 naboliggende regioner, afhængigt af afstanden til gradienten}}}
+       \caption{{\footnotesize \textit{(a) her ses hvordan $R$ er inddelt i 16 regioner. På (b) ses, hvordan værdier tilføjet til $f$ bliver vægtet afhængigt af, hvor tæt de er på midten af en given region. Værdier der ligger hvor der står 1 i figuren er vægtet med: 0.214, 2: 0.414, og 3:0.738. På (c) ses, hvordan en gradient (den grønne streg), opdaterer 4 indgange i $f$. Samtidigt opdateres 3 naboliggende regioner, afhængigt af afstanden til gradienten}}}
     \label{trilinear}
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-Herefter skal $g_{new}$ inddeles i 16 regioner ($R_{i} \subseteq (G_{new}$) hver bestånde af et $(4\times 4)$ område, som vist figur \ref{trilinear} (a). Alle værdier i regionerne $R_i$, skal tilføjes til $F$, som udgør en feature vektor.
+Herefter skal $g_{new}$ inddeles i 16 regioner ($R_{i} \subseteq G_{new}$) hver bestånde af et $(4\times 4)$ område, som vist figur \ref{trilinear} (a). Alle værdier i regionerne $R_i$, skal tilføjes til $f$, som udgør en feature vektor.
 \\
-$F$ består af $128$ indgange og kan ses, som inddelt i 16 regioner. Hver region $F_i$, består af 8 værdier, der symboliserer 8 retninger, med $45^\circ$ imellem. Der skal foretages trilineær interpolation, for at tilføje værdierne i $R$, til værdierne i $F$, som beskrevet:
+$f$ består af $128$ indgange og kan ses, som inddelt i 16 regioner. Hver region $F_i$, består af 8 værdier, der symboliserer 8 retninger, med $45^\circ$ imellem. Der skal foretages trilineær interpolation, for at tilføje værdierne i $R$, til værdierne i $f$. Dette udføres i følgende trin:
 \begin{enumerate}
 \item{Alle punkter i $R_{i}$ skal tildeles en vægt alt efter, hvor langt de ligger fra centrum af $R_{i}$. Det er vedtaget, at der eksisterer tre vægtninger. Dette ses på (b), hvor et punkt der ligger på  1, har vægt: 0.214, 2: 0.414 og 3: 0.738.}
-\item{For hvert punkt i $R$ opdateres 4 værdier i $F$, vægtet med værdien fra 1. På illustration (c) ses en grøn streg som udgør den orientering, der føjes til $F$. $F$ er her orienteringer, der ligger i midten af af alle regionerne. Det ses hvordan en værdi i $R$ opdaterer 4 indange i $F$}
+\item{For hvert punkt i $R$ opdateres 4 værdier i $f$, vægtet med værdien fra første skridt. På illustration (c) ses en grøn streg som udgør den orientering, der føjes til $f$. $f$ er her orienteringer, der ligger i midten af af alle regionerne. Det ses hvordan en værdi i $R$ opdaterer 4 indange i $f$}
 \item{De 4 indgange, der er blevet opdateret, skal tilsvarende opdateres i 3 naboområder, af $F_i$ (hvis der eksisterer nogen), som ses i (c). Her er de 3 tilstødende naboområder til orinteringen(den grønne streg) også blevet opdateret efter, hvor langt de er fra orienteringen.}
 \end{enumerate}
 
-$F$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $F$ skal normaliseres igen.
+$f$ normaliseres, og alle værdier større end 0.2 skal sættes til 0.2, og $f$ skal normaliseres igen.
 \subsubsection*{Algoritme: SIFT Deskriptor}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
 $\text{ }$ \> : \> Punkter $p \in (x, y, \theta)$ \\
-Output \text{ } \> : \> En feature vektor $F$, for hver punkt $p$.
+Output \text{ } \> : \> En feature vektor $f$, for hver punkt $p$.
 \end{tabbing}
 \begin{enumerate}
-\item Det bestemmes via $\sigma$ hvilket billede der skal udføres beregninger på
+\item Det bestemmes ud fra sigmaværdien, punktet er fundet på, hvilket skalabillede, der skal udføres beregninger på.
 \item $W$ roteres, ved rotationsmatricen \eqref{rotaionmatrix}, og glattes med \eqref{gradientsmooth}
-\item $R_{ij}$ oprettes, ved at dele $g_{new}$ op i 16 regioner, hver med størrelse $4\times4$
-\item Alle punkter, i alle regioner af $R_{ij}$, skal nu bruges til at opdatere $F$, som beskrevet de 3 skridt ovenfor
+\item $R_{i}$ oprettes, ved at dele $g_{new}$ op i 16 regioner, hver med størrelse $4\times4$
+\item Alle punkter, i alle regioner af $R_{i}$, skal nu bruges til at opdatere $f$, som beskrevet de 3 skridt ovenfor
 \end{enumerate}

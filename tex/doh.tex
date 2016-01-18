@@ -10,11 +10,11 @@ Determinant of Hessian $DoH$ udgør feature detektoren i SURF. $DoH$ er baseret 
 \end{equation}
 hvor $\sigma$ angiver skala og $L_{xx}$ defineres som: 
 \begin{equation}
-L_{xx}(x, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
+L_{xx}(x,y, \sigma) = (\frac{\partial^2 }{\partial x^2 } G(x,y,\sigma)) * I
 \label{lxx}
 \end{equation}
-og analogt for $L_{yy}, L_{xy}$. Bay et al. anvender approkismerede boksfiltre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $-2,-1,0, 1$ som ved brug af integralbilleder nedsætter antallet af beregninger drastisk. I denne implementering er disse boksfiltre ikke anvendt, men udregnet som ligning \eqref{lxx}. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt. Denne designbeslutning skyldes, at beregningerne af integralbilleder komplicerede programmet. Da 
-boksfiltrene er en approksimation til $L$ er denne tilgang korrekt.
+og analogt for $L_{yy}, L_{xy}$. Bay et al. anvender approkismerede boksfiltre: $D_{xx}$, $D_{yy}$ og $D_{xy}$, der udelukkende består af værdierne $\lbrace-2,-1,0, 1\rbrace$ som ved brug af integralbilleder nedsætter antallet af beregninger drastisk. I denne implementering er disse boksfiltre ikke anvendt, men differentierede Gauss filtre er anvendt i stedet. Figur \ref{fig:lxxlyylxy} er en illustration af de afledte Gaussiske filtre, der er anvendt. Denne designbeslutning skyldes, at beregningerne af integralbilleder komplicerede programmet. Da 
+boksfiltrene er en approksimation til de differentierede Gaussfiltre, der er anvendt, er denne tilgang korrekt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{fig/31.png}
@@ -25,7 +25,7 @@ boksfiltrene er en approksimation til $L$ er denne tilgang korrekt.
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser, forøges størrelserne af de anvendte filtre. SIFT anvender en stigende sigma værdi, med en fast filterstørrelse. For hver oktav anvendes der, i denne implementering, fire billeder foldet med fire forskellige filterstørrelser. For hver oktav bruges nr. 2 filterstørrelse, fra forrige oktav til startoktav (startende på størelse 9), og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
+I SURF oprettes et skalarum, der ligesom i SIFT opdeles i skalaer og oktaver. I stedet for at reducere billedernes størrelser som i SIFT, forøges størrelserne af de anvendte filtre. For hver oktav anvendes der, i denne implementering, fire billeder, foldet med fire forskellige filterstørrelser. For hver oktav bruges nr. 2 filterstørrelse, fra forrige oktav som startoktav (startende på størelse 9), og størrelsen imellem filtre, fordobles fra forrige oktav, som vist i tabel \ref{fig:secderivfiltersize}. Her skal det bemærkes, at de andenafledte filtre, skal have dobbelt størrelse, af de førsteafledte.
 \begin{figure}[H]
     \centering
     \begin{center}    
@@ -52,7 +52,7 @@ hvor $w$ er en vægt, tilføjet for at balancere de approksimerede differentiere
 \textbf{det}\mathcal{H} = L_{xx}L_{yy}-L_{xy}^2
 \label{deerminantofhessian}
 \end{equation}
-Blobs er lokaliseret på lokale ekstremaer. Når hessian matricens egenværdier har samme fortegn, indikere dette et ekstrema:
+Når hessian matricens egenværdier har samme fortegn, indikere dette et ekstrema:
 \begin{equation}
 \begin{split}
 \text{indikator} = 
@@ -63,7 +63,7 @@ Blobs er lokaliseret på lokale ekstremaer. Når hessian matricens egenværdier 
 \end{split}
 \label{detman}
 \end{equation}
-Et punkt udvælges, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Non-maximal surpression anvendes ligesom i SIFT.
+Et punkt udvælges derfor, hvis det er det største af et $3\times3\times3$ område af determinant billederne, som vist i figur \ref{fig:difference}. Dette udføres for alle oktaver. Non-maximal surpression anvendes ligesom i SIFT.
 \subsubsection*{Algoritme: SURF Detektor}
 \begin{tabbing}
 Input\quad \= : \= Billede $I$\\
@@ -72,6 +72,6 @@ Output \text{ } \> : \> Interessepunkter $p \in (x,y)$
 \begin{enumerate}
 \item {Hessian matricen opstilles for alle punkter i skalabillederne som i ligning \eqref{hessianmatrix}}
 \item Determinantbilleder opstilles, ved at udregne determinanten af Hessian matricen for alle punkter i alle billeder som i ligning \eqref{deerminantofhessian}.
-\item Lokale maxima udvælges, af hvert $3\times3\times3$ område af billeder på samme oktav.
-\item Accurate keypoint localisation, bruges til at fjerne dårligt lokaliserede punkter ligesom i ligning \eqref{maxsurp}.
+\item Lokale maxima udvælges, af hvert $3\times3\times3$ område af determinantbillederne på samme oktav.
+\item Non-maximal suppression, bruges til at fjerne dårligt lokaliserede punkter ligesom i ligning \eqref{maxsurp}.
 \end{enumerate}

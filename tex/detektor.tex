@@ -11,9 +11,9 @@ its parts are indistinguishable". Iflg. Moravec skal et interessepunkt have egen
 \begin{itemize}
 \item{\emph{Repeterbar}: Repeterbarheden significere uafhængighed af forskellige betingelser i billedet. Dvs. at samme interessepunkt skal kunne findes i to forskellige billeder, trods ændringer af f.eks lys og rotation.}
 \item{\emph{Informationsrigt:}
-Intensiteten i og omkring interessepunktet skal være unikt, da dette muliggør en mere detaljeret beskrivelse af punktet. Et punkt placeret på et område af samme intensitet, vil ikke kunne skelnes fra andre punkter placeret i samme i område.}
-\item{\textit{Definerbar struktur:} Punktet skal indgå i en struktur, der er matematisk definerbar. Dette er nødvendigt da punkterne skal kunne identificeres uafhængigt i begge billeder.}
+Intensiteten i og omkring interessepunktet skal være unikt, så punktet kan skelnes fra de punkter den ikke korresponderer med.}
+\item{\textit{Definerbar struktur:} Punktet skal indgå i en struktur, der er matematisk definerbar. Dette er nødvendigt da punkterne skal kunne identificeres ved en algoritme.}
 \end{itemize}
-En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i refleksion mod de to drone-positioner hvorfra billederne er taget. En god detektor skal være invariant over for sådanne forskelle. Der er bred enighed om nødvendigheden for skalainvarians hos deteketorer \cite{koen} \cite{blob} \cite{lindenscale}. Følgende afsnit beskriver, hvordan en sådan invarians kan opnås.
+En Detektor skal være robust overfor små geometriske og fotometriske deformationer samt støj. Geometriske forskelle kan omfatte rotation, skalering og ændring af perspektiv.  Fotometriske forskelle kan omfatte ændringer i belysning (f.eks. ved delvist overskyet vejr) eller forskelle i refleksion mod de to drone-positioner, hvorfra billederne er taget. Der er bred enighed om nødvendigheden for skalainvarians hos deteketorer \cite{koen} \cite{blob} \cite{lindenscale}. Følgende afsnit beskriver, hvordan en sådan invarians kan opnås.
 \raggedbottom\input{tex/scale.tex}
 \raggedbottom\input{tex/strukturer.tex}

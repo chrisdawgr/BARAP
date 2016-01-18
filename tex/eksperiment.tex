@@ -25,15 +25,6 @@ Følgende detektor/deskriptor kombinationer er afprøvet på ovenstående billed
     $DoH$ & SURF\\ \hline    
     \end{tabular}
 \end{center}
-Da der er blevet implementeret 4 detektorer og 2 deskriptorer, er der $4\times 2=8$ mulige metoder at afprøve. Det er her begrænset til de fire ovenstående kombinationer. SIFT er blevet valgt som deskriptor for metoderne Moravec og Harris, da undersøgelser har vist, at den giver flest korrekte korrespondancer, sammenlignet med SURF. 
+Der er implementeret 4 detektorer og 2 deskriptorer, og derfor $4\cdot 2=8$ mulige kombinationer af metoder at afprøve. Det er her begrænset til de fire ovenstående kombinationer. SIFT er blevet valgt som deskriptor for metoderne Moravec og Harris, da undersøgelser \cite{kim} har vist, at den giver flest korrekte korrespondancer, sammenlignet med SURF.
 \\ \\ 
-Udover de ovenstående kombinationer af metoder, er nødvendigheden for rotationsinvarians undersøgt, ved at sammenligne resultater fra en rotationsinvariant deskriptor: SURF, med en ikke-rotationsinvariaant deskriptor: U-SURF. Til det er der udvalgt to billeder, hvor der opstår størst rotation imellem. Disse billeder er vist i figur \ref{fig:rotation}.
-\begin{center}
-    \begin{tabular}{ | l | l |}
-    \hline
-    Detektor & Deskriptor \\ \hline
-    $DoG$ & U-SURF \\ \hline       
-    $DoG$ & SURF \\ \hline     
-    \end{tabular}
-\end{center}
-Ovenstående kombination af detektor/deskriptor afprøves kun imellem to billeder, hvor der foregår stor roation.
+Udover de ovenstående kombinationer af metoder, er nødvendigheden for rotationsinvarians undersøgt, ved at sammenligne resultater fra en rotationsinvariant deskriptor: SURF, med en ikke-rotationsinvariaant deskriptor: U-SURF. Til det er der udvalgt to billeder fra billedsættet, hvor der opstår størst rotation imellem. Disse billeder er vist i figur \ref{fig:rotation}.

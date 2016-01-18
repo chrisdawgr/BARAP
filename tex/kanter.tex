@@ -16,17 +16,16 @@ hvor $\lambda_{x,y}$ repræsentere en billedintensitet, også kaldet en pixelvæ
     \label{pixelintensitet}
 \end{cases}
 \end{equation}
-En kort bemærkning bør gøres om det anvendte billedformatet. De undersøgte billeder er af filtype JPEG(Joint Photographic Experts Group) og hver pixelintensitet indeholder originalt 8x3 bits information til hhv. rød, grøn og blå: $\Lambda_{x,y} = [R,G,B]^T \in \mathbb{R}^3$. Hver farve kan antage $2^8 = 256$ forskellige værdier og hver værdi ligger i intervallet $[0,1]$. Disse værdier bliver transformeret til en gråtoneværdi:
+De undersøgte billeder er af filtype JPEG\footnote{Joint Photographic Experts Group} og hver pixelintensitet indeholder originalt 8x3 bits information til hhv. rød, grøn og blå: $\Lambda_{x,y} = [R,G,B]^T \in \mathbb{\mathbb{Z^+}}^3$. Hver farve kan antage $2^8 = 256$ forskellige værdier og hver værdi ligger i intervallet $[1,256]$. Disse værdier bliver transformeret til en gråtoneværdi:
 \begin{equation}
-Lum(\Lambda_{x,y}) = \lceil	 256 \cdot [0.299, 0.587, 0.114] \Lambda_{x,y} \rfloor	 = \lambda_{x,y}
+Lum(\Lambda_{x,y}) = \lceil	[0.299, 0.587, 0.114] \Lambda_{x,y} \rfloor	 = \lambda_{x,y}
 \label{lumosity}
 \end{equation}  
-Hver gang pixelværdi eller billedintensitet benævnes, er det underforstået, at de har undergået den lineære transformation, ligning \eqref{lumosity}. I denne opgave håndteres kun gråtonebilleder, derfor er ligning \eqref{lumosity} brugt til at transformere RGB billeder til gråtone billeder \footnote{I Python er biblioteket cv2 anvendt. Transformationen fra RGB til gråtone dokumenteret her %\url{<http://docs.opencv.org/2.4/modules/imgproc/doc/miscellaneous_transformations.html>}. 
-Denne transformation bliver nærmere beskrevet i \cite{lumosity}. en uddybning og alternativer kan læses i afsnit 7.6} 
+Hver gang pixelværdi eller billedintensitet benævnes, er det underforstået, at de har undergået den lineære transformation, ligning \eqref{lumosity} 
 \\
 \\
 Ofte i billedbehandlings situationer betragtes diskontiniuteter i billedet, f.eks. kanter.
-Hvis et billede beskues i 3D, kan en kant illustreres i 1D, ved et snit af et billede vinkelret på fladen i gradientens retning, illustreret i figur \ref{fig:kant}. En kant er en lokal ændring i det afledte signal $f$.
+Hvis et billede beskues i 3D, kan en kant illustreres i 1D, ved et snit af et billede vinkelret på fladen i gradientens retning, illustreret i figur \ref{fig:kant}. En kant er en stor pludselig ændring i pixel intensiteten.
 \noindent
 \begin{figure}[H]
     \centering
@@ -34,13 +33,13 @@ Hvis et billede beskues i 3D, kan en kant illustreres i 1D, ved et snit af et bi
      \vspace{-1em}
     \begin{center}        
      \caption{{\footnotesize \textit{
-En 1-dimensional fortolkning af intensiteten i et billede. Intensitetsskiftet ved x $\approx$ 1000, indikere en kant.)}}}
+En 1-dimensional fortolkning af intensiteten i et billede. Intensitetsskiftet ved x $\approx$ 1000, indikere en kant.}}}
     \label{fig:kant}
      \end{center}
        \vspace{-2.5em}
   \end{figure}
 \noindent
-En differentiering af funktionen fra figur \ref{fig:kant} en stigning i pixelintensiteten  og derved angive hvor der forekommer kanter. Differentiering af billeder kan f.eks. approsikmeres ved følgende ligning:
+En differentiering af signalet fra figur \ref{fig:kant}, vil angive signalets intensitetsskift. Ekstremaer af den afledte vil derfor indikere kanter. Differentiering af billeder kan f.eks. approsikmeres ved følgende ligning:
 \begin{equation}
 \dfrac{df(x)}{dx}=\dfrac{f(x+1)-f(x-1)}{2}
 \label{diff}
@@ -53,10 +52,10 @@ O(i,j) = \sum_{k} \sum_{l} I(i-k, j-l) K(k,l)
 Ligning \eqref{foldning} udregnes for alle $i,j \in I$. En kerne defineres her som en matrix af arbitrær dimension - ofte $(N\times N)$. 
 \\
 \\
-Et billede kan differentieres, som anført ligning \eqref{diff}, ved brug af foldning. Først defineres en kerne til differentiering i $x$-aksen $K$, som: $K = [\frac{1}{2}, 0, \frac{1}{2}]$. Kernen foldes med billedet $I$: $I \ast K $, hvor $\ast$ udgør foldningsoperatoren. Når en kerne skal foldes med et billede hvor afstanden til randen af billedet er skarpt mindre, end størrelsen af kernen, gælder ligning \eqref{pixelintensitet} for $I$.
+Et billede kan differentieres, som anført i ligning \eqref{diff}, ved brug af foldning. Først defineres en kerne til differentiering i $x$-aksen $K$, som: $K = [\frac{1}{2}, 0, \frac{1}{2}]$. Kernen foldes med billedet $I$: $I \ast K $, hvor $\ast$ udgør foldningsoperatoren. Når en kerne skal foldes med et billede, hvor afstanden til randen af billedet er skarpt mindre, end størrelsen af kernen, bør det bemærkes at $I(x,y) = 0$ udenfor billedet, som anført i ligning  \eqref{pixelintensitet}.
 \\
 \\
-Det kan være problematisk at lokalisere kanter vha. differentiering. I figur \ref{fig:kant}, vil støj i billedet(de små udsving) også blive fremhævet. For at fjerne støjen, kan billedet foldes med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Foldning af et billede med et Gaussisk filter vil resultere i en flydende overgang af pixelværdierne og derfor glatte billedet. <sæt gaussbillede ind> Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen af den Gaussiske fordelingen, er defineret som:
+Det kan være problematisk at lokalisere kanter vha. differentiering. I figur \ref{fig:kant}, vil støj i billedet også blive fremhævet. Støj i billedet er tilfældige pixelintensiteter, der ikke er tilstede i den fysiske scene. For at fjerne støjen, kan billedet foldes med et Gaussisk filter, hvilket er en diskret approksimering til den Gaussiske funktion. Foldning af et billede med et Gaussisk filter vil resultere i en flydende overgang af pixelværdierne og derfor glatte billedet. Den Gaussiske funktion i 2-D, hvor $ \sigma $ er standardafvigelsen af den Gaussiske fordelingen, er defineret som:
 \begin{equation}
 G(x,y,\sigma) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^{2}}}
 \label{2dgaussian}
@@ -64,10 +63,11 @@ G(x,y,\sigma) = \frac{1}{2 \pi \sigma ^{2}} e^{- \frac{x^{2} + y^{2}}{2 \sigma ^
 For at undgå først at glatte billedet ved at folde med et Gaussisk filter, og derefter folde med et differentieringsfilter udnyttes det, at foldning er en associativ operation:
 \begin{equation}
 \dfrac{\partial}{\partial x}(G \ast f) = (\dfrac{\partial}{\partial x}G) \ast f
+\label{ny}
 \end{equation}
-Her er $G$ er det Gaussiske filter, men kunne være en vilkårlig anden kerne, og $f$ et signal. 
+Her er $G$ det Gaussiske filter, men kunne være en vilkårlig anden kerne, og $f$ et signal. Ligning \eqref{ny} viser altså at differentiering og foldning med en kerne, kan udføres ved at differentiere kernen, og derefter folde den med signalet.
 \\
-Foldes et differentieret 1-dimensionelt Gaussfilter med signalet fra figur \ref{fig:kant}, vil det resultere i et bakkeformet signal, hvor maksima af bakken indikere en kant, dette er illustreret i figur \ref{fig:firstd}.
+Foldes et differentieret 1-dimensionelt Gaussfilter med signalet fra figur \ref{fig:kant}, vil det resultere i et bakkeformet signal, hvor maksima af bakken indikere en kant. Dette er illustreret i figur \ref{fig:firstd}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/100.png}
@@ -80,7 +80,7 @@ Signalet fra figur \ref{fig:kant} foldet med et første afledt Gaussisk filter.)
        \vspace{-2.5em}
   \end{figure}
 \noindent
-For en mere lokaliserbar kant, kan den dobbelt afledte tages, som set i figur \ref{fig:deriv}. I sidstnævnte tilfælde, kan kanten lokaliseres, hvor funktionen krydser nul.
+I figur \ref{fig:deriv} ses den andenafledte, hvor kanten kan lokaliseres der hvor signalet krydser nul.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/101.png}
@@ -93,7 +93,7 @@ For en mere lokaliserbar kant, kan den dobbelt afledte tages, som set i figur \r
     \vspace{-2.5em}  
   \end{figure}
 \noindent
-I de anvendte metoder er der blevet gjort brug af et dataindsamlingsvindue. Med dette menes et udsnit af et billede, omkring et punkt. Figur \ref{fig:dataindvin} illustrerer et dataindsamlingsvindue omkring $I(3,4)$, der har størrelsen $(3 \times 3)$. Det skal bemærkes, at et dataindsamlingsvindue i denne opgave også kan bestå af andre værdier end pixelintensiteter. Det indeholder også gradient størrelse og gradient retninger.
+I de anvendte metoder er der blevet gjort brug af et dataindsamlingsvindue. Med dette menes et udsnit af et billede, omkring et punkt. Figur \ref{fig:dataindvin} illustrerer et dataindsamlingsvindue omkring $I(3,4)$, der har størrelsen $(3 \times 3)$. Det skal bemærkes, at et dataindsamlingsvindue i denne opgave også kan bestå af andre værdier end pixelintensiteter. Det kan også indeholde gradient størrelser og gradient retninger.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/dataindsamlingsvinduepic.png}

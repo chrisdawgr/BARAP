@@ -1,6 +1,6 @@
 \input{tex/kanter.tex}
 \chapter{Korrespondanceanalyse}
-Givet to billeder af samme scene, defineres korrespondanceproblemet ved at finde punkter i begge billeder, der er projektioner af samme fysiske scenepunkter. Korrespondanceproblemet løses derfor ved korrekt at udvælge sæt af punkter, der opfylder dette \cite{Stefano}.  Udfordringen ved problemet er, at billederne, der skal etableres korrespondancer imellem er udsat for en række ændringer. Det omfatter forskydning af kameraets position, eller ændringer af scenens motiv, sket i tiden mellem to billeder er taget. 
+Givet to billeder af samme scene, referere korrespondanceproblemet, til opgaven i at finde punkter i begge billeder, der er projektioner af samme fysiske scenepunkter \cite{Stefano}.  Udfordringen ved problemet er at billederne, der skal etableres korrespondancer imellem, er udsat for en række ændringer. Det omfatter forskydning af kameraets position, eller ændringer af scenens motiv, sket i tiden mellem to billeder er taget. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{fig/3.png}
@@ -11,9 +11,9 @@ Givet to billeder af samme scene, defineres korrespondanceproblemet ved at finde
      \end{center}
      \vspace{-2.5em}
   \end{figure} \noindent
-I figur \ref{fig:1} ses to billeder taget af samme scene, fra to forskellige vinkler. For at etablere korrespondancer, skal der udvælges punkter, som optræder i begge billeder, hvilket udføres af en detektor. I figur \ref{fig:1} er der detekteret to korresponderende punkter $p$ og $p'$. Disse punkter, og den omkringliggende billedstruktur, skal beskrives af en deskriptor $Des(p)$. %Beskrivelsen sker i form af en vektorrepræsentation af punktet og dets lokalområde. 
-For en deskriptor skal det gælde, at: $Des(p)\approx Des(p')$, hvis $p$ og $p'$ repræsentere korresponderende punkter. Endvidere skal der gælde, at $Des(p)\not \approx Des(p')$, hvis $p$ og $p'$ ikke repræsentere korresponderende punkter. \\
-Korrespondanceanalyse består af følgende trin, som vil blive nærmere beskrevet i følgende sektion:
+I figur \ref{fig:1} ses to billeder taget af samme scene, fra to forskellige vinkler. For at etablere korrespondancer, skal der udvælges punkter, som optræder i begge billeder $I$ og $I'$. Dette udføres af en detektor $Detect(I)$. I figur \ref{fig:1} er der detekteret to korresponderende punkter $p$ og $p'$. Disse punkter, og den omkringliggende billedstruktur, skal beskrives af en deskriptor $Des(I,p)$. %Beskrivelsen sker i form af en vektorrepræsentation af punktet og dets lokalområde. 
+For en deskriptor skal det gælde, at: $Des(I,p)\approx Des(I',p')$, hvis $p$ og $p'$ er korresponderende punkter.  Endvidere skal der gælde, at $Des(I,p)\not \approx Des(I,p')$, hvis $p$ og $p'$ ikke er korresponderende punkter. En matching algoritme bruges til at afgøre, hvilke punkter der korresponderer, ud fra deres tilknyttede descriptor. \\
+Korrespondanceanalysen løser korrespondanceproblemet og består af følgende trin, som vil blive nærmere beskrevet i dette afsnit:
 \begin{enumerate}
 \item{Feature Detektion}
 \item{Feature Deskription}
